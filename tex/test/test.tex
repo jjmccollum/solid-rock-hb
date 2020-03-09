@@ -1,0 +1,25 @@
+\documentclass[../main/main.tex]{subfiles}
+\usepackage[grid, gridunit=in, gridcolor=blue!40, subgridcolor=blue!20]{eso-pic}
+\gridSetup[in]{0.25in}{0.25}{1}{4}{1}
+\makeatletter
+\AtBeginDocument{%
+  % code from eso-pic, executed during load, but needed to properly
+  % setting up the grid
+  \ifESO@texcoord
+    \def\ESO@yoffsetI{\z@}\def\ESO@yoffsetII{-\paperheight}%
+    \edef\ESO@griddeltaY{-\ESO@griddelta}\edef\ESO@gridDeltaY{-\ESO@gridDelta}%
+  \else
+    \def\ESO@yoffsetI{-\paperheight}\def\ESO@yoffsetII{\z@}%
+    \edef\ESO@griddeltaY{\ESO@griddelta}\edef\ESO@gridDeltaY{\ESO@gridDelta}%
+  \fi
+}
+\makeatother
+\usepackage{blindtext}
+\begin{document}
+\selectlanguage{english}
+\Essay{Test Page}\englishtitlesize Test Page\par
+\vspace{\afterchapskip}
+\noindent
+\englishsize Here is a first line of text, followed by a footnote.\footnote{\blindtext} Now here is another line.\footnote{\blindtext} \blindtext \blindtext\par
+\blindtext \blindtext
+\end{document}

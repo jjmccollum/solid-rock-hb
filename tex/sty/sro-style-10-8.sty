@@ -1,0 +1,734 @@
+%Declare the package that this file will produce, along with its formal name:
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{sro-style-10-8}[2020/02/23 SRO Style]
+
+%%%%%%%%
+%Draft Options
+%%%%%%%%
+
+%Show page layout lines:
+%\RequirePackage{showframe}
+%Show pagewise line numbers:
+\RequirePackage[pagewise]{lineno}
+%Allow text coloring:
+\RequirePackage{xcolor}
+
+%%%%%%%%
+%Shared Options
+%%%%%%%%
+\RequirePackage{calc}
+%Set page dimensions:
+\setstocksize{720pt}{576pt} %page dimensions
+\settrimmedsize{\stockheight}{\stockwidth}{*} %page dimension after trimming
+\settypeblocksize{540pt}{432pt}{*} %textblock dimensions
+\setlrmargins{72pt}{*}{*} %spine and edge margins
+\setulmargins{90pt}{*}{*} %head and foot margins
+\setheaderspaces{*}{38pt}{*} %set the headsep (space between the header and the textblock) (HARDCODED)
+\setmarginnotes{18pt}{0pt}{0pt} %set the distance between the textblock and size margins
+\setfootins{18pt}{18pt} %add space between bottom of textblock and footnotes
+
+%Set font sizes, leading, and skips:
+\RequirePackage{leading}
+\newlength{\leadinglength}
+\setlength{\leadinglength}{18pt}
+\newlength{\footnoteleadinglength}
+\setlength{\footnoteleadinglength}{12pt}
+\newcommand{\englishsize}{\fontsize{11pt}{18pt}\selectfont\leading{\leadinglength}} %for English text
+\newcommand{\englishtitlesize}{\fontsize{22pt}{36pt}\selectfont\leading{2\leadinglength}} %for English titles
+\newcommand{\englishheadersize}{\fontsize{11pt}{18pt}\selectfont\leading{\leadinglength}} %for English page headers
+\newcommand{\englishquotesize}{\fontsize{10pt}{18pt}\selectfont\leading{\leadinglength}} %for long quotes in English text
+\newcommand{\englishfootnotesize}{\fontsize{9pt}{12pt}\selectfont\leading{\footnoteleadinglength}} %for English footnotes
+\newcommand{\englishfootnotequotesize}{\fontsize{8pt}{12pt}\selectfont\leading{\footnoteleadinglength}} %for long quotes in English footnotes
+\newcommand{\hebrewsize}{\fontsize{13pt}{18pt}\selectfont\leading{\leadinglength}} %for Hebrew text
+\newcommand{\hebrewtitlesize}{\fontsize{26pt}{36pt}\selectfont\leading{2\leadinglength}} %for Hebrew incipits
+\newcommand{\hebrewheadersize}{\fontsize{13pt}{18pt}\selectfont\leading{\leadinglength}} %for Hebrew page headers
+\newcommand{\apparatussize}{\fontsize{10pt}{12pt}\selectfont\leading{\footnoteleadinglength}} %for (Hebrew) critical apparatus text
+\setlength{\topskip}{0pt} %Set vertical space from top of text block
+\setlength{\parindent}{1em} %Paragraph indent length
+\setlength{\parskip}{0pt} %Vertical space after paragraph
+\setlength{\topsep}{0pt} %Vertical space after environments (e.g., tables)
+\setlength{\partopsep}{0pt} %Vertical space after environments (e.g., tables)
+\setlength{\footnotesep}{8.5pt} %Vertical space space between footnotes (HARDCODED)
+\setlength{\footskip}{2\leadinglength} %Space from end of text block to bottom of footer block
+\setheadfoot{\leadinglength}{2\leadinglength} %Header and footer block size
+\renewcommand{\beforechapskip}{} %Remove space before title headings
+\renewcommand{\midchapskip}{} %No LaTeX chapter numbers are used, so leave this undefined
+\renewcommand{\afterchapskip}{58pt} %Space after title headings for the table of contents, books, and the bibliography (HARDCODED)
+
+%Support multi-column text layout:
+\RequirePackage{multicol}
+\newcommand{\ncols}{2}
+\setlength{\multicolsep}{0pt}
+\setlength{\columnsep}{27pt}
+
+%Enforce these settings:
+\checkandfixthelayout
+
+%Include support for page header styles:
+\RequirePackage[extramarks]{titleps}
+
+%Ensure that superscripts (including footnote markers) are placed at the proper height:
+%\RequirePackage{xltxtra} %currently not used due to a conflict with bidi: https://github.com/tex-xet/bidi/issues/2
+\renewcommand{\textsuperscript}[1]{{\setmainfont[VerticalPosition=Superior]{EB Garamond}#1}}
+\renewcommand*{\@makefnmark}{\textsuperscript{\@thefnmark}}
+
+%Fine-tune the XeLaTeX logo:
+\RequirePackage{metalogo}
+\setlogokern{Xe}{0em}
+\setlogokern{eL}{0em}
+\setlogokern{La}{-0.0625em}
+\setlogokern{aT}{-0.0625em}
+\setlogokern{Te}{-0.0625em}
+\setlogokern{eX}{0em}
+\setLaTeXa{\textsc{a}} 
+
+%Undo any existing definitions for logos, due to a conflict with bidi: https://github.com/tex-xet/bidi/issues/2
+\let\XeTeX\relax
+\let\XeLaTeX\relax
+
+%Set fonts and font features:
+\RequirePackage{fontspec}
+%\RequirePackage{amsfonts}
+\setmainfont[Ligatures=TeX, Numbers={OldStyle, Monospaced}]{EB Garamond}
+\setsansfont[Ligatures=TeX, Numbers={OldStyle, Monospaced}]{Alegreya Sans}
+\newfontfamily\greekfont[Script=Greek, Ligatures=TeX, Numbers={OldStyle, Monospaced}]{EB Garamond}
+\newfontfamily\hebrewfont[Script=Hebrew]{Keter YG}
+\newfontfamily\hebrewtitlefont[Script=Hebrew]{Keter Aram Tsova}
+\newfontfamily\apparatusfont{Apparatus SIL}
+
+%Allow for longer inter-word spaces to avoid overfull lines:
+\midsloppy
+
+%Use bottom-ragged vertical alignment:
+\raggedbottom
+
+%Build up footnotes from the bottom of the page:
+\feetatbottom
+
+%Define a custom em-dash command that places invisible spaces around a normal em-dash,
+%to ensure that the dash doesn't disrupt hyphenation or justification:
+\newcommand{\EmDash}{—\hspace{0em}}
+
+%Include support for URL formatting:
+\RequirePackage{url}
+
+%Define scripture reference macros:
+\newcommand{\Genesis}{Gen}
+\newcommand{\Exodus}{Exod}
+\newcommand{\Leviticus}{Lev}
+\newcommand{\Numbers}{Num}
+\newcommand{\Deuteronomy}{Deut}
+\newcommand{\Joshua}{Josh}
+\newcommand{\Judges}{Judg}
+\newcommand{\Ruth}{Ruth}
+\newcommand{\FirstSamuel}{1 Sam}
+\newcommand{\SecondSamuel}{2 Sam}
+\newcommand{\FirstKings}{1 Kgs}
+\newcommand{\SecondKings}{2 Kgs}
+\newcommand{\FirstChronicles}{1 Chr}
+\newcommand{\SecondChronicles}{2 Chr}
+\newcommand{\Ezra}{Ezra}
+\newcommand{\Nehemiah}{Neh}
+\newcommand{\Esther}{Esth}
+\newcommand{\Job}{Job}
+\newcommand{\Psalm}{Ps}
+\newcommand{\Psalms}{Pss}
+\newcommand{\Proverbs}{Prov}
+\newcommand{\Ecclesiates}{Eccl}
+\newcommand{\SongOfSolomon}{Song}
+\newcommand{\Isaiah}{Isa}
+\newcommand{\Jeremiah}{Jer}
+\newcommand{\Lamentations}{Lam}
+\newcommand{\Ezekiel}{Ezek}
+\newcommand{\Daniel}{Dan}
+\newcommand{\Hosea}{Hos}
+\newcommand{\Joel}{Joel}
+\newcommand{\Amos}{Amos}
+\newcommand{\Obadiah}{Obad}
+\newcommand{\Jonah}{Jonah}
+\newcommand{\Micah}{Mic}
+\newcommand{\Nahum}{Nah}
+\newcommand{\Habakkuk}{Hab}
+\newcommand{\Zephaniah}{Zeph}
+\newcommand{\Haggai}{Hag}
+\newcommand{\Zechariah}{Zech}
+\newcommand{\Malachi}{Mal}
+\newcommand{\Matthew}{Matt}
+\newcommand{\Mark}{Mark}
+\newcommand{\Luke}{Luke}
+\newcommand{\John}{John}
+\newcommand{\Acts}{Acts}
+\newcommand{\Romans}{Rom}
+\newcommand{\FirstCorinthians}{1 Cor}
+\newcommand{\SecondCorinthians}{2 Cor}
+\newcommand{\Galatians}{Gal}
+\newcommand{\Ephesians}{Eph}
+\newcommand{\Philippians}{Phil}
+\newcommand{\Colossians}{Col}
+\newcommand{\FirstThessalonians}{1 Thess}
+\newcommand{\SecondThessalonians}{2 Thess}
+\newcommand{\FirstTimothy}{1 Tim}
+\newcommand{\SecondTimothy}{2 Tim}
+\newcommand{\Titus}{Titus}
+\newcommand{\Philemon}{Phlm}
+\newcommand{\Hebrews}{Heb}
+\newcommand{\James}{Jas}
+\newcommand{\FirstPeter}{1 Pet}
+\newcommand{\SecondPeter}{2 Pet}
+\newcommand{\FirstJohn}{1 John}
+\newcommand{\SecondJohn}{2 John}
+\newcommand{\ThirdJohn}{3 John}
+\newcommand{\Jude}{Jude}
+\newcommand{\Revelation}{Rev}
+
+%Define macros for inline language changes:
+\newcommand{\Eng}[1]{\textenglish{#1}}
+\newcommand{\Grk}[1]{\textgreek{#1}}
+\newcommand{\Heb}[1]{\texthebrew{#1}}
+
+%%%%%%%%
+%Front Matter
+%%%%%%%%
+
+%TOC page styles and macros:
+\renewcommand{\tocheadstart}{} %remove starting vertical space before title
+\renewcommand{\afterchapternum}{} %
+\renewcommand\printtoctitle[1]{\englishtitlesize #1} %change title typesetting
+\renewcommand{\aftertoctitle}{%
+	%Change language to English:
+	\selectlanguage{english}%
+	%Reset font sizes:
+	\renewcommand{\normalsize}{\englishsize}%
+	\renewcommand{\LARGE}{\englishtitlesize}%
+	\normalsize%
+	%Set the title page style:
+	\thispagestyle{TocTitlePage}%
+	\afterchaptertitle% space after heading
+	\vspace{7pt}% manually added to compensate for post-heading space
+	\nobreak%
+}
+\setcounter{tocdepth}{0} %only include references at the chapter level
+\setlength{\cftbeforechapterskip}{0pt} %space before each entry
+\renewcommand{\cftchapterafterpnum}{\vspace{\leadinglength}} %space after each entry
+\renewcommand{\cftchapterfont}{\textrm} %font for typesetting chapter names
+\renewcommand{\cftdot}{·} %dots between chapter titles and verse numbers
+\renewcommand{\cftchapterdotsep}{9} %measurement, in points, of separation between each dot
+\renewcommand{\cftchapterpagefont}{\textrm} %font for typesetting chapter page numbers
+%TOC title page style:
+\makepagestyle{TocTitlePage}
+\makeevenhead{TocTitlePage}{}{}{}
+\makeevenfoot{TocTitlePage}{\englishheadersize\thepage}{}{} %Page number on left in footer on even pages
+\makeoddhead{TocTitlePage}{}{}{}
+\makeoddfoot{TocTitlePage}{}{}{\englishheadersize\thepage} %Page number on right in footer on odd pages
+%TOC page style:
+\makepagestyle{TocPage}
+\makeevenhead{TocPage}{}{\englishheadersize\contentsname}{}
+\makeevenfoot{TocPage}{\englishheadersize\thepage}{}{} %Page number on left in footer on even pages
+\makeoddhead{TocPage}{}{\englishheadersize\contentsname}{}
+\makeoddfoot{TocPage}{}{}{\englishheadersize\thepage} %Page number on right in footer on odd pages
+
+%%%%%%%%
+%Main Matter
+%%%%%%%%
+
+%Page styles and macros:
+\newcommand{\BookTitle}{}
+\newcommand{\ChapterTitle}{}
+\newcommand{\VerseTitle}{}
+\newcounter{Book}
+\newcounter{Chapter}
+\newcounter{Verse}
+\newmarkset{Book}
+\newmarkset{Chapter}
+\newmarkset{Verse}
+\newextramark{Book}{\BookTitle}
+\newextramark{Chapter}{\ChapterTitle}
+\newextramark{Verse}{\VerseTitle}
+\newextramark*{Book}{Book}
+\newextramark*{Chapter}{Chapter}
+\newextramark*{Verse}{Verse}
+\newcommand{\Book}[1]{%
+	%Set the page style:
+	\pagestyle{BookPage}%
+	%Set text flush-right:
+	\flushright%
+	%Set font sizes for text, titles, and footnotes:
+	\renewcommand{\normalsize}{\hebrewsize}%
+	\renewcommand{\LARGE}{\hebrewtitlesize}%
+	\renewcommand{\footnotesize}{\apparatussize}%
+	%Redefine footnote indenting for the apparatus:
+	\setlength{\footmarksep}{\parindent}%
+	\setlength{\footmarkwidth}{0em}%
+	\setlength{\footparindent}{\parindent}%
+	%Redefine footnote rule length for the apparatus:
+	\renewcommand{\footnoterule}{%
+		\kern -3pt%
+		\hrule width 1.0\textwidth height 0.5pt%
+		\kern 3pt%
+	}
+	%Set the current book title to the argument of the \Book macro and reset the chapter and verse titles:
+	\renewcommand\BookTitle{#1}%
+	\renewcommand\ChapterTitle{1}%
+	\renewcommand\VerseTitle{1}%
+	%Increment the book counter, and reset the chapter and verse counters:
+	\stepcounter{Book}%
+	\setcounter{Chapter}{1}%
+	\setcounter{Verse}{1}%
+	\preextramark{Book}%
+	\preextramark{Chapter}%
+	\preextramark{Verse}%
+	%Ensure that this book starts on a new page:
+	%\newpage{}%
+	%Add it as a chapter-level entry to the Table of Contents:
+	\addcontentsline{toc}{chapter}{#1}%
+	\extramark{Book}%
+	\extramark{Chapter}%
+	\extramark{Verse}%
+	\thispagestyle{BookTitlePage}%
+	\afterchaptertitle%
+	\normalsize%
+}
+\newcommand{\Incipit}{% sets the text formatting for the book title
+	\hebrewtitlefont\hebrewtitlesize\addfontfeatures{LetterSpace=30}
+}
+\newcommand{\Explicit}{% sets the text formatting for the book closing text
+	\hebrewfont\hebrewsize
+}
+\newcommand{\PreChapterSpace}{% adds space before a new chapter marker in the middle of a line (this isn't used at the start of a paragraph)
+	\hspace{0.5em}%
+}
+\newcommand{\Chapter}[1]{%
+	\hebrewfont\hebrewsize%
+	%Set the chapter title to the specified value and reset the verse title:
+	\renewcommand\ChapterTitle{#1}%
+	\renewcommand\VerseTitle{1}%
+	%Set the chapter counter to the specified value, and reset the verse counter:
+	\setcounter{Chapter}{#1}%
+	\setcounter{Verse}{1}%
+	\preextramark{Chapter}%
+	\preextramark{Verse}%
+	{\englishsize\textenglish{\textbf{\ChapterTitle\,:\,\VerseTitle}}\hspace*{0.5em}}%
+	\extramark{Chapter}%
+	\extramark{Verse}%
+}
+\newcommand{\PreVerseSpace}{% adds space before a new verse marker in the middle of a line (this isn't used at the start of a paragraph
+	\hspace{0.5em}%
+}
+\newcommand{\Verse}[1]{%
+	\hebrewfont\hebrewsize%
+	\renewcommand\VerseTitle{#1}%
+	\setcounter{Verse}{#1}%
+	\setcounter{addfootnote}{1}%
+	\setcounter{omitfootnote}{1}%
+	\setcounter{subfootnote}{1}%
+	\setcounter{transfootnote}{1}%
+	\preextramark{Chapter}%
+	\preextramark{Verse}%
+	\ifnum#1 > 1{%
+		{\englishsize\textenglish{\textbf{#1}}\hspace*{0.5em}}%
+	}\fi%
+	\extramark{Chapter}%
+	\extramark{Verse}%
+}
+
+%Macro for collapsing reference ranges as needed:
+\newcommand{\RefRange}{%
+	%Not sure why adding these here makes this work, but it does:
+	\firstextramarks{Chapter}%
+	\firstextramarks{Verse}%
+	%Check if the current chapter matches the first chapter on the page:
+	\ifsamemark{\firstextramarks{Chapter}}{\ChapterTitle}{%
+		%Then check if the current chapter matches the bottom chapter on the page (essentially, we're checking if the first and last chapter marks are equal):
+		\ifsamemark{\botextramarks{Chapter}}{\ChapterTitle}{%
+			%Check if the current verse matches that of the first verse on the page:
+			\ifsamemark{\firstextramarks{Verse}}{\VerseTitle}{%
+				%Then check if the current verse matches the bottom verse on the page (essentially, we're checking if the first and last verse marks are equal):
+				\ifsamemark{\botextramarks{Verse}}{\VerseTitle}{%
+					%If the chapters and verses match, then the page consists of a single verse; use its reference:
+					\firstextramarks{Chapter}\ChapterTitle:\firstextramarks{Verse}\VerseTitle%
+				}{%
+					%If there is no match, then use one chapter and the verse range:
+					\firstextramarks{Chapter}\ChapterTitle:\firstextramarks{Verse}\VerseTitle--\botextramarks{Verse}\VerseTitle%
+				}%
+			}{%
+				%If there is no match, then use one chapter and the verse range:
+				\firstextramarks{Chapter}\ChapterTitle:\firstextramarks{Verse}\VerseTitle--\botextramarks{Verse}\VerseTitle%
+			}%
+		}{%
+			%If there is no match, then use the entire reference range:
+			\firstextramarks{Chapter}\ChapterTitle:\firstextramarks{Verse}\VerseTitle--\botextramarks{Chapter}\ChapterTitle:\botextramarks{Verse}\VerseTitle%
+		}%
+	}{%
+		%If there is no match, then use the entire reference range:
+		\firstextramarks{Chapter}\ChapterTitle:\firstextramarks{Verse}\VerseTitle--\botextramarks{Chapter}\ChapterTitle:\botextramarks{Verse}\VerseTitle%
+	}%
+}
+
+%Book header page style:
+\makepagestyle{BookTitlePage}
+\makeevenhead{BookTitlePage}{}{}{}
+\makeevenfoot{BookTitlePage}{\englishheadersize\textenglish{\thepage}}{}{} %Page number on left in footer on even pages
+\makeoddhead{BookTitlePage}{}{}{}
+\makeoddfoot{BookTitlePage}{}{}{\englishheadersize\textenglish{\thepage}} %Page number on right in footer on odd pages
+
+%Standard page style:
+\makepagestyle{BookPage}
+\makeevenhead{BookPage}{\englishheadersize\textenglish{\RefRange}}{\hebrewheadersize\texthebrew{\addfontfeatures{LetterSpace=20}\topextramarks{Book}\BookTitle}}{}
+\makeevenfoot{BookPage}{\englishheadersize\textenglish{\thepage}}{}{} %Page number on left in footer on even pages
+\makeoddhead{BookPage}{}{\hebrewheadersize\texthebrew{\addfontfeatures{LetterSpace=20}\topextramarks{Book}\BookTitle}}{\englishheadersize\textenglish{\RefRange}}
+\makeoddfoot{BookPage}{}{}{\englishheadersize\textenglish{\thepage}} %Page number on right in footer on odd pages
+
+%Define macros for apparatus:
+\newcommand{\AddMark}{{\apparatusfont ⸆}}
+\newcommand{\OmitMarkBegin}{{\apparatusfont ⸋}}
+%\newcommand{\OmitMarkEnd}{{\apparatusfont ⸌}}
+\newcommand{\OmitMarkEnd}{{\apparatusfont ⸌}}
+%\newcommand{\SubMarkBegin}{{\apparatusfont ⸂}}
+\newcommand{\SubMarkBegin}{{\apparatusfont ⸃}}
+%\newcommand{\SubMarkEnd}{{\apparatusfont ⸃}}
+\newcommand{\SubMarkEnd}{{\apparatusfont ⸂}}
+%\newcommand{\TransMarkBegin}{{\apparatusfont ⸉}}
+\newcommand{\TransMarkBegin}{{\apparatusfont ⸊}}
+%\newcommand{\TransMarkEnd}{{\apparatusfont ⸊}}
+\newcommand{\TransMarkEnd}{{\apparatusfont ⸉}}
+\newcounter{addfootnote}
+\newcounter{omitfootnote}
+\newcounter{subfootnote}
+\newcounter{transfootnote}
+%\renewcommand*{\footfudgefiddle}{100}
+\newcommand\addfootnote[1]{%
+	\begingroup
+	\renewcommand*{\@makefnmark}{%
+		%If the index for this variant type is 1, then don't print the number:
+		\ifnum\@thefnmark=1%
+			\AddMark{}%
+		\else%
+			\AddMark{}\textsuperscript{\@thefnmark}%
+		\fi%
+	}%
+	%Check the indices of variant types:
+	\ifnum\theaddfootnote=1%
+	%If the index for this variant type is 1, then don't print the number:
+		\ifnum\thesubfootnote=1%
+			\ifnum\thetransfootnote=1%
+				\ifnum\theomitfootnote=1%
+					%If this is the first variant in the verse, then print the verse first:
+					\footmarkstyle{\englishfootnotesize\textbf{\textenglish{\ChapterTitle:\VerseTitle}}~\AddMark{}}%
+				\else%
+					\footmarkstyle{\englishfootnotesize\AddMark{}}%
+				\fi%
+			\else%
+				\footmarkstyle{\englishfootnotesize\AddMark{}}%
+			\fi%
+		\else%
+			\footmarkstyle{\englishfootnotesize\AddMark{}}%
+		\fi%
+	\else%
+		\footmarkstyle{\englishfootnotesize\AddMark{}\textsuperscript{##1}}%
+	\fi%
+	\renewcommand{\foottextfont}{\apparatussize}%
+	\footnote[\theaddfootnote]{#1}%
+	\stepcounter{addfootnote}%
+	\endgroup
+}
+\newcommand\omitfootnote[1]{%
+	\begingroup
+	\renewcommand*{\@makefnmark}{%
+		%If the index for this variant type is 1, then don't print the number:
+		\ifnum\@thefnmark=1%
+			\OmitMarkBegin{}%
+		\else%
+			\OmitMarkBegin{}\textsuperscript{\@thefnmark}%
+		\fi%
+	}%
+	%Check the indices of variant types:
+	\ifnum\theomitfootnote=1%
+		%If the index for this variant type is 1, then don't print the number:
+		\ifnum\theaddfootnote=1%
+			\ifnum\thesubfootnote=1%
+				\ifnum\thetransfootnote=1%
+					%If this is the first variant in the verse, then print the verse first:
+					\footmarkstyle{\englishfootnotesize\textbf{\textenglish{\ChapterTitle:\VerseTitle}}~\OmitMarkBegin{}}%
+				\else%
+					\footmarkstyle{\englishfootnotesize\OmitMarkBegin{}}%
+				\fi%
+			\else%
+				\footmarkstyle{\englishfootnotesize\OmitMarkBegin{}}%
+			\fi%
+		\else%
+			\footmarkstyle{\englishfootnotesize\OmitMarkBegin{}}%
+		\fi%
+	\else%
+		\footmarkstyle{\englishfootnotesize\OmitMarkBegin{}\textsuperscript{##1}}%
+	\fi%
+	\renewcommand{\foottextfont}{\apparatussize}%
+	\footnote[\theomitfootnote]{#1}%
+	\stepcounter{omitfootnote}%
+	\endgroup
+}
+\newcommand\subfootnote[1]{%
+	\begingroup
+	\renewcommand*{\@makefnmark}{%
+		%If the footnote mark is 1, then don't print it:
+		\ifnum\@thefnmark=1%
+			\SubMarkBegin{}%
+		\else%
+			\SubMarkBegin{}\textsuperscript{\@thefnmark}%
+		\fi%
+	}%
+	%Check the indices of variant types:
+	\ifnum\thesubfootnote=1%
+		%If the index for this variant type is 1, then don't print the number:
+		\ifnum\thetransfootnote=1%
+			\ifnum\theomitfootnote=1%
+				\ifnum\theaddfootnote=1%
+					%If this is the first variant in the verse, then print the verse first:
+					\footmarkstyle{\englishfootnotesize\textbf{\textenglish{\ChapterTitle:\VerseTitle}}~\SubMarkBegin{}}%
+				\else%
+					\footmarkstyle{\englishfootnotesize\SubMarkBegin{}}%
+				\fi%
+			\else%
+				\footmarkstyle{\englishfootnotesize\SubMarkBegin{}}%
+			\fi%
+		\else%
+			\footmarkstyle{\englishfootnotesize\SubMarkBegin{}}%
+		\fi%
+	\else%
+		\footmarkstyle{\englishfootnotesize\SubMarkBegin{}\textsuperscript{##1}}%
+	\fi%
+	\renewcommand{\foottextfont}{\apparatussize}%
+	\footnote[\thesubfootnote]{#1}%
+	\stepcounter{subfootnote}%
+	\endgroup
+}
+\newcommand\transfootnote[1]{%
+	\begingroup
+	\renewcommand*{\@makefnmark}{%
+		%If the footnote mark is 1, then don't print it:
+		\ifnum\@thefnmark=1%
+			\TransMarkBegin{}%
+		\else%
+			\TransMarkBegin{}\textsuperscript{\@thefnmark}%
+		\fi%
+	}%
+	%Check the indices of variant types:
+	\ifnum\thetransfootnote=1%
+		%If the index for this variant type is 1, then don't print the number:
+		\ifnum\theaddfootnote=1%
+			\ifnum\theomitfootnote=1%
+				\ifnum\thesubfootnote=1%
+					%If this is the first variant in the verse, then print the verse first:
+					\footmarkstyle{\englishfootnotesize\textbf{\textenglish{\ChapterTitle:\VerseTitle}}~\TransMarkBegin{}}%
+				\else%
+					\footmarkstyle{\englishfootnotesize\TransMarkBegin{}}%
+				\fi%
+			\else%
+				\footmarkstyle{\englishfootnotesize\TransMarkBegin{}}%
+			\fi%
+		\else%
+			\footmarkstyle{\englishfootnotesize\TransMarkBegin{}}%
+		\fi%
+	\else%
+		\footmarkstyle{\englishfootnotesize\TransMarkBegin{}\textsuperscript{##1}}%
+	\fi%
+	\renewcommand{\foottextfont}{\apparatussize}%
+	\footnote[\thetransfootnote]{#1}%
+	\stepcounter{transfootnote}%
+	\endgroup
+}
+\newcommand{\OpenSection}{\par\vspace*{0.5\leadinglength}{\centering\texthebrew{׆}\par}\vspace*{0.5\leadinglength}}
+\newcommand{\ClosedSection}{\phantom{ססססססס}}
+\newcommand{\Add}[1]{\,\addfootnote{#1}\,}
+\newcommand{\OmitBegin}[1]{\omitfootnote{#1}\,}
+\newcommand{\OmitEnd}{\,\OmitMarkEnd{}}
+\newcommand{\SubBegin}[1]{\subfootnote{#1}\,}
+\newcommand{\SubEnd}{\,\SubMarkEnd{}}
+\newcommand{\TransBegin}[1]{\transfootnote{#1}\,}
+\newcommand{\TransEnd}{\,\TransMarkEnd{}}
+\newcommand{\Reading}[1]{{\apparatussize\texthebrew{~#1~}}}
+\newcommand{\Omit}{{\englishfootnotesize\textenglish{~–~}}}
+\newcommand{\Witness}[1]{{\englishfootnotesize\textenglish{~#1~}}}
+\newcommand{\PrimaryReadingSep}{{\englishfootnotesize\textenglish{~]~}}}
+\newcommand{\SecondaryReadingSep}{{\englishfootnotesize\textenglish{~¦~}}}
+
+%Calls to \enlargethispage for preventing widows and orphans occur at the following locations:
+
+
+%%%%%%%%
+%Back Matter
+%%%%%%%%
+
+%Essay page styles and macros:
+\newcommand{\EssayTitle}{}
+\newshortmark{\EssayTitle}
+\newcommand{\Essay}[1]{%
+	%Set the page style:
+	\pagestyle{EssayPage}%
+	\renewcommand\EssayTitle{#1}%
+	\preshortmark\EssayTitle%
+	%\newpage{}%
+	\addcontentsline{toc}{chapter}{#1}%
+	\shortmark\EssayTitle%
+	\thispagestyle{EssayTitlePage}%
+	%Set font sizes for essay text, titles, and footnotes:
+	\renewcommand{\normalsize}{\englishsize}%
+	\renewcommand{\LARGE}{\englishtitlesize}%
+	\renewcommand{\footnotesize}{\englishfootnotesize}%
+	%Remove chapter indices from section indices:
+	\renewcommand{\thesection}{\arabic{section}}%
+	%Use numbering down to subsubsection level:
+	\setsecnumdepth{subsubsection}%
+	%Define spacing between section numbers and section titles:
+	\setsecnumformat{\csname the#1\endcsname\hspace{\parindent}}%
+	%Remove the section title hang:
+	\sethangfrom{\noindent #1}%
+	%Section header format:
+	\setsecheadstyle{\setmainfont[Numbers={OldStyle}]{EB Garamond}\scshape\MakeLowercase}%
+	\setbeforesecskip{0pt}%
+	\setaftersecskip{\leadinglength}%
+	\setsecindent{0em}%
+	%Subsection header format:
+	\setsubsecheadstyle{\setmainfont[Numbers={OldStyle}]{EB Garamond}\scshape\MakeLowercase}%
+	\setbeforesubsecskip{0pt}%
+	\setaftersubsecskip{\leadinglength}%
+	\setsubsecindent{0em}%
+	%Subsubsection header format:
+	\setsubsubsecheadstyle{\setmainfont[Numbers={OldStyle}]{EB Garamond}\scshape\MakeLowercase}%
+	\setbeforesubsubsecskip{0pt}%
+	\setaftersubsubsecskip{\leadinglength}%
+	\setsubsubsecindent{0em}%
+	%Rename the figure and table caption names:
+	\addto\captionsenglish{\renewcommand{\figurename}{Figure}}%
+	\addto\captionsenglish{\renewcommand{\tablename}{Table}}%
+	%Remove chapter indices from figure and table indices:
+	\renewcommand{\thefigure}{\arabic{figure}}%
+	\renewcommand{\thetable}{\arabic{table}}%
+	%Set caption font style:
+	\captionnamefont{\setmainfont[Numbers={OldStyle}]{Linux Libertine O}\quotesize\scshape\MakeLowercase}%
+	\captiontitlefont{\quotesize}%
+	%Redefine footnote indenting:
+	\setlength{\footmarksep}{0em}%
+	\setlength{\footmarkwidth}{0em}%
+	\setlength{\footparindent}{\parindent}%
+	%Redefine footnote rule length:
+	\renewcommand{\footnoterule}{%
+		\kern -0pt%
+		\hrule width 1.0\textwidth height 0.5pt%
+		\kern 0pt%
+	}%
+	%Set footmark style:
+	\footmarkstyle{\hspace{\parindent}\textsuperscript{\@thefnmark}\hspace{0.5\parindent}}%
+	%Reset counters:
+	\setcounter{section}{0}%
+	\setcounter{subsection}{0}%
+	\setcounter{subsubsection}{0}%
+	\setcounter{table}{0}%
+	\setcounter{figure}{0}%
+	\setcounter{footnote}{0}%
+	\noindent
+}
+
+%Essay title page style:
+\makepagestyle{EssayTitlePage}
+\makeevenhead{EssayTitlePage}{}{}{} %Nothing in header on even pages
+\makeevenfoot{EssayTitlePage}{\englishheadersize\textenglish{\thepage}}{}{} %Page number on left in footer on even pages
+\makeoddhead{EssayTitlePage}{}{}{} %Nothing in header on odd pages
+\makeoddfoot{EssayTitlePage}{}{}{\englishheadersize\textenglish{\thepage}} %Page number on right in footer on odd pages
+
+%Essay page style:
+\makepagestyle{EssayPage}
+\makeevenhead{EssayPage}{}{\englishheadersize\textenglish{\topshortmark\EssayTitle}}{} %Essay title at center in header on even pages
+\makeevenfoot{EssayPage}{\englishheadersize\textenglish{\thepage}}{}{} %Page number on left in footer on even pages
+\makeoddhead{EssayPage}{}{\englishheadersize\textenglish{\topshortmark\EssayTitle}}{} %Essay title at center in header on odd pages
+\makeoddfoot{EssayPage}{}{}{\englishheadersize\textenglish{\thepage}} %Page number on right in footer on odd pages
+
+%Bibliography title page style:
+\makepagestyle{BibliographyTitlePage}
+\makeevenhead{BibliographyTitlePage}{}{}{} %Nothing in header on even pages
+\makeevenfoot{BibliographyTitlePage}{}{}{} %Nothing in footer on even pages
+\makeoddhead{BibliographyTitlePage}{}{}{} %Nothing in header on odd pages
+\makeoddfoot{BibliographyTitlePage}{}{}{} %Nothing in footer on odd pages
+
+%Bibliography page style:
+\makepagestyle{BibliographyPage}
+\makeevenhead{BibliographyPage}{}{\englishheadersize\textenglish{\bibname}}{} %Title at center in header on even pages
+\makeevenfoot{BibliographyPage}{\englishheadersize\textenglish{\thepage}}{}{} %Page number on left in footer on even pages
+\makeoddhead{BibliographyPage}{}{\englishheadersize\textenglish{\bibname}}{} %Essay title at center in header on odd pages
+\makeoddfoot{BibliographyPage}{}{}{\englishheadersize\textenglish{\thepage}} %Page number on right in footer on odd pages
+
+%Include support for hyphenation and punctuation:
+\RequirePackage{polyglossia}
+\setdefaultlanguage[variant=american]{english}
+\setotherlanguage[variant=ancient]{greek}
+\setotherlanguage{hebrew}
+
+%Context-sensitive quotes, for typesetting citations (recommended with polyglossia):
+\RequirePackage[style=american]{csquotes}
+
+%Include support for footnote citation and citation format:
+\RequirePackage{xparse}
+\RequirePackage[style=authortitle-ibid, sorting=nty, autopunct=true, texencoding=utf8, bibencoding=utf8, isbn=false, backend=biber]{biblatex}
+\DeclareQuotePunctuation{.,} %it's unclear why this is necessary (it should be automatic for the American style settings made above), but it is.
+
+%Change contents and bibliography titles (must be done after loading polyglossia):
+\addto\captionsenglish{%
+	\renewcommand{\contentsname}{Table of Contents}%
+	\renewcommand{\bibname}{Works Cited}% set the title here
+}
+
+%Patch multicols environment to handle a single-column setting
+%(this must be done after loading polyglossia, as that is when we need to load xparse):
+\let\multicolmulticols\multicols
+\let\endmulticolmulticols\endmulticols
+\RenewDocumentEnvironment{multicols}{mO{}}
+{%
+  \ifnum#1=1
+    #2%
+  \else % More than 1 column
+    \multicolmulticols{#1}[#2]
+  \fi
+}
+{%
+  \ifnum#1>1 % More than 1 column
+    \endmulticolmulticols
+  \fi
+}
+
+%Set spacing for enumerated and itemized lists:
+\RequirePackage{enumitem}
+\setlist{leftmargin=2\parindent,labelwidth=\parindent,parsep=0pt,itemsep=0pt,topsep=\leadinglength,partopsep=0pt}
+
+%Modify the quote environment spacing:
+\RequirePackage{quoting}
+\quotingsetup{leftmargin=2\parindent,rightmargin=2\parindent,vskip=\leadinglength}
+
+%Specific hyphenation patterns:
+\hyphenpenalty=2000
+
+%Discourage orphans and widows:
+\widowpenalty=10000
+\clubpenalty=10000
+
+%Define the bibliography heading style:
+\defbibheading{bibliographyheading}{%
+	\renewcommand{\bibname}{Works Cited}% set the title here
+	\addcontentsline{toc}{chapter}{#1}
+	\pagestyle{BibliographyPage}
+	\thispagestyle{BibliographyTitlePage}
+	%Set font sizes for essay text and headings:
+	\renewcommand{\normalsize}{\englishsize}
+	\renewcommand{\LARGE}{\englishtitlesize}
+	%Then add the heading:
+	\begin{flushleft}
+		\setmainfont{EB Garamond}\LARGE{#1}
+	\end{flushleft}
+	\afterchaptertitle
+}
+%Define the appearance of the repeated name dash in the bibliography:
+\renewcommand{\bibnamedash}{\rule[3pt]{4em}{0.5pt},\space}
+  	
+%Add the bibliography source file:
+\addbibresource{../bib/bibliography.bib}
+
+%Finally, close the input:
+\endinput
