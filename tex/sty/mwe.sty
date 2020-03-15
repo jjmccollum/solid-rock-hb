@@ -2,126 +2,72 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{mwe}[2020/03/13 Minimal Working Example]
 
-\raggedright
-
 %Include support for multi-column text layout:
 \RequirePackage{multicol}
 \raggedcolumns
 
-%Include support for page header styles:
-\RequirePackage[extramarks]{titleps}
+%Include support for getting first and last marks:
+\RequirePackage{extramarks}
 
-%Page styles and macros:
+%Define a macro that will be redefined with the current book title whenever it changes (for reference in the header):
 \newcommand{\BookTitle}{}
-\newcommand{\ChapterTitle}{}
-\newcommand{\VerseTitle}{}
-\newcounter{Book}
-\newcounter{Chapter}
-\newcounter{Verse}
-\newmarkset{Book}
-\newmarkset{Chapter}
-\newmarkset{Verse}
-\newextramark{Book}{\BookTitle}
-\newextramark{Chapter}{\ChapterTitle}
-\newextramark{Verse}{\VerseTitle}
-\newextramark*{Book}{Book}
-\newextramark*{Chapter}{Chapter}
-\newextramark*{Verse}{Verse}
+
 \newcommand{\Book}[1]{%
 	%Set the page style:
 	\pagestyle{BookPage}%
-	%Set the current book title to the argument of the \Book macro and reset the chapter and verse titles:
-	\renewcommand\BookTitle{#1}%
-	\renewcommand\ChapterTitle{1}%
-	\renewcommand\VerseTitle{1}%
-	%Increment the book counter, and reset the chapter and verse counters:
-	\stepcounter{Book}%
-	\setcounter{Chapter}{1}%
-	\setcounter{Verse}{1}%
-	\preextramark{Book}%
-	\preextramark{Chapter}%
-	\preextramark{Verse}%
-	\extramark{Book}%
-	\extramark{Chapter}%
-	\extramark{Verse}%
+	%Set the current book title:
+	\renewcommand{\BookTitle}{#1}%
+	%Reset the left (= chapter) and right (= verse) marks:
+	\markboth{1}{1}%
 }
 \newcommand{\PreChapterSpace}{% adds (breakable) space before a new chapter marker
 	\hspace{0.5em}
 }
 \newcommand{\Chapter}[1]{%
-	%Set the chapter title to the specified value and reset the verse title:
-	\renewcommand\ChapterTitle{#1}%
-	\renewcommand\VerseTitle{1}%
-	%Set the chapter counter to the specified value, and reset the verse counter:
-	\setcounter{Chapter}{#1}%
-	\setcounter{Verse}{1}%
-	%Update the extra marks for references in the heading:
-	\preextramark{Chapter}%
-	\preextramark{Verse}%
-	{\textbf{\ChapterTitle\,:\,\VerseTitle}}\hspace*{0.5em}
-	\extramark{Chapter}%
-	\extramark{Verse}%
+	%Set the current left (= chapter) mark and reset the right (= verse) mark:
+	\markboth{#1}{1}%
+	%Then typeset the chapter number:
+	{\textbf{#1\,:\,}}%
 }
 \newcommand{\PreVerseSpace}{% adds (breakable) space before a new verse marker
 	\hspace{0.5em}
 }
 \newcommand{\Verse}[1]{%
-	\renewcommand\VerseTitle{#1}%
-	\setcounter{Verse}{#1}%
-	%Update the extra marks for references in the heading:
-	\preextramark{Chapter}%
-	\preextramark{Verse}%
-	\ifnum#1 > 1{%
-		{\textbf{#1}}\hspace*{0.5em}
-	}\fi%
-	\extramark{Chapter}%
-	\extramark{Verse}%
+	%Set the current right (= verse) mark:
+	\markright{#1}%
+	%Then typeset the verse number:
+	{\textbf{#1}}\hspace*{0.5em}
 }
 
 %Macro for collapsing reference ranges as needed:
+\RequirePackage{ifthen}
 \newcommand{\RefRange}{%
-	%We need to declare these here to check for their equality with the current chapter and verse titles;
-	%otherwise, headers for one-verse pages will be printed as ranges instead of a single verse references:
-	\firstextramarks{Chapter}%
-	\firstextramarks{Verse}%
-	%Check if the current chapter matches the first chapter on the page:
-	\ifsamemark{\firstextramarks{Chapter}}{\ChapterTitle}{%
-		%Then check if the current chapter matches the bottom chapter on the page (essentially, we're checking if the first and last chapter marks are equal):
-		\ifsamemark{\botextramarks{Chapter}}{\ChapterTitle}{%
-			%Check if the current verse matches that of the first verse on the page:
-			\ifsamemark{\firstextramarks{Verse}}{\VerseTitle}{%
-				%Then check if the current verse matches the bottom verse on the page (essentially, we're checking if the first and last verse marks are equal):
-				\ifsamemark{\botextramarks{Verse}}{\VerseTitle}{%
-					%If the chapters and verses match, then the page consists of a single verse; use its reference:
-					\firstextramarks{Chapter}\ChapterTitle:\firstextramarks{Verse}\VerseTitle%
-				}{%
-					%If there is no match, then use one chapter and the verse range:
-					\firstextramarks{Chapter}\ChapterTitle:\firstextramarks{Verse}\VerseTitle--\botextramarks{Verse}\VerseTitle%
-				}%
-			}{%
-				%If there is no match, then use one chapter and the verse range:
-				\firstextramarks{Chapter}\ChapterTitle:\firstextramarks{Verse}\VerseTitle--\botextramarks{Verse}\VerseTitle%
-			}%
+	%Check if the first chapter matches the last chapter on the page:
+	\ifthenelse{\equal{\firstleftmark}{\lastleftmark}}{%
+		%If the chapters match, then check if the first verse matches the last verse on the page:
+		\ifthenelse{\equal{\firstrightmark}{\lastrightmark}}{%
+			%If the verses match, then the page consists of a single verse; use its reference:
+			\firstleftmark:\firstrightmark%
 		}{%
-			%If there is no match, then use the entire reference range:
-			\firstextramarks{Chapter}\ChapterTitle:\firstextramarks{Verse}\VerseTitle--\botextramarks{Chapter}\ChapterTitle:\botextramarks{Verse}\VerseTitle%
+			%If the verses do not match, then use one chapter and the verse range:
+			\firstleftmark:\firstrightmark--\lastrightmark%
 		}%
 	}{%
-		%If there is no match, then use the entire reference range:
-		\firstextramarks{Chapter}\ChapterTitle:\firstextramarks{Verse}\VerseTitle--\botextramarks{Chapter}\ChapterTitle:\botextramarks{Verse}\VerseTitle%
+		%If the chapters do not match, then use the entire reference range:
+		\firstleftmark:\firstrightmark--\lastleftmark:\lastrightmark%
 	}%
 }
 
 %Page style:
 \makepagestyle{BookPage}
-\makeevenhead{BookPage}{\RefRange}{\topextramarks{Book}\BookTitle}{}
+\makeevenhead{BookPage}{\RefRange}{\BookTitle}{}
 \makeevenfoot{BookPage}{\thepage}{}{} %Page number on left in footer on even pages
-\makeoddhead{BookPage}{}{\topextramarks{Book}\BookTitle}{\RefRange}
+\makeoddhead{BookPage}{}{\BookTitle}{\RefRange}
 \makeoddfoot{BookPage}{}{}{\thepage} %Page number on right in footer on odd pages
 
 %Define a macro to generate consecutive verses of sample text:
+\newcounter{i}
 \newcommand{\blindtext}[1]{%use a default value of 1 to coerce the argument to a number
-	\newcounter{i}
 	\setcounter{i}{1}%
 	\loop%
 	\Verse{\thei}In the beginning, God created the heavens and the earth.\PreVerseSpace{}%
