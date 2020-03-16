@@ -6,10 +6,6 @@
 %Draft Options
 %%%%%%%%
 
-%Show page layout lines:
-%\RequirePackage{showframe}
-%Show pagewise line numbers:
-\RequirePackage[pagewise]{lineno}
 %Allow text coloring:
 \RequirePackage{xcolor}
 
@@ -53,7 +49,19 @@
 \setheadfoot{\leadinglength}{2\leadinglength} %Header and footer block size
 \renewcommand{\beforechapskip}{} %Remove space before title headings
 \renewcommand{\midchapskip}{} %No LaTeX chapter numbers are used, so leave this undefined
-\renewcommand{\afterchapskip}{58pt} %Space after title headings for the table of contents, books, and the bibliography (HARDCODED)
+\renewcommand{\afterchapskip}{60pt} %Space after title headings for the table of contents, books, and the bibliography (HARDCODED)
+
+%Allow for longer inter-word spaces to avoid overfull lines:
+\midsloppy
+
+%Use bottom-ragged vertical alignment:
+\raggedbottom
+
+%Build up footnotes from the bottom of the page:
+\feetatbottom
+
+%Enforce these settings:
+\checkandfixthelayout
 
 %Support multi-column text layout:
 \RequirePackage{multicol}
@@ -62,30 +70,8 @@
 \setlength{\columnsep}{27pt}
 \raggedcolumns
 
-%Enforce these settings:
-\checkandfixthelayout
-
-%Include support for page header styles:
-\RequirePackage[extramarks]{titleps}
-
-%Ensure that superscripts (including footnote markers) are placed at the proper height:
-%\RequirePackage{xltxtra} %currently not used due to a conflict with bidi: https://github.com/tex-xet/bidi/issues/2
-\renewcommand{\textsuperscript}[1]{{\setmainfont[VerticalPosition=Superior]{EB Garamond}#1}}
-\renewcommand*{\@makefnmark}{\textsuperscript{\@thefnmark}}
-
-%Fine-tune the XeLaTeX logo:
-\RequirePackage{metalogo}
-\setlogokern{Xe}{0em}
-\setlogokern{eL}{0em}
-\setlogokern{La}{-0.0625em}
-\setlogokern{aT}{-0.0625em}
-\setlogokern{Te}{-0.0625em}
-\setlogokern{eX}{0em}
-\setLaTeXa{\textsc{a}} 
-
-%Undo any existing definitions for logos, due to a conflict with bidi: https://github.com/tex-xet/bidi/issues/2
-\let\XeTeX\relax
-\let\XeLaTeX\relax
+%Include support for getting first and last marks:
+\RequirePackage{extramarks}
 
 %Set fonts and font features:
 \RequirePackage{fontspec}
@@ -97,18 +83,10 @@
 \newfontfamily\hebrewtitlefont[Script=Hebrew]{Keter Aram Tsova}
 \newfontfamily\apparatusfont{Apparatus SIL}
 
-%Allow for longer inter-word spaces to avoid overfull lines:
-\midsloppy
-
-%Use bottom-ragged vertical alignment:
-\raggedbottom
-
-%Build up footnotes from the bottom of the page:
-\feetatbottom
-
-%Define a custom em-dash command that places invisible spaces around a normal em-dash,
-%to ensure that the dash doesn't disrupt hyphenation or justification:
-\newcommand{\EmDash}{—\hspace{0em}}
+%Ensure that superscripts (including footnote markers) are placed at the proper height:
+%\RequirePackage{xltxtra}
+\renewcommand{\textsuperscript}[1]{{\setmainfont[VerticalPosition=Superior]{EB Garamond}#1}}
+\renewcommand*{\@makefnmark}{\textsuperscript{\@thefnmark}}
 
 %Include support for URL formatting:
 \RequirePackage{url}
@@ -182,11 +160,6 @@
 \newcommand{\Jude}{Jude}
 \newcommand{\Revelation}{Rev}
 
-%Define macros for inline language changes:
-\newcommand{\Eng}[1]{\textenglish{#1}}
-\newcommand{\Grk}[1]{\textgreek{#1}}
-\newcommand{\Heb}[1]{\texthebrew{#1}}
-
 %%%%%%%%
 %Front Matter
 %%%%%%%%
@@ -208,7 +181,7 @@
 	\vspace{7pt}% manually added to compensate for post-heading space
 	\nobreak%
 }
-\setcounter{tocdepth}{0} %only include references at the chapter level
+\setcounter{tocdepth}{0} %only include references at the chapter (= book) level
 \setlength{\cftbeforechapterskip}{0pt} %space before each entry
 \renewcommand{\cftchapterafterpnum}{\vspace{\leadinglength}} %space after each entry
 \renewcommand{\cftchapterfont}{\textrm} %font for typesetting chapter names
@@ -232,23 +205,25 @@
 %Main Matter
 %%%%%%%%
 
-%Page styles and macros:
+%Add support for conditional programming:
+\RequirePackage{ifthen}
+%Create counters for variation types encountered in the current verse:
+\newcounter{addfootnote}%
+\newcounter{omitfootnote}%
+\newcounter{subfootnote}%
+\newcounter{transfootnote}%
+%Define a macro that will be redefined with the current book title whenever it changes (for reference in the header):
 \newcommand{\BookTitle}{}
 \newcommand{\ChapterTitle}{}
 \newcommand{\VerseTitle}{}
-\newcounter{Book}
-\newcounter{Chapter}
-\newcounter{Verse}
-\newmarkset{Book}
-\newmarkset{Chapter}
-\newmarkset{Verse}
-\newextramark{Book}{\BookTitle}
-\newextramark{Chapter}{\ChapterTitle}
-\newextramark{Verse}{\VerseTitle}
-\newextramark*{Book}{Book}
-\newextramark*{Chapter}{Chapter}
-\newextramark*{Verse}{Verse}
+
 \newcommand{\Book}[1]{%
+	%Set the current book title:
+	\renewcommand\BookTitle{#1}%
+	%Add it as a chapter-level entry to the Table of Contents:
+	\addcontentsline{toc}{chapter}{#1}%
+	%Reset the left (= chapter) and right (= verse) marks:
+	\markboth{1}{1}%
 	%Set the page style:
 	\pagestyle{BookPage}%
 	%Set text flush-right:
@@ -267,24 +242,9 @@
 		\hrule width 1.0\textwidth height 0.5pt%
 		\kern 3pt%
 	}
-	%Set the current book title to the argument of the \Book macro and reset the chapter and verse titles:
-	\renewcommand\BookTitle{#1}%
-	\renewcommand\ChapterTitle{1}%
-	\renewcommand\VerseTitle{1}%
-	%Increment the book counter, and reset the chapter and verse counters:
-	\stepcounter{Book}%
-	\setcounter{Chapter}{1}%
-	\setcounter{Verse}{1}%
-	\preextramark{Book}%
-	\preextramark{Chapter}%
-	\preextramark{Verse}%
 	%Ensure that this book starts on a new page:
 	%\newpage{}%
-	%Add it as a chapter-level entry to the Table of Contents:
-	\addcontentsline{toc}{chapter}{#1}%
-	\extramark{Book}%
-	\extramark{Chapter}%
-	\extramark{Verse}%
+	%Set the initial page to the title page style:
 	\thispagestyle{BookTitlePage}%
 	\afterchaptertitle%
 	\normalsize%
@@ -295,73 +255,54 @@
 \newcommand{\Explicit}{% sets the text formatting for the book closing text
 	\hebrewfont\hebrewsize
 }
-\newcommand{\PreChapterSpace}{% adds space before a new chapter marker in the middle of a line (this isn't used at the start of a paragraph)
-	\hspace{0.5em}%
+\newcommand{\PreChapterSpace}{% adds non-breaking space before a new chapter marker
+	\hspace*{0.5em}
 }
-\newcommand{\Chapter}[1]{%
+\newcommand{\Chapter}[2][1]{% define this with an optional first argument representing the first verse number
+	%Reset the font and size in case this was preceded by an incipit:
 	\hebrewfont\hebrewsize%
-	%Set the chapter title to the specified value and reset the verse title:
-	\renewcommand\ChapterTitle{#1}%
-	\renewcommand\VerseTitle{1}%
-	%Set the chapter counter to the specified value, and reset the verse counter:
-	\setcounter{Chapter}{#1}%
-	\setcounter{Verse}{1}%
-	\preextramark{Chapter}%
-	\preextramark{Verse}%
-	{\englishsize\textenglish{\textbf{\ChapterTitle\,:\,\VerseTitle}}\hspace*{0.5em}}%
-	\extramark{Chapter}%
-	\extramark{Verse}%
+	%Set the chapter and verse titles and the current left (= chapter) and right (= verse) marks:
+	\markboth{\textenglish{#2}}{\textenglish{#1}}%
+	\renewcommand{\ChapterTitle}{#2}%
+	\renewcommand{\VerseTitle}{#1}%
+	%Then typeset the chapter and verse reference:
+	{\englishsize\textenglish{\textbf{#2\,:\,#1}}}\hspace*{0.5em}
 }
-\newcommand{\PreVerseSpace}{% adds space before a new verse marker in the middle of a line (this isn't used at the start of a paragraph
-	\hspace{0.5em}%
+\newcommand{\PreVerseSpace}{% adds non-breaking space before a new verse marker
+	\hspace*{0.5em}
 }
 \newcommand{\Verse}[1]{%
-	\hebrewfont\hebrewsize%
-	\renewcommand\VerseTitle{#1}%
-	\setcounter{Verse}{#1}%
+	%Reset the variation type counters for this verse:
 	\setcounter{addfootnote}{1}%
 	\setcounter{omitfootnote}{1}%
 	\setcounter{subfootnote}{1}%
 	\setcounter{transfootnote}{1}%
-	\preextramark{Chapter}%
-	\preextramark{Verse}%
-	\ifnum#1 > 1{%
-		{\englishsize\textenglish{\textbf{#1}}\hspace*{0.5em}}%
-	}\fi%
-	\extramark{Chapter}%
-	\extramark{Verse}%
+	%If the specified verse number has not already been added (i.e., through the \Chapter macro),
+	%then set the verse title and the current right (= verse) mark, and typeset the verse reference:
+	\ifthenelse{\equal{#1}{\VerseTitle}}{%
+		%Do nothing if they're equal
+	}{%
+		\markright{\textenglish{#1}}%
+		\renewcommand{\VerseTitle}{#1}%
+		{\englishsize\textenglish{\textbf{#1}}}\hspace*{0.5em}
+	}%
 }
 
 %Macro for collapsing reference ranges as needed:
 \newcommand{\RefRange}{%
-	%Not sure why adding these here makes this work, but it does:
-	\firstextramarks{Chapter}%
-	\firstextramarks{Verse}%
-	%Check if the current chapter matches the first chapter on the page:
-	\ifsamemark{\firstextramarks{Chapter}}{\ChapterTitle}{%
-		%Then check if the current chapter matches the bottom chapter on the page (essentially, we're checking if the first and last chapter marks are equal):
-		\ifsamemark{\botextramarks{Chapter}}{\ChapterTitle}{%
-			%Check if the current verse matches that of the first verse on the page:
-			\ifsamemark{\firstextramarks{Verse}}{\VerseTitle}{%
-				%Then check if the current verse matches the bottom verse on the page (essentially, we're checking if the first and last verse marks are equal):
-				\ifsamemark{\botextramarks{Verse}}{\VerseTitle}{%
-					%If the chapters and verses match, then the page consists of a single verse; use its reference:
-					\firstextramarks{Chapter}\ChapterTitle:\firstextramarks{Verse}\VerseTitle%
-				}{%
-					%If there is no match, then use one chapter and the verse range:
-					\firstextramarks{Chapter}\ChapterTitle:\firstextramarks{Verse}\VerseTitle--\botextramarks{Verse}\VerseTitle%
-				}%
-			}{%
-				%If there is no match, then use one chapter and the verse range:
-				\firstextramarks{Chapter}\ChapterTitle:\firstextramarks{Verse}\VerseTitle--\botextramarks{Verse}\VerseTitle%
-			}%
+	%Check if the first chapter matches the last chapter on the page:
+	\ifthenelse{\equal{\firstleftmark}{\lastleftmark}}{%
+		%If the chapters match, then check if the first verse matches the last verse on the page:
+		\ifthenelse{\equal{\firstrightmark}{\lastrightmark}}{%
+			%If the verses match, then the page consists of a single verse; use its reference:
+			\firstleftmark:\firstrightmark%
 		}{%
-			%If there is no match, then use the entire reference range:
-			\firstextramarks{Chapter}\ChapterTitle:\firstextramarks{Verse}\VerseTitle--\botextramarks{Chapter}\ChapterTitle:\botextramarks{Verse}\VerseTitle%
+			%If the verses do not match, then use one chapter and the verse range:
+			\firstleftmark:\firstrightmark--\lastrightmark%
 		}%
 	}{%
-		%If there is no match, then use the entire reference range:
-		\firstextramarks{Chapter}\ChapterTitle:\firstextramarks{Verse}\VerseTitle--\botextramarks{Chapter}\ChapterTitle:\botextramarks{Verse}\VerseTitle%
+		%If the chapters do not match, then use the entire reference range:
+		\firstleftmark:\firstrightmark--\lastleftmark:\lastrightmark%
 	}%
 }
 
@@ -374,9 +315,9 @@
 
 %Standard page style:
 \makepagestyle{BookPage}
-\makeevenhead{BookPage}{\englishheadersize\textenglish{\RefRange}}{\hebrewheadersize\texthebrew{\addfontfeatures{LetterSpace=20}\topextramarks{Book}\BookTitle}}{}
+\makeevenhead{BookPage}{\englishheadersize\textenglish{\RefRange}}{\hebrewheadersize\texthebrew{\addfontfeatures{LetterSpace=20}\BookTitle}}{}
 \makeevenfoot{BookPage}{\englishheadersize\textenglish{\thepage}}{}{} %Page number on left in footer on even pages
-\makeoddhead{BookPage}{}{\hebrewheadersize\texthebrew{\addfontfeatures{LetterSpace=20}\topextramarks{Book}\BookTitle}}{\englishheadersize\textenglish{\RefRange}}
+\makeoddhead{BookPage}{}{\hebrewheadersize\texthebrew{\addfontfeatures{LetterSpace=20}\BookTitle}}{\englishheadersize\textenglish{\RefRange}}
 \makeoddfoot{BookPage}{}{}{\englishheadersize\textenglish{\thepage}} %Page number on right in footer on odd pages
 
 %Define macros for apparatus:
@@ -392,10 +333,6 @@
 \newcommand{\TransMarkBegin}{{\apparatusfont ⸊}}
 %\newcommand{\TransMarkEnd}{{\apparatusfont ⸊}}
 \newcommand{\TransMarkEnd}{{\apparatusfont ⸉}}
-\newcounter{addfootnote}
-\newcounter{omitfootnote}
-\newcounter{subfootnote}
-\newcounter{transfootnote}
 %\renewcommand*{\footfudgefiddle}{100}
 \newcommand\addfootnote[1]{%
 	\begingroup
@@ -404,7 +341,7 @@
 		\ifnum\@thefnmark=1%
 			\AddMark{}%
 		\else%
-			\AddMark{}\textsuperscript{\@thefnmark}%
+			\AddMark{}\textenglish{\textsuperscript{\@thefnmark}}%
 		\fi%
 	}%
 	%Check the indices of variant types:
@@ -414,7 +351,7 @@
 			\ifnum\thetransfootnote=1%
 				\ifnum\theomitfootnote=1%
 					%If this is the first variant in the verse, then print the verse first:
-					\footmarkstyle{\englishfootnotesize\textbf{\textenglish{\ChapterTitle:\VerseTitle}}~\AddMark{}}%
+					\footmarkstyle{\englishfootnotesize\textbf{\textenglish{\ChapterTitle\,:\,\VerseTitle}}~\AddMark{}}%
 				\else%
 					\footmarkstyle{\englishfootnotesize\AddMark{}}%
 				\fi%
@@ -439,7 +376,7 @@
 		\ifnum\@thefnmark=1%
 			\OmitMarkBegin{}%
 		\else%
-			\OmitMarkBegin{}\textsuperscript{\@thefnmark}%
+			\OmitMarkBegin{}\textenglish{\textsuperscript{\@thefnmark}}%
 		\fi%
 	}%
 	%Check the indices of variant types:
@@ -449,7 +386,7 @@
 			\ifnum\thesubfootnote=1%
 				\ifnum\thetransfootnote=1%
 					%If this is the first variant in the verse, then print the verse first:
-					\footmarkstyle{\englishfootnotesize\textbf{\textenglish{\ChapterTitle:\VerseTitle}}~\OmitMarkBegin{}}%
+					\footmarkstyle{\englishfootnotesize\textbf{\textenglish{\ChapterTitle\,:\,\VerseTitle}}~\OmitMarkBegin{}}%
 				\else%
 					\footmarkstyle{\englishfootnotesize\OmitMarkBegin{}}%
 				\fi%
@@ -474,7 +411,7 @@
 		\ifnum\@thefnmark=1%
 			\SubMarkBegin{}%
 		\else%
-			\SubMarkBegin{}\textsuperscript{\@thefnmark}%
+			\SubMarkBegin{}\textenglish{\textsuperscript{\@thefnmark}}%
 		\fi%
 	}%
 	%Check the indices of variant types:
@@ -484,7 +421,7 @@
 			\ifnum\theomitfootnote=1%
 				\ifnum\theaddfootnote=1%
 					%If this is the first variant in the verse, then print the verse first:
-					\footmarkstyle{\englishfootnotesize\textbf{\textenglish{\ChapterTitle:\VerseTitle}}~\SubMarkBegin{}}%
+					\footmarkstyle{\englishfootnotesize\textbf{\textenglish{\ChapterTitle\,:\,\VerseTitle}}~\SubMarkBegin{}}%
 				\else%
 					\footmarkstyle{\englishfootnotesize\SubMarkBegin{}}%
 				\fi%
@@ -509,7 +446,7 @@
 		\ifnum\@thefnmark=1%
 			\TransMarkBegin{}%
 		\else%
-			\TransMarkBegin{}\textsuperscript{\@thefnmark}%
+			\TransMarkBegin{}\textenglish{\textsuperscript{\@thefnmark}}%
 		\fi%
 	}%
 	%Check the indices of variant types:
@@ -519,7 +456,7 @@
 			\ifnum\theomitfootnote=1%
 				\ifnum\thesubfootnote=1%
 					%If this is the first variant in the verse, then print the verse first:
-					\footmarkstyle{\englishfootnotesize\textbf{\textenglish{\ChapterTitle:\VerseTitle}}~\TransMarkBegin{}}%
+					\footmarkstyle{\englishfootnotesize\textbf{\textenglish{\ChapterTitle\,:\,\VerseTitle}}~\TransMarkBegin{}}%
 				\else%
 					\footmarkstyle{\englishfootnotesize\TransMarkBegin{}}%
 				\fi%
@@ -559,18 +496,16 @@
 %Back Matter
 %%%%%%%%
 
-%Essay page styles and macros:
+%Define a macro that will be redefined with the current essay title whenever it changes (for reference in the header):
 \newcommand{\EssayTitle}{}
-\newshortmark{\EssayTitle}
+
 \newcommand{\Essay}[1]{%
+	%Set the current essay title:
+	\renewcommand\EssayTitle{#1}%
+	%Add it as a chapter-level entry to the Table of Contents:
+	\addcontentsline{toc}{chapter}{#1}%
 	%Set the page style:
 	\pagestyle{EssayPage}%
-	\renewcommand\EssayTitle{#1}%
-	\preshortmark\EssayTitle%
-	%\newpage{}%
-	\addcontentsline{toc}{chapter}{#1}%
-	\shortmark\EssayTitle%
-	\thispagestyle{EssayTitlePage}%
 	%Set font sizes for essay text, titles, and footnotes:
 	\renewcommand{\normalsize}{\englishsize}%
 	\renewcommand{\LARGE}{\englishtitlesize}%
@@ -605,7 +540,7 @@
 	\renewcommand{\thefigure}{\arabic{figure}}%
 	\renewcommand{\thetable}{\arabic{table}}%
 	%Set caption font style:
-	\captionnamefont{\setmainfont[Numbers={OldStyle}]{Linux Libertine O}\quotesize\scshape\MakeLowercase}%
+	\captionnamefont{\setmainfont[Numbers={OldStyle}]{EB Garamond}\quotesize\scshape\MakeLowercase}%
 	\captiontitlefont{\quotesize}%
 	%Redefine footnote indenting:
 	\setlength{\footmarksep}{0em}%
@@ -626,6 +561,10 @@
 	\setcounter{table}{0}%
 	\setcounter{figure}{0}%
 	\setcounter{footnote}{0}%
+	%\newpage{}%
+	%Set the initial page to the title page style:
+	\thispagestyle{EssayTitlePage}%
+	\normalsize%
 	\noindent
 }
 
@@ -638,9 +577,9 @@
 
 %Essay page style:
 \makepagestyle{EssayPage}
-\makeevenhead{EssayPage}{}{\englishheadersize\textenglish{\topshortmark\EssayTitle}}{} %Essay title at center in header on even pages
+\makeevenhead{EssayPage}{}{\englishheadersize\textenglish{\EssayTitle}}{} %Essay title at center in header on even pages
 \makeevenfoot{EssayPage}{\englishheadersize\textenglish{\thepage}}{}{} %Page number on left in footer on even pages
-\makeoddhead{EssayPage}{}{\englishheadersize\textenglish{\topshortmark\EssayTitle}}{} %Essay title at center in header on odd pages
+\makeoddhead{EssayPage}{}{\englishheadersize\textenglish{\EssayTitle}}{} %Essay title at center in header on odd pages
 \makeoddfoot{EssayPage}{}{}{\englishheadersize\textenglish{\thepage}} %Page number on right in footer on odd pages
 
 %Bibliography title page style:
