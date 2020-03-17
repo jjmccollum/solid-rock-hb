@@ -68,7 +68,7 @@
 \newcommand{\ncols}{2}
 \setlength{\multicolsep}{0pt}
 \setlength{\columnsep}{27pt}
-\setcounter{collectmore}{-2} %to ensure that footnotes are kept on the same page as their marks in the text
+\setcounter{collectmore}{-3} %to ensure that footnotes are kept on the same page as their marks in the text
 \raggedcolumns
 
 %Include support for getting first and last marks:
@@ -256,8 +256,8 @@
 \newcommand{\Explicit}{% sets the text formatting for the book closing text
 	\hebrewfont\hebrewsize
 }
-\newcommand{\PreChapterSpace}{% adds non-breaking space before a new chapter marker
-	\hspace*{0.5em}
+\newcommand{\PreChapterSpace}{% adds space before a new chapter marker
+	\hspace{0.5em}
 }
 \newcommand{\Chapter}[2][1]{% define this with an optional first argument representing the first verse number
 	%Reset the font and size in case this was preceded by an incipit:
@@ -269,8 +269,8 @@
 	%Then typeset the chapter and verse reference:
 	{\englishsize\textenglish{\textbf{#2\,:\,#1}}}\hspace*{0.5em}
 }
-\newcommand{\PreVerseSpace}{% adds non-breaking space before a new verse marker
-	\hspace*{0.5em}
+\newcommand{\PreVerseSpace}{% adds space before a new verse marker
+	\hspace{0.5em}
 }
 \newcommand{\Verse}[1]{%
 	%Reset the variation type counters for this verse:
@@ -296,14 +296,14 @@
 		%If the chapters match, then check if the first verse matches the last verse on the page:
 		\ifthenelse{\equal{\firstrightmark}{\lastrightmark}}{%
 			%If the verses match, then the page consists of a single verse; use its reference:
-			\firstleftmark:\firstrightmark%
+			\firstleftmark\,:\,\firstrightmark%
 		}{%
 			%If the verses do not match, then use one chapter and the verse range:
-			\firstleftmark:\firstrightmark--\lastrightmark%
+			\firstleftmark\,:\,\firstrightmark\,--\,\lastrightmark%
 		}%
 	}{%
 		%If the chapters do not match, then use the entire reference range:
-		\firstleftmark:\firstrightmark--\lastleftmark:\lastrightmark%
+		\firstleftmark\,:\,\firstrightmark\,--\,\lastleftmark\,:\,\lastrightmark%
 	}%
 }
 

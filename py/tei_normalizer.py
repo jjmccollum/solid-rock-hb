@@ -93,7 +93,7 @@ class tei_normalizer:
             elif i == len(letters_with_pointing) - 1 or letters_with_pointing[i+1] == ' ':
                 pass
             #If the current letter is an unpointed alef, then drop it:
-            elif current_letter_with_pointing[0] == '\u05D0':
+            elif current_letter_with_pointing == '\u05D0':
                 letters_with_pointing[i] = ''
             #If the current letter is an unpointed vav preceded by an unpointed alef and this digraph isn't at the start of the word, 
             #then drop both letters and add a holam to the letter before the digraph, if it isn't there already:
