@@ -301,6 +301,9 @@ class tei_collator:
             n_remaining_children = len(lemma_rdg.getchildren())
             #Then proceed for this many segments after the app element:
             child = app.getnext()
+            #If the app element occurs at the end of the document, then there are no children:
+            if child is None:
+                n_remaining_children = 0
             while n_remaining_children > 0:
                 #Skip any non-segment elements (e.g., apparatus elements that have been added):
                 if child.tag.replace('{%s}' % self.tei_ns, '') != 'seg':
