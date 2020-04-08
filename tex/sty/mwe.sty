@@ -2,9 +2,33 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{mwe}[2020/03/13 Minimal Working Example]
 
+%Facilitate baseline grid layout:
+\newlength{\lead}
+\setlength{\lead}{18pt}
+\newlength{\footnotelead}
+\setlength{\footnotelead}{12pt}
+
+\setstocksize{10in}{7in} %page dimensions
+\settrimmedsize{\stockheight}{\stockwidth}{*} %page dimension after trimming
+\settypeblocksize{7in}{5in}{*} %textblock dimensions
+\setlrmargins{1in}{*}{*} %spine and edge margins
+\setulmargins{1in}{*}{*} %head and foot margins
+\setheadfoot{\lead}{2\lead}
+\setmarginnotes{18pt}{0pt}{0pt} %set the distance between the textblock and side margins
+\setfootins{18pt}{18pt} %add space between bottom of textblock and footnotes
+
+\raggedbottom
+\feetatbottom
+
+\checkandfixthelayout
+
+\setlength{\topskip}{0pt} %Vertical space from top of text block
+\setlength{\parskip}{0pt}
+\renewcommand{\normalsize}{\fontsize{0.6666\lead}{\lead}\selectfont}
+\renewcommand{\footnotesize}{\fontsize{0.8333\footnotelead}{\footnotelead}\selectfont}
+
 %Include support for multi-column text layout:
 \RequirePackage{multicol}
-\raggedcolumns
 
 %Include support for getting first and last marks:
 \RequirePackage{extramarks}

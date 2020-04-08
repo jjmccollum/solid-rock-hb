@@ -39,7 +39,7 @@ def main():
     #Convert the input and write to output:
     latex = converter.to_latex(input_xml)
     #Then write it to the output address:
-    output_latex = open(output_addr, 'w')
+    output_latex = open(output_addr, 'w', encoding='utf-8')
     output_latex.write(latex)
     output_latex.close()
     exit(0)

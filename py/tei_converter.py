@@ -214,7 +214,6 @@ class tei_converter:
                 latex += self.to_latex(child)
                 latex += '\n'
             #Finally, close off the document:
-            latex += '\n'
             latex += '\\end{document}'
             return latex
         #If this is the <body/> element, then recursively process its children, separated by the appropriate spaces:
@@ -241,9 +240,7 @@ class tei_converter:
             #Add a final paragraph, and close off the columns environment:
             latex += '\\par'
             latex += '\n'
-            latex += '\\pagebreak'
-            latex += '\n'
-            latex += '\\end{multicols}'
+            latex += '\\end{multicols*}'
             return latex
         #If this is a numbered division marker, then add the appropriate textual division:
         if raw_tag == 'divGen':
@@ -252,6 +249,8 @@ class tei_converter:
                     #Use the title derived from the incipit for this book:
                     latex += '\\Book{' + self.book_title + '}'
                 elif xml.get('type') == 'incipit':
+                    latex += '\\thispagestyle{empty}'
+                    latex += '\n'
                     latex += '\\Incipit{}'
                 elif xml.get('type') == 'explicit':
                     latex += '\\Explicit{}'
@@ -259,11 +258,11 @@ class tei_converter:
                     chapter_n = xml.get('n')
                     #If this is the first chapter division, then add the post-incipit LaTeX macros:
                     if chapter_n.endswith('K1'):
-                        latex += '\\vspace{\\afterchapskip}'
+                        latex += '\\cleardoublespace'
                         latex += '\n'
                         latex += '\\RTLmulticolcolumns'
                         latex += '\n'
-                        latex += '\\begin{multicols}{\\ncols}'
+                        latex += '\\begin{multicols*}{\\ncols}'
                         latex += '\n'
                     if 'K' in chapter_n:
                         chapter_n = chapter_n[chapter_n.index('K') + 1:]

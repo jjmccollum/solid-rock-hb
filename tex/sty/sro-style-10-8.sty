@@ -64,12 +64,14 @@
 \checkandfixthelayout
 
 %Support multi-column text layout:
-\RequirePackage{multicol}
+\RequirePackage[grid]{multicol}
 \newcommand{\ncols}{2}
+\setlength{\premulticols}{0pt}
+\setlength{\postmulticols}{0pt}
 \setlength{\multicolsep}{0pt}
 \setlength{\columnsep}{27pt}
 \setcounter{collectmore}{-3} %to ensure that footnotes are kept on the same page as their marks in the text
-\raggedcolumns
+
 
 %Include support for getting first and last marks:
 \RequirePackage{extramarks}
@@ -246,18 +248,19 @@
 	%Ensure that this book starts on a new page:
 	%\newpage{}%
 	%Set the initial page to the title page style:
-	\thispagestyle{BookTitlePage}%
-	\afterchaptertitle%
+	%\thispagestyle{BookTitlePage}%
+	%\afterchaptertitle%
 	\normalsize%
 }
 \newcommand{\Incipit}{% sets the text formatting for the book title
-	\hebrewtitlefont\hebrewtitlesize\addfontfeatures{LetterSpace=30}
+	\hebrewtitlefont\hebrewtitlesize\addfontfeatures{LetterSpace=30}%
+	\noindent%
 }
 \newcommand{\Explicit}{% sets the text formatting for the book closing text
-	\hebrewfont\hebrewsize
+	\hebrewfont\hebrewsize%
 }
 \newcommand{\PreChapterSpace}{% adds space before a new chapter marker
-	\hspace{0.5em}
+	\ignorespaces\hspace{0.5em}
 }
 \newcommand{\Chapter}[2][1]{% define this with an optional first argument representing the first verse number
 	%Reset the font and size in case this was preceded by an incipit:
@@ -270,7 +273,7 @@
 	{\englishsize\textenglish{\textbf{#2\,:\,#1}}}\hspace*{0.5em}
 }
 \newcommand{\PreVerseSpace}{% adds space before a new verse marker
-	\hspace{0.5em}
+	\ignorespaces\hspace{0.5em}
 }
 \newcommand{\Verse}[1]{%
 	%Reset the variation type counters for this verse:
@@ -475,7 +478,10 @@
 	\stepcounter{transfootnote}%
 	\endgroup
 }
-\newcommand{\OpenSection}{\par\vspace*{0.5\leadinglength}{\centering\texthebrew{׆}\par}\vspace*{0.5\leadinglength}}
+
+%Include support for conditional page-breaking:
+\RequirePackage{needspace}
+\newcommand{\OpenSection}{\par\vspace*{0.5\leadinglength}{\centering\texthebrew{׆}\par}\vspace*{0.5\leadinglength}\needspace{0.5\leadinglength}}
 \newcommand{\ClosedSection}{\phantom{ססססססס}}
 \newcommand{\Add}[1]{\,\addfootnote{#1}\,}
 \newcommand{\OmitBegin}[1]{\omitfootnote{#1}\,}
