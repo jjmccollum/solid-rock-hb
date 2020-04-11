@@ -83,7 +83,8 @@
 \setsansfont[Ligatures=TeX, Numbers={OldStyle, Monospaced}]{Alegreya Sans}
 \newfontfamily\greekfont[Script=Greek, Ligatures=TeX, Numbers={OldStyle, Monospaced}]{EB Garamond}
 \newfontfamily\hebrewfont[Script=Hebrew]{Keter YG}
-\newfontfamily\hebrewtitlefont[Script=Hebrew]{Keter Aram Tsova}
+\newfontfamily\hebrewheaderfont[Script=Hebrew, LetterSpace=20, WordSpace={2, 2, 2}]{Keter YG}
+\newfontfamily\hebrewtitlefont[Script=Hebrew, LetterSpace=30, WordSpace={2, 2, 2}]{Keter Aram Tsova}
 \newfontfamily\apparatusfont{Apparatus SIL}
 
 %Ensure that superscripts (including footnote markers) are placed at the proper height:
@@ -253,7 +254,7 @@
 	\normalsize%
 }
 \newcommand{\Incipit}{% sets the text formatting for the book title
-	\hebrewtitlefont\hebrewtitlesize\addfontfeatures{LetterSpace=30}%
+	\hebrewtitlefont\hebrewtitlesize%
 	\noindent%
 }
 \newcommand{\Explicit}{% sets the text formatting for the book closing text
@@ -319,9 +320,9 @@
 
 %Standard page style:
 \makepagestyle{BookPage}
-\makeevenhead{BookPage}{\englishheadersize\textenglish{\RefRange}}{\hebrewheadersize\texthebrew{\addfontfeatures{LetterSpace=20}\BookTitle}}{}
+\makeevenhead{BookPage}{\englishheadersize\textenglish{\RefRange}}{\hebrewheadersize\texthebrew{\hebrewheaderfont\BookTitle}}{}
 \makeevenfoot{BookPage}{\englishheadersize\textenglish{\thepage}}{}{} %Page number on left in footer on even pages
-\makeoddhead{BookPage}{}{\hebrewheadersize\texthebrew{\addfontfeatures{LetterSpace=20}\BookTitle}}{\englishheadersize\textenglish{\RefRange}}
+\makeoddhead{BookPage}{}{\hebrewheadersize\texthebrew{\hebrewheaderfont\BookTitle}}{\englishheadersize\textenglish{\RefRange}}
 \makeoddfoot{BookPage}{}{}{\englishheadersize\textenglish{\thepage}} %Page number on right in footer on odd pages
 
 %Define macros for apparatus:

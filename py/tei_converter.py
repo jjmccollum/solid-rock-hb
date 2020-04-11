@@ -248,6 +248,7 @@ class tei_converter:
                 if xml.get('type') == 'book':
                     #Use the title derived from the incipit for this book:
                     latex += '\\Book{' + self.book_title + '}'
+                    latex += '\n'
                 elif xml.get('type') == 'incipit':
                     latex += '\\thispagestyle{empty}'
                     latex += '\n'
@@ -258,7 +259,7 @@ class tei_converter:
                     chapter_n = xml.get('n')
                     #If this is the first chapter division, then add the post-incipit LaTeX macros:
                     if chapter_n.endswith('K1'):
-                        latex += '\\cleardoublespace'
+                        latex += '\\cleardoublepage'
                         latex += '\n'
                         latex += '\\RTLmulticolcolumns'
                         latex += '\n'
