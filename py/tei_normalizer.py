@@ -17,8 +17,8 @@ class tei_normalizer:
     Dictionary of regular expressions, keyed by accentuation type:
     """
     accentuatation_res = {
-        'cantillation': re.compile('[\u0591-\u05AF\u05BD\u200C-\u200D]'), #meteg (\u05BD) is described as a point in its Unicode name, but it's functionally an accent #TODO: should zero-width joiners and non-joiners (\u200C-\u200D) belong to the pointing accentuation set?
-        'pointing': re.compile('[\u05B0-\u05BC\u05BF\u05C1-\u05C2\u05C7]'),
+        'cantillation': re.compile('[\u0591-\u05AF\u05BD\u05BF\u200C-\u200D]'), #meteg (\u05BD) is described as a point in its Unicode name, but it's functionally an accent #TODO: should zero-width joiners and non-joiners (\u200C-\u200D) belong to the pointing accentuation set?
+        'pointing': re.compile('[\u05B0-\u05BC\u05C1-\u05C2\u05C7]'),
         'extraordinaire': re.compile('[\u05C4-\u05C5]')
     }
     """
@@ -110,8 +110,8 @@ class tei_normalizer:
             elif current_letter_with_pointing == '\u05D5\u05BC':
                 letters_with_pointing[i] = ''
                 letters_with_pointing[i-1] += '\u05BB'
-            #If the current letter is an unpointed yodh and the previous letter is pointed with a hiriq, tsere, or segol, then drop this letter:
-            elif current_letter_with_pointing == '\u05D9' and ('\u05B4' in prev_letter_with_pointing or '\u05B5' in prev_letter_with_pointing or '\u05B6' in prev_letter_with_pointing):
+            #If the current letter is an unpointed yodh and the previous letter is pointed with a hiriq, tsere, segol, or qamats, then drop this letter:
+            elif current_letter_with_pointing == '\u05D9' and ('\u05B4' in prev_letter_with_pointing or '\u05B5' in prev_letter_with_pointing or '\u05B6' in prev_letter_with_pointing or '\u05B8' in prev_letter_with_pointing):
                 letters_with_pointing[i] = ''
             #If the current letter is a yodh with a sheva and the previous letter is pointed with a hiriq, tsere, or segol, then drop this letter:
             elif current_letter_with_pointing == '\u05D9\u05B0' and ('\u05B4' in prev_letter_with_pointing or '\u05B5' in prev_letter_with_pointing or '\u05B6' in prev_letter_with_pointing):

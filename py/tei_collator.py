@@ -72,7 +72,7 @@ class tei_collator:
             n_element = n_elements[i]
             #Add the latest list of tokens to the Dictionary and update the current div index if this is a divider at the appropriate level:
             if t_element.tag.replace('{%s}' % self.tei_ns, '') == 'divGen':
-                if t_element.get('type') is not None and t_element.get('type') == self.level and t_element.get('n') is not None:
+                if t_element.get('type') is not None and t_element.get('type') in [self.level, 'incipit' ,'explicit'] and t_element.get('n') is not None:
                     if div_n is not None:
                         tokens_by_div[div_n] = tokens.copy()
                         tokens = []
@@ -159,7 +159,7 @@ class tei_collator:
         #Initialize this collator's XML tree as an empty TEI element:
         self.collation_xml = et.Element('{%s}TEI' % self.tei_ns, nsmap={None: self.tei_ns, 'xml': self.xml_ns})
         #Perform the collation in "chunks" at the specified level of textual division:
-        divs = self.lemma_xml.xpath('//tei:divGen[@type=\'%s\']' % self.level, namespaces={'tei': self.tei_ns})
+        divs = self.lemma_xml.xpath('//tei:divGen[@type=\'%s\' or @type=\'incipit\' or @type=\'explicit\']' % self.level, namespaces={'tei': self.tei_ns})
         for div in divs:
             #Skip any textual divisions without indices:
             if div.get('n') is None:
@@ -188,7 +188,7 @@ class tei_collator:
         extant_witnesses = []
         for child in self.collation_xml.getchildren():
             #If this element is a textual division at the specified grouping level, then populate a List of witnesses extant at it:
-            if child.tag.replace('{%s}' % self.tei_ns, '') == 'divGen' and child.get('type') is not None and child.get('type') == self.level and child.get('n') is not None:
+            if child.tag.replace('{%s}' % self.tei_ns, '') == 'divGen' and child.get('type') is not None and child.get('type') in [self.level, 'incipit', 'explicit'] and child.get('n') is not None:
                 div_n = child.get('n')
                 extant_witnesses = []
                 for witness in self.witnesses:
@@ -287,7 +287,6 @@ class tei_collator:
             segment_type = raw_tag
             segment_n = str(substantive_indices[raw_tag])
         #Now, loop through the <app/> elements added to the lemma XML, adding <lem/> reading elements to them and populating them:
-        lem_body = self.lemma_xml.xpath('//tei:body', namespaces={'tei': self.tei_ns})[0]
         for app in self.lemma_xml.xpath('//tei:app', namespaces={'tei': self.tei_ns}):
             lem = et.Element('{%s}lem' % self.tei_ns)
             #Find the lemma reading:

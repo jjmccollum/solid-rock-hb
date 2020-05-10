@@ -119,7 +119,9 @@ class tei_labeler:
                 div_type = xml.get('type')
                 div_n = xml.get('n') if xml.get('n') is not None else ''
                 #If the division's index contains its number in addition to previous divisions' numbers, then just get the index for this division:
-                if self.div_abbreviations[div_type] in div_n:
+                if div_type in ['incipit', 'explicit']:
+                    div_n = ''
+                elif self.div_abbreviations[div_type] in div_n:
                     div_n = div_n[div_n.index(self.div_abbreviations[div_type]) + 1:]
                 #If the division is an incipit or explicit, then temporarily replace the 'chapter' entry with the appropriate division name in the hierarchy List:
                 if div_type in ['incipit', 'explicit']:
@@ -151,6 +153,11 @@ class tei_labeler:
             return
         #Otherwise, if it is an apparatus, then add an index to it:
         if raw_tag == 'app':
+            #If no word has been encountered yet (i.e., if the first variant is at the very beginning of the text),
+            #then set it now:
+            if 'w' not in self.div_indices:
+                self.div_hierarchy.append('w')
+                self.div_indices['w'] = '0'
             #Get the lemma reading:
             lem = xml.xpath('.//tei:lem', namespaces={'tei': self.tei_ns})[0]
             #Save the current indices:

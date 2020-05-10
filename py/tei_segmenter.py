@@ -79,6 +79,14 @@ class tei_segmenter:
             segment_elements.append(child)
             #Update the positioning state to that of the current element:
             pos = child_pos
+        #Add the contents of the last segment to the segmented body:
+        if len(segment_elements) > 0:
+            seg = et.Element('{%s}seg' % self.tei_ns)
+            seg.set('type', segment_type)
+            seg.set('n', segment_n)
+            for segment_element in segment_elements:
+                seg.append(segment_element)
+            segmented_body.append(seg)
         #Finally, remove the old body from the XML and replace it with the segmented body:
         text.remove(body)
         text.append(segmented_body)
