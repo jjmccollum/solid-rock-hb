@@ -75,7 +75,7 @@ class tei_labeler:
             #Otherwise, if all readings in fully-normalized form are equal up to order, then the variant is a transposition:
             is_transposition = True
             for rdg_serialization in variant_rdg_serializations:
-                if set(normalizer.format_text(rdg_serialization).split()) != set(normalizer.format_text(primary_rdg_serialization).split()):
+                if set(normalizer.format_text(normalizer.strip_plene(rdg_serialization)).split()) != set(normalizer.format_text(normalizer.strip_plene(primary_rdg_serialization)).split()):
                     is_transposition = False
                     break
             if is_transposition:
