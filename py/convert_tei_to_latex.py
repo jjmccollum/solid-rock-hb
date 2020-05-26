@@ -2,7 +2,7 @@
 
 import argparse
 from lxml import etree as et
-from tei_converter import tei_converter
+from tei_latex_converter import tei_latex_converter
 
 """
 Entry point to the script. Parses command-line arguments and calls the core functions.
@@ -33,7 +33,7 @@ def main():
     ]
     converter_args['wit_sub_patterns'] = wit_sub_patterns
     #Initialize the converter with these parameters:
-    converter = tei_converter(**converter_args)
+    converter = tei_latex_converter(**converter_args)
     #Parse the input XML document:
     input_xml = et.parse(input_addr)
     #Convert the input and write to output:

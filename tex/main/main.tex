@@ -1,12 +1,36 @@
-\documentclass[twoside]{memoir}
-\usepackage{subfiles}
-\usepackage{../sty/sro-style-10-8}
-%\usepackage{../sty/sro-style-10-7}
-\begin{document}
-	%Begin main matter:
-	\mainmatter{}
-	%Main text:
-	\subfile{../Num/Num}
-	\subfile{../Lam/Lam}
-	\subfile{../Esth/Esth}
-\end{document}
+\environment ../sty/sr-style %TODO: separate general (i.e., not book- or essay-specific) style settings into a product-wide environment
+\startproduct main
+
+\component ../Lev/Lev
+\component ../Num/Num
+\component ../Deut/Deut
+\component ../Josh/Josh
+\component ../Judg/Judg
+\Incipit{שמואל}
+\component ../1Sam/1Sam
+\component ../2Sam/2Sam
+
+\Incipit{תרי עשר}
+\component ../Hos/Hos
+\component ../Joel/Joel
+\component ../Amos/Amos
+\component ../Obad/Obad
+\component ../Jonah/Jonah
+\component ../Mic/Mic
+\component ../Nah/Nah
+\component ../Hab/Hab
+\component ../Zeph/Zeph
+\component ../Hag/Hag
+\component ../Zech/Zech
+\component ../Mal/Mal
+
+\component ../Song/Song
+
+\component ../Lam/Lam
+
+\component ../Esth/Esth
+\component ../Dan/Dan
+\Incipit{עזרא ונחמיה}
+\component ../Ezra/Ezra
+\component ../Neh/Neh
+\stopproduct

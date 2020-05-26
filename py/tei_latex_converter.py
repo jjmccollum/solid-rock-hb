@@ -4,6 +4,59 @@ import argparse
 from lxml import etree as et
 
 """
+Dictionary mapping book numbers to book names.
+"""
+book_names = {
+    'B01': 'בראשית',
+	'B02': 'שמות',
+	'B03': 'ויקרא',
+	'B04': 'במדבר',
+	'B05': 'דברים',
+	'B06': 'יהושע',
+	'B07': 'שפטים',
+	'B08': 'שמואל א',
+	'B09': 'שמואל ב',
+	'B10': 'מלכים א',
+	'B11': 'מלכים ב',
+	'B12': 'ישעיה',
+	'B13': 'ירמיה',
+	'B14': 'יחזקאל',
+	'B15': 'הושע',
+	'B16': 'יואל',
+	'B17': 'עמוס',
+	'B18': 'עבדיה',
+	'B19': 'יונה',
+	'B20': 'מיכה',
+	'B21': 'נחום',
+	'B22': 'חבקוק',
+	'B23': 'צפניה',
+	'B24': 'חגי',
+	'B25': 'זכריה',
+	'B26': 'מלאכי',
+	'B27': 'תהלים',
+	'B28': 'משלי',
+	'B29': 'איוב',
+	'B30': 'שיר השירים',
+	'B31': 'רות',
+	'B32': 'איכה',
+	'B33': 'קהלת',
+	'B34': 'אסתר',
+	'B35': 'דניאל',
+	'B36': 'עזרא',
+	'B37': 'נחמיה',
+	'B38': 'דברי הימים א',
+	'B39': 'דברי הימים ב'
+}
+
+"""
+Dictionary mapping witness reference strings to witness sigla.
+"""
+sigla = {
+    '#SR': 'SR',
+    '#WLC': 'L'
+}
+
+"""
 Class representing a polyglossia language with language-specific options.
 """
 class polyglossia_language:
@@ -12,9 +65,9 @@ class polyglossia_language:
         self.options = options
 
 """
-Class for converting a transcription (including collation data) in TEI XML format to other formats.
+Class for converting a transcription (including collation data) in TEI XML format to LaTeX.
 """
-class tei_converter:
+class tei_latex_converter:
     """
     XML namespaces
     """

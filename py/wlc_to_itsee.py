@@ -28,7 +28,32 @@ BOOK_NAMES = {
     '11': '2 Kings',
     '12': 'Isaiah',
     '13': 'Jeremiah',
-    '14': 'Ezekiel'
+    '14': 'Ezekiel',
+    '15': 'Hosea',
+    '16': 'Joel',
+    '17': 'Amos',
+    '18': 'Obadiah',
+    '19': 'Jonah',
+    '20': 'Micah',
+    '21': 'Nahum',
+    '22': 'Habakkuk',
+    '23': 'Zephaniah',
+    '24': 'Haggai',
+    '25': 'Zechariah',
+    '26': 'Malachi',
+    '27': 'Psalms',
+    '28': 'Proverbs',
+    '29': 'Job',
+    '30': 'Song of Songs',
+    '31': 'Ruth',
+    '32': 'Lamentations',
+    '33': 'Ecclesiastes',
+    '34': 'Esther',
+    '35': 'Daniel',
+    '36': 'Ezra',
+    '37': 'Nehemiah',
+    '38': '1 Chronicles',
+    '39': '2 Chronicles'
 }
 
 """
