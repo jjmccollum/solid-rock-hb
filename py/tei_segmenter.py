@@ -15,7 +15,7 @@ class tei_segmenter:
     Set of tags that should be segmented with the next tag rather than the preceding tag.
     """
     prefix_tags = set([
-        'divGen'
+        'milestone'
     ])
     def __init__(self, **params):
         self.ignored_tag_set = params['t']

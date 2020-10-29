@@ -152,9 +152,9 @@ class tei_normalizer:
             return et.ElementTree(out_xml)
         #Get the element tag:
         tag = xml.tag
-        #Convert div and ab elements to standalone divGen elements:
+        #Convert hierarchical div and ab elements to flat milestone elements:
         if tag.replace('{%s}' % self.tei_ns, '') in ['div', 'ab']:
-            tag = '{%s}divGen' % self.tei_ns
+            tag = '{%s}milestone' % self.tei_ns
         #If this element has no parent, then add the namespace map to the normalized element:
         if xml.getparent() is None:
             out_xml = et.Element(tag, nsmap={None: self.tei_ns, 'xml': self.xml_ns})
@@ -163,10 +163,15 @@ class tei_normalizer:
             out_xml = et.Element(tag)
         #If the original element was a verse division, then add an attribute indicating this:
         if xml.tag.replace('{%s}' % self.tei_ns, '') == 'ab':
-            out_xml.set('type', 'verse')
+            out_xml.set('unit', 'verse')
         #Copy all attributes to the output element:
         for attr in xml.attrib:
-            out_xml.set(attr, xml.get(attr))
+            #If the element was a textual division, then replacing their "type" attribute with a "unit" attribute;
+            if tag.replace('{%s}' % self.tei_ns, '') in ['div'] and attr == 'type':
+                out_xml.set('unit', xml.get(attr))
+            #Otherwise, copy the attribute as-is:
+            else:
+                out_xml.set(attr, xml.get(attr))
         #Conditionally format the text:
         if xml.text is not None:
             out_xml.text = self.format_text(xml.text)
@@ -209,8 +214,8 @@ class tei_normalizer:
                         out_xml.append(out_grandchild)
                 else:
                     out_xml.append(out_child)
-            #Otherwise, if the child has been converted to a divGen instance, then make its children its siblings:
-            elif out_child.tag.replace('{%s}' % self.tei_ns, '') == 'divGen':
+            #Otherwise, if the child has been converted to a milestone instance, then make its children its siblings:
+            elif out_child.tag.replace('{%s}' % self.tei_ns, '') == 'milestone':
                 out_grandchildren = out_child.getchildren()
                 for out_grandchild in out_grandchildren:
                     out_child.remove(out_grandchild)

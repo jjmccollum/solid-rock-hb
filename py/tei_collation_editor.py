@@ -15,7 +15,7 @@ class tei_collation_editor:
     def __init__(self, **kwargs):
         return
     """
-    Validates a resegmentation of a given XML tree based on the placement of <divGen/> elements of type "seg".
+    Validates a resegmentation of a given XML tree based on the placement of <milestone/> elements of unit "seg".
     """
     def validate(self, xml):
         valid = True
@@ -26,10 +26,10 @@ class tei_collation_editor:
             n_segs = 0
             #Set the number of segment division markers based on the lemma reading:
             lem = app.xpath('.//tei:lem', namespaces={'tei': self.tei_ns})[0]
-            n_segs = len(lem.xpath('.//tei:divGen[@type=\'seg\']', namespaces={'tei': self.tei_ns}))
+            n_segs = len(lem.xpath('.//tei:milestone[@unit=\'seg\']', namespaces={'tei': self.tei_ns}))
             #Now ensure that all variant readings have the same number of segment division markers:
             for rdg in app.xpath('.//tei:rdg', namespaces={'tei': self.tei_ns}):
-                if len(rdg.xpath('.//tei:divGen[@type=\'seg\']', namespaces={'tei': self.tei_ns})) != n_segs:
+                if len(rdg.xpath('.//tei:milestone[@unit=\'seg\']', namespaces={'tei': self.tei_ns})) != n_segs:
                     valid = False
                     print('The apparatus with index ' + app_n + ' has a reading with a different number of segment division markers than the lemma.')
         return valid
@@ -42,7 +42,7 @@ class tei_collation_editor:
         listWit = xml.xpath('//tei:listWit', namespaces={'tei': self.tei_ns})[0]
         #Then copy the IDs of the witnesses contained in it:
         for witness in listWit.xpath('//tei:witness', namespaces={'tei': self.tei_ns}):
-            wit_id = witness.get('id')
+            wit_id = witness.get('{%s}id' % self.xml_ns)
             witnesses.append(wit_id)
         return witnesses
     """
@@ -105,7 +105,7 @@ class tei_collation_editor:
                 witness_body.append(deepcopy(child))
         return et.ElementTree(witness_xml)
     """
-    Segments a TEI XML tree based on the placement of <divGen/> elements of type "seg".
+    Segments a TEI XML tree based on the placement of <milestone/> elements of unit "seg".
     """
     def segment(self, xml):
         #Get the <text/> element in the XML tree:
@@ -117,8 +117,8 @@ class tei_collation_editor:
         #Create a placeholder for the current segment:
         seg = et.Element('{%s}seg' % self.tei_ns)
         for child in body:
-            #If this is a <divgen/> element of type "seg", then add the previous segment to the new body and initialize a new segment:
-            if child.tag.replace('{%s}' % self.tei_ns, '') == 'divGen' and child.get('type') is not None and child.get('type') == 'seg':
+            #If this is a <milestone/> element of unit "seg", then add the previous segment to the new body and initialize a new segment:
+            if child.tag.replace('{%s}' % self.tei_ns, '') == 'milestone' and child.get('unit') is not None and child.get('unit') == 'seg':
                 segmented_body.append(seg)
                 seg = et.Element('{%s}seg' % self.tei_ns)
             #Otherwise, add this element to the current segment:
@@ -131,7 +131,7 @@ class tei_collation_editor:
         text.append(segmented_body)
         return
     """
-    Updates the boundaries of <app/> elements in a given TEI XML tree based on the placement of <divGen/> elements of type "seg".
+    Updates the boundaries of <app/> elements in a given TEI XML tree based on the placement of <milestone/> elements of unit "seg".
     """
     def update_boundaries(self, xml):
         #Get a List of witnesses in this collation:

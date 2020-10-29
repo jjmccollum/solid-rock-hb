@@ -24,9 +24,9 @@ class tei_context_converter:
         self.ignored_app_types = kwargs['ignored_app_types'] if 'ignored_app_types' in kwargs else set()
         return
     """
-    Converts a <divGen type="book"/> element in the body to ConTeXt format.
+    Converts a <milestone unit="book"/> element in the body to ConTeXt format.
     """
-    def format_body_divGen_book(self, xml):
+    def format_body_milestone_book(self, xml):
         context = ''
         #Get the book's title via a lookup in the provided Dictionary:
         n = xml.get('n')
@@ -39,9 +39,9 @@ class tei_context_converter:
         context += '\\startpagecolumns[hebrew]\n'
         return context
     """
-    Converts a <divGen type="chapter"/> element in the body to ConTeXt format.
+    Converts a <milestone unit="chapter"/> element in the body to ConTeXt format.
     """
-    def format_body_divGen_chapter(self, xml):
+    def format_body_milestone_chapter(self, xml):
         context = ''
         #Get the book's title via a lookup in the provided Dictionary:
         n = xml.get('n')
@@ -51,9 +51,9 @@ class tei_context_converter:
             context += '\n\\Chapter{%s}' % chapter_title
         return context
     """
-    Converts a <divGen type="verse"/> element in the body to ConTeXt format.
+    Converts a <milestone unit="verse"/> element in the body to ConTeXt format.
     """
-    def format_body_divGen_verse(self, xml):
+    def format_body_milestone_verse(self, xml):
         context = ''
         #Get the book's title via a lookup in the provided Dictionary:
         n = xml.get('n')
@@ -63,9 +63,9 @@ class tei_context_converter:
             context += '\n\\Verse{%s}' % verse_title
         return context
     """
-    Converts a <divGen type="verse"/> element in the body that is the last child of a lemma to ConTeXt format.
+    Converts a <milestone unit="verse"/> element in the body that is the last child of a lemma to ConTeXt format.
     """
-    def format_body_divGen_verse_last(self, xml):
+    def format_body_milestone_verse_last(self, xml):
         context = ''
         #Get the book's title via a lookup in the provided Dictionary:
         n = xml.get('n')
@@ -107,20 +107,20 @@ class tei_context_converter:
     """
     def format_lem(self, xml):
         context = ''
-        #Process the <divGen/>, <lb/>, <space/>, and <w/> elements under this element:
+        #Process the <milestone/>, <lb/>, <space/>, and <w/> elements under this element:
         for child in xml:
             raw_tag = child.tag.replace('{%s}' % self.tei_ns, '')
-            if raw_tag == 'divGen':
-                #Proceed based on the type of the text division:
-                divGen_type = child.get('type')
-                if divGen_type == 'chapter':
-                    context += self.format_body_divGen_chapter(child)
-                elif divGen_type == 'verse':
+            if raw_tag == 'milestone':
+                #Proceed based on the unit of the text division:
+                milestone_unit = child.get('unit')
+                if milestone_unit == 'chapter':
+                    context += self.format_body_milestone_chapter(child)
+                elif milestone_unit == 'verse':
                     #Proceed based on whether this verse is the last child of the lemma:
                     if child == xml[-1]:
-                        context += self.format_body_divGen_verse_last(child)
+                        context += self.format_body_milestone_verse_last(child)
                     else:
-                        context += self.format_body_divGen_verse(child)
+                        context += self.format_body_milestone_verse(child)
             elif raw_tag == 'lb':
                 lb_type = child.get('type')
                 if lb_type == 'open':
@@ -137,9 +137,9 @@ class tei_context_converter:
                     context += self.format_w(child)
         return context
     """
-    Converts a <divGen type="chapter"/> element in the apparatus to ConTeXt format.
+    Converts a <milestone unit="chapter"/> element in the apparatus to ConTeXt format.
     """
-    def format_rdg_divGen_chapter(self, xml):
+    def format_rdg_milestone_chapter(self, xml):
         context = ''
         #Get the book's title via a lookup in the provided Dictionary:
         n = xml.get('n')
@@ -149,9 +149,9 @@ class tei_context_converter:
             context += '\\RdgChapter{%s}' % chapter_title
         return context
     """
-    Converts a <divGen type="verse"/> element in the apparatus to ConTeXt format.
+    Converts a <milestone unit="verse"/> element in the apparatus to ConTeXt format.
     """
-    def format_rdg_divGen_verse(self, xml):
+    def format_rdg_milestone_verse(self, xml):
         context = ''
         #Get the book's title via a lookup in the provided Dictionary:
         n = xml.get('n')
@@ -161,9 +161,9 @@ class tei_context_converter:
             context += '\\RdgVerse{%s}' % verse_title
         return context
     """
-    Converts a <divGen type="verse"/> element in the apparatus that is the last child of a variant reading to ConTeXt format.
+    Converts a <milestone unit="verse"/> element in the apparatus that is the last child of a variant reading to ConTeXt format.
     """
-    def format_rdg_divGen_verse_last(self, xml):
+    def format_rdg_milestone_verse_last(self, xml):
         context = ''
         #Get the book's title via a lookup in the provided Dictionary:
         n = xml.get('n')
@@ -199,21 +199,21 @@ class tei_context_converter:
             for wit_ref in self.wit_sigla:
                 wit_siglum = self.wit_sigla[wit_ref]
                 wit_context = wit_context.replace(wit_ref, wit_siglum)
-        #Process the <divGen/>, <lb/>, <space/>, and <w/> elements under this element:
+        #Process the <milestone/>, <lb/>, <space/>, and <w/> elements under this element:
         rdg_context = ''
         for child in xml:
             raw_tag = child.tag.replace('{%s}' % self.tei_ns, '')
-            if raw_tag == 'divGen':
-                #Proceed based on the type of the text division:
-                divGen_type = child.get('type')
-                if divGen_type == 'chapter':
-                    rdg_context += self.format_rdg_divGen_chapter(child)
-                elif divGen_type == 'verse':
+            if raw_tag == 'milestone':
+                #Proceed based on the unit of the text division:
+                milestone_unit = child.get('unit')
+                if milestone_unit == 'chapter':
+                    rdg_context += self.format_rdg_milestone_chapter(child)
+                elif milestone_unit == 'verse':
                     #Proceed based on whether this verse is the last child of the lemma:
                     if child == xml[-1]:
-                        rdg_context += self.format_rdg_divGen_verse_last(child)
+                        rdg_context += self.format_rdg_milestone_verse_last(child)
                     else:
-                        rdg_context += self.format_rdg_divGen_verse(child)
+                        rdg_context += self.format_rdg_milestone_verse(child)
             elif raw_tag == 'lb':
                 lb_type = child.get('type')
                 if lb_type == 'open':
@@ -266,18 +266,18 @@ class tei_context_converter:
     """
     def format_body(self, xml):
         context = ''
-        #Process the <divGen/>, <lb/>, <space/>, <w/>, and <app/> elements under this element:
+        #Process the <milestone/>, <lb/>, <space/>, <w/>, and <app/> elements under this element:
         for child in xml:
             raw_tag = child.tag.replace('{%s}' % self.tei_ns, '')
-            if raw_tag == 'divGen':
-                #Proceed based on the type of the text division:
-                divGen_type = child.get('type')
-                if divGen_type == 'book':
-                    context += self.format_body_divGen_book(child)
-                elif divGen_type == 'chapter':
-                    context += self.format_body_divGen_chapter(child)
-                elif divGen_type == 'verse':
-                    context += self.format_body_divGen_verse(child)
+            if raw_tag == 'milestone':
+                #Proceed based on the unit of the text division:
+                milestone_unit = child.get('unit')
+                if milestone_unit == 'book':
+                    context += self.format_body_milestone_book(child)
+                elif milestone_unit == 'chapter':
+                    context += self.format_body_milestone_chapter(child)
+                elif milestone_unit == 'verse':
+                    context += self.format_body_milestone_verse(child)
             elif raw_tag == 'lb':
                 lb_type = child.get('type')
                 if lb_type == 'open':
@@ -294,7 +294,7 @@ class tei_context_converter:
                     context += self.format_w(child)
             elif raw_tag == 'app':
                 context += self.format_app(child)
-        #Close the pagecolumns environment (it will be opened at the 'book' divGen):
+        #Close the pagecolumns environment (it will be opened at the 'book' milestone):
         context += '\n\\page[no]\n\\stoppagecolumns\n'
         return context
     """

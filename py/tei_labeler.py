@@ -113,10 +113,10 @@ class tei_labeler:
             return
         #Otherwise, proceed according to the element's tag:
         raw_tag = xml.tag.replace('{%s}' % self.tei_ns, '')
-        #If it is a textual division, then add the index of its division type to the Dictionary and reset the indices of any lower-level divisions and words:
-        if raw_tag == 'divGen':
-            if xml.get('type') is not None:
-                div_type = xml.get('type')
+        #If it is a textual division, then add the index of its division unit to the Dictionary and reset the indices of any lower-level divisions and words:
+        if raw_tag == 'milestone':
+            if xml.get('unit') is not None:
+                div_type = xml.get('unit')
                 div_n = xml.get('n') if xml.get('n') is not None else ''
                 #If the division's index contains its number in addition to previous divisions' numbers, then just get the index for this division:
                 if div_type in ['incipit', 'explicit']:

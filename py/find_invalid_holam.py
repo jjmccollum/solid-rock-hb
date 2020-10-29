@@ -21,7 +21,7 @@ def main():
     div_n = ''
     invalid_holam_haser_re = re.compile('[^\u05D5]\u05BA')
     for child in body:
-        if child.tag.replace('{%s}' % tei_ns, '') == 'divGen':
+        if child.tag.replace('{%s}' % tei_ns, '') == 'milestone':
             if child.get('n') is not None:
                 div_n = child.get('n')
             continue
