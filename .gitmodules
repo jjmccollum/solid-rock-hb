@@ -1,0 +1,6 @@
+[submodule "tex/fonts/EB-Garamond"]
+	path = tex/fonts/EB-Garamond
+	url = https://github.com/georgd/EB-Garamond.git
+[submodule "tex/fonts/Keter-YG"]
+	path = tex/fonts/Keter-YG
+	url = https://github.com/jjmccollum/Keter-YG.git
