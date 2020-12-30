@@ -20,7 +20,7 @@
         <milestone unit="verse"/>
         <w>שיר</w><w>השירים</w><lb/><milestone unit="chapter" n="B30K1"/>
         <milestone unit="verse" n="B30K1V1"/>
-          <w>שִׁיר</w><w>הַשִּׁירִים</w><w>אֲשֶׁר</w><app type="vocalic substantive" n="B30K1V1U8"><lem><w>לִשַׁלְמָה</w></lem><rdg wit="#SR"><w>לִשַׁלְמָה</w></rdg><rdg wit="#WLC"><w>לִשְׁלֹמֹה</w></rdg></app><milestone unit="verse" n="B30K1V2"/>
+          <w>שִׁיר</w><w>הַשִּׁירִים</w><w>אֲשֶׁר</w><app type="vocalic substantive" n="B30K1V1U8"><lem><w>לְשַׁלְמָה</w></lem><rdg wit="#SR"><w>לְשַׁלְמָה</w></rdg><rdg wit="#WLC"><w>לִשְׁלֹמֹה</w></rdg></app><milestone unit="verse" n="B30K1V2"/>
           <w>יִשָּׁקֵנִי</w><w>מִנְּשִׁיקוֹת</w><w>פִּיהוּ</w><w>כִּי</w><w>טוֹבִים</w><w>דֹּדֶיךָ</w><w>מִיָּיִן</w><milestone unit="verse" n="B30K1V3"/>
           <w>לְרֵיחַ</w><w>שְׁמָנֶיךָ</w><w>טוֹבִים</w><w>שֶׁמֶן</w><w>תּוּרַק</w><w>שְׁמֶךָ</w><w>עַל</w><w>כֵּן</w><w>עֲלָמוֹת</w><w>אֲהֵבוּךָ</w><milestone unit="verse" n="B30K1V4"/>
           <w>מָשְׁכֵנִי</w><w>אַחֲרֶיךָ</w><w>נָּרוּצָה</w><w>הֱבִיאַנִי</w><w>הַמֶּלֶךְ</w><w>חֲדָרָיו</w><w>נָגִילָה</w><w>וְנִשְׂמְחָה</w><w>בָּךְ</w><w>נַזְכִּירָה</w><app type="vocalic substantive" n="B30K1V4U22"><lem><w>דֹדַיִךְ</w></lem><rdg wit="#SR"><w>דֹדַיִךְ</w></rdg><rdg wit="#WLC"><w>דֹדֶיךָ</w></rdg></app><w>מִיַּיִן</w><w>מֵישָׁרִים</w><app type="substitution" n="B30K1V4U28"><lem><w>אֲהֵבָךְ</w></lem><rdg wit="#SR"><w>אֲהֵבָךְ</w></rdg><rdg wit="#WLC"><w>אֲהֵבוּךָ</w></rdg></app><lb type="open"/><milestone unit="verse" n="B30K1V5"/>
