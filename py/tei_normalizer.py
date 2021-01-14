@@ -166,8 +166,8 @@ class tei_normalizer:
             out_xml.set('unit', 'verse')
         #Copy all attributes to the output element:
         for attr in xml.attrib:
-            #If the element was a textual division, then replacing their "type" attribute with a "unit" attribute;
-            if tag.replace('{%s}' % self.tei_ns, '') in ['div'] and attr == 'type':
+            #If the element was a textual division, then replace their "type" attribute with a "unit" attribute;
+            if xml.tag.replace('{%s}' % self.tei_ns, '') in ['div'] and attr == 'type':
                 out_xml.set('unit', xml.get(attr))
             #Otherwise, copy the attribute as-is:
             else:
