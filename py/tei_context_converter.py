@@ -24,6 +24,12 @@ class tei_context_converter:
         self.ignored_app_types = kwargs['ignored_app_types'] if 'ignored_app_types' in kwargs else set()
         return
     """
+    Converts a <pb/> element in the body to ConTeXt format.
+    """
+    def format_pb(self, xml):
+        context = '\\page\n'
+        return context
+    """
     Converts a <milestone unit="book"/> element in the body to ConTeXt format.
     """
     def format_body_milestone_book(self, xml):
@@ -278,6 +284,8 @@ class tei_context_converter:
                     context += self.format_body_milestone_chapter(child)
                 elif milestone_unit == 'verse':
                     context += self.format_body_milestone_verse(child)
+            elif raw_tag == 'pb':
+                context += self.format_pb(child)
             elif raw_tag == 'lb':
                 lb_type = child.get('type')
                 if lb_type == 'open':
