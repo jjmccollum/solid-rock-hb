@@ -1,2 +1,2 @@
 # solid-rock-hb
-Official repository for the Solid Rock Greek Hebrew Bible
+Official repository for the Solid Rock Hebrew Bible
