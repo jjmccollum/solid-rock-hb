@@ -20,7 +20,7 @@
         <milestone unit="verse"/>
         <w>בראשית</w><lb/><milestone unit="chapter" n="B01K1"/>
         <milestone unit="verse" n="B01K1V1"/>
-          <app type="vocalic substantive" n="B01K1V1U2"><lem><w>בָּרֵאשִׁית</w></lem><rdg wit="#SR"><w>בָּרֵאשִׁית</w></rdg><rdg wit="#WLC"><w>בְּרֵאשִׁית</w></rdg></app><w>בָּרָא</w><w>אֱלֹהִים</w><w>אֵת</w><w>הַשָּׁמַיִם</w><w>וְאֵת</w><w>הָאָרֶץ</w><milestone unit="verse" n="B01K1V2"/>
+          <w>בְּרֵאשִׁית</w><w>בָּרָא</w><w>אֱלֹהִים</w><w>אֵת</w><w>הַשָּׁמַיִם</w><w>וְאֵת</w><w>הָאָרֶץ</w><milestone unit="verse" n="B01K1V2"/>
           <w>וְהָאָרֶץ</w><w>הָיְתָה</w><w>תֹהוּ</w><w>וָבֹהוּ</w><w>וְחֹשֶׁךְ</w><w>עַל</w><w>פְּנֵי</w><w>תְהוֹם</w><w>וְרוּחַ</w><w>אֱלֹהִים</w><w>מְרַחֶפֶת</w><w>עַל</w><w>פְּנֵי</w><w>הַמָּיִם</w><milestone unit="verse" n="B01K1V3"/>
           <w>וַיֹּאמֶר</w><w>אֱלֹהִים</w><w>יְהִי</w><w>אוֹר</w><w>וַיְהִי</w><w>אוֹר</w><milestone unit="verse" n="B01K1V4"/>
           <w>וַיַּרְא</w><w>אֱלֹהִים</w><w>אֶת</w><w>הָאוֹר</w><w>כִּי</w><w>טוֹב</w><w>וַיַּבְדֵּל</w><w>אֱלֹהִים</w><w>בֵּין</w><w>הָאוֹר</w><w>וּבֵין</w><w>הַחֹשֶׁךְ</w><milestone unit="verse" n="B01K1V5"/>
@@ -556,7 +556,7 @@
         <milestone unit="verse" n="B01K21V1"/>
           <app type="vocalic" n="B01K21V1U2"><lem><w>וְיַהְוֶה</w></lem><rdg wit="#SR"><w>וְיַהְוֶה</w></rdg><rdg wit="#WLC"><w>וַיהוָה</w></rdg></app><w>פָּקַד</w><w>אֶת</w><w>שָׂרָה</w><w>כַּאֲשֶׁר</w><w>אָמָר</w><w>וַיַּעַשׂ</w><app type="vocalic" n="B01K21V1U16"><lem><w>יַהְוֶה</w></lem><rdg wit="#SR"><w>יַהְוֶה</w></rdg><rdg wit="#WLC"><w>יְהוָה</w></rdg></app><w>לְשָׂרָה</w><w>כַּאֲשֶׁר</w><w>דִּבֵּר</w><milestone unit="verse" n="B01K21V2"/>
           <w>וַתַּהַר</w><w>וַתֵּלֶד</w><w>שָׂרָה</w><w>לְאַבְרָהָם</w><w>בֵּן</w><w>לִזְקֻנָיו</w><w>לַמּוֹעֵד</w><w>אֲשֶׁר</w><w>דִּבֶּר</w><w>אֹתוֹ</w><w>אֱלֹהִים</w><milestone unit="verse" n="B01K21V3"/>
-          <w>וַיִּקְרָא</w><w>אַבְרָהָם</w><w>אֶת</w><w>שֶׁם</w><w>בְּנוֹ</w><app type="vocalic substantive" n="B01K21V3U12"><lem><w>הַנּוֹלָד</w></lem><rdg wit="#SR"><w>הַנּוֹלָד</w></rdg><rdg wit="#WLC"><w>הַנּוֹלַד</w></rdg></app><w>לוֹ</w><w>אֲשֶׁר</w><w>יָלְדָה</w><w>לּוֹ</w><w>שָׂרָה</w><w>יִצְחָק</w><milestone unit="verse" n="B01K21V4"/>
+          <w>וַיִּקְרָא</w><w>אַבְרָהָם</w><w>אֶת</w><w>שֶׁם</w><w>בְּנוֹ</w><w>הַנּוֹלַד</w><w>לוֹ</w><w>אֲשֶׁר</w><w>יָלְדָה</w><w>לּוֹ</w><w>שָׂרָה</w><w>יִצְחָק</w><milestone unit="verse" n="B01K21V4"/>
           <w>וַיָּמָל</w><w>אַבְרָהָם</w><w>אֶת</w><w>יִצְחָק</w><w>בְּנוֹ</w><w>בֶּן</w><w>שְׁמֹנַת</w><w>יָמִים</w><w>כַּאֲשֶׁר</w><w>צִוָּה</w><w>אֹתוֹ</w><w>אֱלֹהִים</w><milestone unit="verse" n="B01K21V5"/>
           <w>וְאַבְרָהָם</w><w>בֶּן</w><w>מְאַת</w><w>שָׁנָה</w><w>בְּהִוָּלֶד</w><w>לוֹ</w><w>אֵת</w><w>יִצְחָק</w><w>בְּנוֹ</w><milestone unit="verse" n="B01K21V6"/>
           <w>וַתֹּאמֶר</w><w>שָׂרָה</w><w>צְחֹק</w><w>עָשָׂה</w><w>לִי</w><w>אֱלֹהִים</w><w>כָּל</w><w>הַשֹּׁמֵעַ</w><w>יִצְחַק</w><w>לִי</w><milestone unit="verse" n="B01K21V7"/>
