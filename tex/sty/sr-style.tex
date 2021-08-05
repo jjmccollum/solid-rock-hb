@@ -53,6 +53,8 @@
 	\definefontfeature[f:lining][lnum=yes] %lining (uniform-width) numbers
 	\definefontfeature[f:superscript][sups=yes] %superscript
 	\definefontfamily[english] [rm] [EB Garamond] [features={default,f:oldstyle,f:lining},protrusion=quality] %protrusion allows small punctuation characters to be set just past the boundary of justified text
+	%Setup English title font:
+	\definefontfamily[englishtitle] [rm] [EB Garamond] [features={kern=no}]
 	%Setup Hebrew text font:
 	\definefontfamily[hebrew] [rm] [Keter YG] [features=hebrew]
 	%Setup Hebrew header font:
@@ -366,4 +368,25 @@
 	
 	%Ensure that whitespace respects the grid layout:
 	\setupblank[line,fixed]
+	
+	%%%%%%%%%%%
+	% Essay Settings
+	%%%%%%%%%%%
+	
+	%Define macro for an essay title:
+	\define[1]\Essay{%
+		{%Temporarily clear all headers and footers and change text formatting:
+		\setupheadertexts[][][][]%
+		\setupfootertexts[][][][]%
+		\setupinterlinespace[36bp]%text line spacing
+		\page[odd]%page break to next odd page
+		\startalignment[flushleft]%switch to flush-left alignment
+			{\switchtobodyfont[englishtitle]\setcharacterkerning[titlekerning]\textdir TLT\tfd#1}%text
+		\stopalignment%
+		\page[odd]%page break to next odd page
+		}%
+	}
+
+	
+	
 \stopenvironment

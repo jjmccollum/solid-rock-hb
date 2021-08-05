@@ -1,0 +1,101 @@
+\startenvironment sr-essay-style
+	%Draft-only options:
+	%\showframe
+	%\showgrid
+	
+	%Setup the page trim size and printing options:
+	\definepapersize[10-by-8][width=8in,height=10in]
+	\setuppapersize[10-by-8][10-by-8]
+	\setuparranging [mirrored] %mirrored layout for double-sided printing
+	\setuppagenumbering[alternative=doublesided,location=] %undo default page numbering in middle of header; doublesided option will ensure that the document has an even number of pages
+	%Setup the page layout:
+	\setuplayout[
+		width=6in, %textblock width
+		height=8.75in, %texblock height (7.5in) + header height + footer height
+		backspace=1in, %spine margin
+		topspace=0.5in, %head margin - header height
+		header=0.75in, %header height
+		footer=0.5in, %footer height
+		grid=yes %enable baseline grid
+	]
+	
+	%Setup English text font:
+	\definefontfeature[f:oldstyle][onum=yes] %old-style numbers
+	\definefontfeature[f:lining][lnum=yes] %lining (uniform-width) numbers
+	\definefontfeature[f:superscript][sups=yes] %superscript
+	\definefontfamily[english] [rm] [EB Garamond] [features={default,f:oldstyle,f:lining},protrusion=quality] %protrusion allows small punctuation characters to be set just past the boundary of justified text
+	%Setup English title font:
+	\definefontfamily[englishtitle] [rm] [EB Garamond] [features={kern=no}]
+	%Setup Hebrew text font:
+	\definefontfamily[hebrew] [rm] [Keter YG] [features=hebrew]
+	%Setup apparatus font:
+	\definefontfamily[apparatus] [rm] [Apparatus SIL] [features=default]
+	
+	%Define a macro that uses the actual superscript font feature:
+	\define[1]\textsuperscript{{\feature[+][f:superscript]#1}}
+	
+	%Setup font size scaling macros:
+	\definebodyfontenvironment [12pt] [d=24pt] %define rescaling for titles
+	
+	%Setup font kerning macros:
+	\definecharacterkerning [titlekerning] [factor=1.0]
+	\definecharacterkerning [headerkerning] [factor=.3333]
+	
+	%Setup font size and leading for text:
+	\setupinterlinespace[18bp] %text line spacing
+	\setupbodyfont[english,12pt] %text font size
+	
+	%Setup font size and leading for footnotes:
+	\startsetups[footnotesetup]
+		\setupinterlinespace[12bp] %footnote line spacing
+		\setupbodyfont[english,10pt] %footnote font size
+		\setupalign[l2r,normal,hanging,hyphenated] %alignment of text (left-to-right, justified, protrusion allowed, hyphenation allowed)
+	\stopsetups
+	
+	%Setup layout of footnote text blocks:
+	\setupnote[footnote][
+		rule=off, %disable line separating footnotes from text
+		before={\blank[18bp]}, %enforce one line of blank space between the text and the footnote block
+		textcommand=\textsuperscript, %command for typesetting the footnote number in the main text
+		setups=footnotesetup %setup for footnote font, leading, and alignment
+	]
+	%Setup formatting of footnote mark at bottom of text:
+	\setupnotation[footnote][
+		alternative=left, %align footnote symbol with edge of text (use right for RTL)
+		hang=fit, %multi-line footnotes are not indented
+		numbercommand=\textsuperscript %command for typesetting the footnote number in the footnote block
+	]
+	
+	%Define a custom essay variable to be used in the header:
+	\setxvariables[text][essay=]
+	
+	%Define macro for an essay title:
+	\define[1]\Essay{%
+		%Add an entry to the table of contents at the chapter level:
+		%TODO
+		%Update the title variable:
+		\setxvariables[text][essay=#1]%
+		{%Temporarily clear all headers and footers and change text formatting:
+		\setupheadertexts[][][][]%
+		\setupfootertexts[][][][]%
+		\setupinterlinespace[36bp]%text line spacing
+		\page[odd]%page break to next odd page
+		\startalignment[flushleft]%switch to flush-left alignment
+			{\switchtobodyfont[englishtitle]\setcharacterkerning[titlekerning]\textdir TLT\tfd\WORDS{#1}}%text
+		\stopalignment%
+		\page[odd]%page break to next odd page
+		}%
+	}
+	
+	%Setup header and footer text:
+	\setupheadertexts[\hfill\switchtobodyfont[english, 11pt]\kerncharacters[0.25]\textdir TLT{\getvariable{text}{essay}}][][][\hfill\switchtobodyfont[english, 11pt]\kerncharacters[0.25]\textdir TLT{\getvariable{text}{essay}}] %even left, even right, odd left, odd right
+	\setupfootertexts[{\switchtobodyfont[english, 11pt]\textdir TLT\pagenumber}][][][{\switchtobodyfont[english, 11pt]\textdir TLT\pagenumber}] %even left, even right, odd left, odd right
+	
+	%Ensure that whitespace respects the grid layout:
+	\setupblank[line,fixed]
+	
+	%Setup bibliography settings:
+	\usebtxdataset[../bib/bibliography.bib]
+	\usebtxdefinitions[chicago]
+
+\stopenvironment
