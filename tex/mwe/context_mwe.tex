@@ -73,15 +73,7 @@
 	smcp=yes
 ]
 \definefontfeature[keteryg-normal][hebrew][
-	dlig=yes, % enable discretionary ligatures
-	calt=yes,
-	salt=yes,
-	mark=yes,
-	mkmk=yes,
-	ccmp=yes,
-	kern=yes,
-	normalizehebrew=yes,
-	script=hebr
+	dlig=yes % enable discretionary ligatures
 ]
 \definefontfeature[keteryg-header][hebrew][
 	kern=no % disable kerning (to accommodate increased letterspacing)
@@ -159,6 +151,12 @@
 		\definetypeface[keteraramtsova][rm][serif][keteraramtsova][default]
 	\stoptypescript
 \stoptypescriptcollection
+
+%Install these typescripts for this file:
+\usetypescript[ebgaramond]
+\usetypescript[apparatus]
+\usetypescript[keteryg]
+\usetypescript[keteraramtsova]
 
 %Setup font size and leading for text:
 \setupinterlinespace[18bp] %text line spacing
