@@ -1,0 +1,21 @@
+%Create a new markset to use:
+\definemarking[TestMark]
+%Setup header to reflect top and bottom marks:
+\setupheadertexts[top: {\getmarking[TestMark][1][column:top]}][bottom: {\getmarking[TestMark][2][column:bottom]}][top: {\getmarking[TestMark][1][column:top]}][bottom: {\getmarking[TestMark][2][column:bottom]}] %even left, even right, odd left, odd right
+%Setup the columns layout:
+\definepagecolumns [example] [
+    n=2, %number of columns
+    direction=reverse, %does not work if ending comma is removed!
+]
+\starttext
+\startpagecolumns[example]
+    \marking[TestMark]{1}(1) \input knuth\par
+    \marking[TestMark]{2}(2) \input knuth\par
+    \marking[TestMark]{3}(3) \input knuth\par
+    \marking[TestMark]{4}(4) \input knuth\par
+    \marking[TestMark]{5}(5) \input knuth\par
+    \marking[TestMark]{6}(6) \input knuth\par
+    \marking[TestMark]{7}(7) \input knuth\par
+    \marking[TestMark]{8}(8) \input knuth\par
+\stoppagecolumns
+\stoptext

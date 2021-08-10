@@ -1,0 +1,353 @@
+%Draft-only options:
+\showframe
+\showgrid
+
+%Setup the page trim size and printing options:
+\definepapersize[10-by-8][width=8in,height=10in]
+\setuppapersize[10-by-8][10-by-8]
+\setuparranging [mirrored] %mirror layout for double-sided printing
+\setuppagenumbering [alternative=doublesided, location=] %undo default page numbering in middle of header; doublesided option will ensure that the document has an even number of pages
+%Setup the page layout:
+\setuplayout[
+	width=6in, %textblock width
+	height=8.75in, %texblock height (7.5in) + header height + footer height
+	backspace=1in, %spine margin
+	topspace=0.5in, %head margin - header height
+	header=0.75in, %header height
+	footer=0.5in, %footer height
+	grid=yes %enable baseline grid
+]
+
+%Patch pagecolumns so that it does not add a blank page:
+\unprotect
+\def\page_col_stop_yes
+  {%Add a column only if this is not the last column on the page:
+   \ifnum\c_page_col_current<\c_page_col_n_of_columns
+      \column
+   \fi
+   \page
+   \endgroup
+ % \setupoutputroutine[\s!singlecolumn]%
+   \page_otr_command_set_vsize
+   \page_otr_command_set_hsize
+   \page
+   \endgroup}
+\protect
+
+%Setup the columns layout:
+\definepagecolumns [hebrew] [
+	n=2, %number of columns
+	distance=0.375in, %space between columns
+	direction=reverse, %ordering of columns (change to reverse for RTL languages)
+	setups=hebrew:align
+]
+
+%\definepagecolumns doesn't appear to support an align option, so use this instead:
+\startsetups[hebrew:align]
+	\setupalign[r2l,flushleft,nothyphenated] %alignment of text in columns (leave blank for justified, {r2l,flushleft,nothyphenated} for Hebrew)
+\stopsetups
+
+%Setup English text font:
+\definefontfeature[f:oldstyle][onum=yes] %old-style numbers
+\definefontfeature[f:lining][lnum=yes] %lining (uniform-width) numbers
+\definefontfeature[f:superscript][sups=yes] %superscript
+\definefontfamily[english] [rm] [EB Garamond] [features={default,f:oldstyle,f:lining},protrusion=quality] %protrusion allows small punctuation characters to be set just past the boundary of justified text
+%Setup Hebrew text font:
+\definefontfamily[hebrew] [rm] [Keter YG] [features={hebrew,dlig}]
+%Setup apparatus font:
+\definefontfamily[apparatus] [rm] [Apparatus SIL] [features=default]
+
+%Define a macro that uses the actual superscript font feature:
+\define[1]\textsuperscript{{\feature[+][f:superscript]#1}}
+
+%Setup font size and leading for text:
+\setupinterlinespace[18bp] %text line spacing
+\setupbodyfont[hebrew,13pt] %text font size
+
+%Setup font size and leading for footnotes:
+\startsetups[footnotesetup]
+	\setupinterlinespace[12bp] %footnote line spacing
+	\setupbodyfont[hebrew,10pt] %footnote font size
+	\setupalign[flushleft,nothyphenated] %alignment of text in columns (use text for justified, {flushright,nothyphenated} for Hebrew)
+\stopsetups
+
+%Setup layout of footnote text blocks:
+\setupnote[footnote][
+	rule=off, %disable line separating footnotes from text
+	before={\blank[18bp]}, %enforce one line of blank space between the text and the footnote block
+	textcommand=\textsuperscript, %command for typesetting the footnote number in the main text
+	setups=footnotesetup %setup for footnote font, leading, and alignment
+]
+%Setup formatting of footnote mark at bottom of text:
+\setupnotation[footnote][
+	alternative=left, %align footnote symbol with edge of text (use right for RTL)
+	hang=fit, %multi-line footnotes are not indented
+	numbercommand=\textsuperscript %command for typesetting the footnote number in the footnote block
+]
+
+%Setup a parent class of footnotes for all apparatus entries:
+\definenote[app]
+\setupnote[app][
+	rule=off, %disable line separating the apparatus from the text
+	before={\blank[18bp]}, %enforce one line of blank space between the text and the apparatus
+	textcommand=, %disable the default notation for the footnote symbol in the text; this will redefined for each footnote
+	setups=footnotesetup %setup for footnote font, leading, and alignment
+]
+\setupnotation[app][
+	numbercommand=, %disable the default notation for the footnote number; this will redefined for each footnote
+	counter=, %disable the default counter for the footnote number; this will redefined for each footnote
+	alternative=left, %align footnote symbol with edge of text (use right for RTL)
+	hang=fit, %multi-line footnotes are not indented
+]
+
+%Define a variable containing the current chapter-verse reference covered in the apparatus:
+\setevariables[app][chapter=0,verse=0]
+
+%Define macro for adding a chapter-verse reference in the apparatus if it differs from the last chapter-verse reference in the apparatus:
+\define\SetAppRef{
+	%Check if the current chapter reference matches the most recent chapter reference in the apparatus:
+	\doifelse{\getvariable{text}{chapter}}{\getvariable{app}{chapter}}{%
+		%If it does, then check if the verse reference matches:
+		\doifelse{\getvariable{text}{verse}}{\getvariable{app}{verse}}{%
+			%If it does, then do nothing:
+			\nospace%
+		}{%
+			%If it does not, then update the latest verse reference and typeset the reference:
+			\setxvariables[app][verse=\getvariable{text}{verse}]%
+			{\switchtobodyfont[english, 9pt]\textdir TLT{\bf\getvariable{text}{chapter}\,:\,\getvariable{text}{verse}}}\nobreak\enquad%
+		}%
+	}{%
+		%If it does not, then update the latest chapter and verse references and typeset the reference:
+		\setxvariables[app][chapter=\getvariable{text}{chapter},verse=\getvariable{text}{verse}]%
+		{\switchtobodyfont[english, 9pt]\textdir TLT{\bf\getvariable{text}{chapter}\,:\,\getvariable{text}{verse}}}\nobreak\enquad%
+	}%
+}
+
+%Define counters for different variation types:
+\definecounter[sub]
+\definecounter[add]
+\definecounter[omit]
+\definecounter[trans]
+\setcounter[sub] [0] %use \setnumber if this doesn't work
+\setcounter[add] [0]
+\setcounter[omit] [0]
+\setcounter[trans] [0]
+
+%Define macros for typesetting apparatus marks:
+\define[1]\StartSubMark{{\switchtobodyfont[apparatus]⸃}\doifnot{#1}{1}{{\switchtobodyfont[english]\textsuperscript{#1}}}} %reverse symbol for RTL
+\define\StopSubMark{{\switchtobodyfont[apparatus]⸂}} %reverse symbol for RTL
+\define[1]\AddMark{{\switchtobodyfont[apparatus]⸆}\doifnot{#1}{1}{{\switchtobodyfont[english]\textsuperscript{#1}}}}
+\define[1]\StartOmitMark{{\switchtobodyfont[apparatus]⸋}\doifnot{#1}{1}{{\switchtobodyfont[english]\textsuperscript{#1}}}}
+\define\StopOmitMark{{\switchtobodyfont[apparatus]⸌}} %should reverse symbol for RTL, but Apparatus SIL doesn't include U2E0D
+\define[1]\StartTransMark{\enquad{\switchtobodyfont[apparatus]⸊}\doifnot{#1}{1}{{\switchtobodyfont[english]\textsuperscript{#1}}}} %reverse symbol for RTL
+\define\StopTransMark{\nospace\nobreak\,{\switchtobodyfont[apparatus]⸉}} %reverse symbol for RTL
+
+%Define macros for apparatus entries:
+\define[2]\Reading{ %arg 1 is reading text, arg 2 is witness list
+	{\switchtobodyfont[hebrew, 10pt]\textdir TRT#1}\nobreak\enquad{\switchtobodyfont[english, 9pt]\textdir TLT#2}\nobreak\enquad%set in the appropriate font and direction for the language of the text 
+} 
+\define\PrimaryReadingSep{{\switchtobodyfont[english, 9pt][}\nobreak\,} %reverse symbol for RTL
+\define\SecondaryReadingSep{{\switchtobodyfont[english, 9pt]¦}\nobreak\,}
+
+%Define a macro for typesetting an apparatus:
+\define[3]\App{% arg 1 is the type of variation, arg 2 is the lemma text, arg 3 is the variant readings
+	%Define the footnote symbol based on the type:
+	\doif{#1}{substitution}{%
+		%Update the counter:
+		\incrementcounter[sub]%
+		%Typeset the marking in the text:
+		\StartSubMark{\rawcountervalue[sub]}\nobreak\,%
+		%Then start the apparatus note:
+		\startapp%
+			%Typeset the marking in the apparatus, preceded by the chapter-verse reference, if needed, and followed by the variant readings:
+			\SetAppRef\StartSubMark{\rawcountervalue[sub]}\nobreak\,#3%
+		\stopapp%
+		%Typeset the lemma in the text, followed by the closing substitution mark:
+		#2\nobreak\,\StopSubMark%
+	}%
+	\doif{#1}{addition}{%
+		%Update the counter:
+		\incrementcounter[add]%
+		%Typeset the marking in the text:
+		\AddMark{\rawcountervalue[add]}\nobreak\,%
+		%Then start the apparatus note:
+		\startapp%
+			%Typeset the marking in the apparatus, preceded by the chapter-verse reference, if needed, and followed by the variant readings:
+			\SetAppRef\AddMark{\rawcountervalue[add]}\nobreak\,#3%
+		\stopapp%
+	}%
+	\doif{#1}{omission}{%
+		%Update the counter:
+		\incrementcounter[omit]%
+		%Typeset the marking in the text:
+		\StartOmitMark{\rawcountervalue[omit]}\nobreak\,%
+		\startapp%
+			%Typeset the marking in the apparatus, preceded by the chapter-verse reference, if needed, and followed by the variant readings:
+			\SetAppRef\StartOmitMark{\rawcountervalue[omit]}\nobreak\,#3%
+		\stopapp%
+		%Typeset the lemma in the text, followed by the closing substitution mark:
+		#2\nobreak\,\StopOmitMark%
+	}%
+	\doif{#1}{transposition}{%
+		%Update the counter:
+		\incrementcounter[trans]%
+		%Typeset the marking in the text:
+		\StarTransMark{\rawcountervalue[trans]}\nobreak\,%
+		%Then start the apparatus note:
+		\startapp%
+			%Typeset the marking in the apparatus, preceded by the chapter-verse reference, if needed, and followed by the variant readings:
+			\SetAppRef\StartTransMark{\rawcountervalue[trans]}\nobreak\,#3%
+		\stopapp%
+		%Typeset the lemma in the text, followed by the closing substitution mark:
+		#2\nobreak\,\StopTransMark%
+	}%
+}
+
+%Define custom chapter and verse markings to be used in the header:
+\definemarking[Chapter]
+\definemarking[Verse]
+
+%Define custom chapter and verse variables to be used in the apparatus:
+\setxvariables[text][chapter=,verse=]
+
+%Define an odd page break between books that omits headers and footers in blank pages
+\definepagebreak[blankpagebreak][yes,header,footer,odd]
+
+%Font command to be used for Book headings
+\definefontsynonym [hebrewtitle] [name:KeterAramTsova] [features={hebrew, kern=no}]
+\definefont[BookTitleFont][hebrewtitle at 26pt][36bp]
+
+%Macro for adjusting kerning of Book heading texts (can any of this can be handled in the \definefont call?):
+\define[1]\BookTextCommand{%
+	\kerncharacters[0.6666]%increase letterspacing
+	#1%print text
+}
+
+%Macro for page break after Book headings:
+\define\BookAfter{%
+	\page[blankpagebreak]%
+}
+
+%Define a Book heading at the level of a part:
+\definehead[Book][part]
+\setuphead[Book][
+	placehead=yes,%print the heading (necessary for the part heading, which isn't normally printed)
+	number=no,%do not add a number to this heading
+	header=empty,%disable headers for this page
+	footer=empty,%disable footers for this page
+	align={r2l, flushright, nothyphenated},%use Hebrew alignment settings, but make flush right
+	textstyle=\BookTitleFont,%set text style
+	textcommand=\BookTextCommand,%use the command defined above to handle the typesetting
+	after=\BookAfter%add a double page break
+]
+
+%Define a Subbook heading at the level of a chapter:
+\definehead[Subbook][chapter]
+\setuphead[Subbook][
+	number=no,%do not add a number to this heading
+	placehead=hidden,%do not typeset anything for this heading
+	page=yes%always start on a new page
+]
+
+%Define macro for setting space before a new Chapter:
+\define\PreChapter{%
+	\hspace[disable]\enquad\hspace[disable] %eat up any space, then add a 0.5em space
+}
+
+%Define macro for starting a new Chapter:
+\define[1]\Chapter{%
+	%Update the chapter title and reset the verse title:
+	\setxvariables[text][chapter=#1,verse=0]%
+	\marking[Chapter]{#1}%
+}
+
+%Define macro for setting space before a new Verse:
+\define\PreVerse{%
+	\hspace[disable]\enquad\hspace[disable] %eat up any space, then add a 0.5em space
+}
+
+%Define macro for starting a new Verse:
+\define[1]\Verse{%
+	%Check if the verse variable has been reset:
+	\doifelse{\getvariable{text}{verse}}{0}{%
+		%If it has, then typeset both the chapter and the verse:
+		\marking[Verse]{#1}{\switchtobodyfont[english, 11pt]\textdir TLT\bf \getvariable{text}{chapter}\nobreak\,:\nobreak\,#1}\nobreak\enquad%
+	}{%
+		%Otherwise, just typeset the verse:
+		\marking[Verse]{#1}{\switchtobodyfont[english, 11pt]\textdir TLT\bf #1}\nobreak\enquad%
+	}%
+	%Update the verse variable:
+	\setxvariables[text][verse=#1]%
+	%Reset the textual variation type counters:
+	\setcounter[sub][0]%
+	\setcounter[add][0]%
+	\setcounter[omit][0]%
+	\setcounter[trans][0]%
+}
+
+%Define macro for closed section break:
+\definehspace[closedsectionspace][3em]
+\define\ClosedSection{%
+	\nospace\hspace[closedsectionspace]% eat up any preceding space and add a long space
+}
+%Define macro for open section break:
+\define\OpenSection{%
+	\par\blank[halfline]\startalignment[middle]׆\stopalignment\par\blank[halfline]%
+}
+
+%Define macro for getting a reference range:
+\define\RefRange{%
+	%Check if the first chapter matches the last chapter on the page:
+	\doifsamestringelse{\fetchmarking[Chapter][1][top]}{\fetchmarking[Chapter][2][bottom]}{%
+		%If the chapters match, then check if the first verse matches the last verse on the page:
+		\doifsamestringelse{\fetchmarking[Verse][1][top]}{\fetchmarking[Verse][2][bottom]}{%
+			%If the verses match, then the page consists of a single verse; use its reference:
+			\getmarking[Chapter][1][top]\,:\,\getmarking[Verse][1][top]%
+		}{%
+			%If the verses do not match, then use one chapter and the verse range:
+			\getmarking[Chapter][1][top]\,:\,\getmarking[Verse][1][top]\,--\,\getmarking[Verse][2][bottom]%
+		}%
+	}{%
+		%If the chapters do not match, then use the entire reference range:
+		\getmarking[Chapter][1][top]\,:\,\getmarking[Verse][1][top]\,--\,\getmarking[Chapter][2][bottom]\,:\,\getmarking[Verse][2][bottom]%
+	}%
+}
+
+%Define lua function to replace single spaces with en spaces:
+\startluacode
+	userdata = userdata or {}
+
+	function userdata.replaceHeaderSpaces(str)
+		local rep = {
+			[1] = { " ", " "   },
+		}
+		context(lpeg.replacer(rep):match(str))
+	end
+\stopluacode
+%Define a macro that uses this function:
+\define[1]\ReplaceHeaderSpaces{\ctxlua{userdata.replaceHeaderSpaces([==[#1]==])}}
+
+%Setup header and footer text:
+\setupheadertexts[\rlap{\switchtobodyfont[english, 11pt]\textdir TLT\RefRange}\hfill {\switchtobodyfont[hebrew, 13pt]\kerncharacters[0.25]\textdir TRT\ReplaceHeaderSpaces{\structureuservariable{booktitle}}} \hfill][][][\hfill {\switchtobodyfont[hebrew, 13pt]\kerncharacters[0.25]\textdir TRT\ReplaceHeaderSpaces{\structureuservariable{booktitle}}} \hfill \llap{\switchtobodyfont[english, 11pt]\textdir TLT\RefRange}] %even left, even right, odd left, odd right
+\setupfootertexts[{\switchtobodyfont[english, 11pt]\textdir TLT\pagenumber}][][][{\switchtobodyfont[english, 11pt]\textdir TLT\pagenumber}] %even left, even right, odd left, odd right
+
+%Ensure that whitespace respects the grid layout:
+\setupblank[line,fixed]
+
+\starttext
+\startBook[title={תהלים}][booktitle={תהלים}]
+\startpagecolumns[hebrew]
+	\Chapter{16}
+	\Verse{11}תּוֹדִיעֵנִי אֹרַח חַיִּים שֹׂבַע שְׂמָחוֹת אֶת פָּנֶיךָ נְעִמוֹת בִּימִינְךָ נֶצַח \OpenSection 
+	\Chapter{33}
+	\Verse{2}הוֹדוּ לְיַהְוֶה בְּכִנּוֹר בְּנֵבֶל עָשׂוֹר זַמְּרוּ לוֹ 
+	\Chapter{60}
+	\Verse{6}נָתַתָּה לִּירֵאֶיךָ נֵּס לְהִתְנוֹסֵס מִפְּנֵי קֹשֶׁט סֶלָה 
+	\Chapter{80}
+	\Verse{1}לַמְנַצֵּחַ אֶל שֹׁשַׁנִּים עֵדוּת לְאָסָף מִזְמוֹר 
+	\Chapter{92}
+	\Verse{4}עֲלֵי עָשׂוֹר וַעֲלֵי נָבֶל עֲלֵי הִגָּיוֹן בְּכִנּוֹר \par
+	מֹשֶׁה
+\stoppagecolumns
+\stopBook
+\stoptext

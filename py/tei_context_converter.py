@@ -39,8 +39,7 @@ class tei_context_converter:
         book_title = ''
         if n is not None and n in self.book_titles:
             book_title = self.book_titles[n]
-            context += '\\Book{%s}\n' % book_title
-            context += '\\Incipit{%s}\n' % book_title
+            context += '\\startBook[title={%s}][booktitle={%s}]\n' % (book_title, book_title)
         #Start the pagecolumns environment:
         context += '\\startpagecolumns[hebrew]\n'
         return context
@@ -303,7 +302,7 @@ class tei_context_converter:
             elif raw_tag == 'app':
                 context += self.format_app(child)
         #Close the pagecolumns environment (it will be opened at the 'book' milestone):
-        context += '\n\\page[no]\n\\stoppagecolumns\n'
+        context += '\n\\page[no]\n\\stoppagecolumns\n\\stopBook\n'
         return context
     """
     Recursively converts a <text/> element to ConTeXt format.

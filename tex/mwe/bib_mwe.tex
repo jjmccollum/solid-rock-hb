@@ -1,0 +1,11 @@
+%Setup bibliography settings:
+\usebtxdataset[../bib/bibliography]
+\usebtxdefinitions[sbl]%use SBL style for citation rendering
+
+\starttext
+Here is a citation.\footnote{\cite[Geisler1980]}\par
+\page
+\startsection[title=Bibliography]
+	\placelistofpublications
+\stopsection
+\stoptext

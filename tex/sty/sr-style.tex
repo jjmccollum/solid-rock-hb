@@ -59,8 +59,6 @@
 	\definefontfamily[hebrew] [rm] [Keter YG] [features=hebrew]
 	%Setup Hebrew header font:
 	\definefontfamily[hebrewheader] [rm] [Keter YG] [features={hebrew,kern=no}]
-	%Setup Hebrew title font:
-	\definefontfamily[hebrewtitle] [rm] [Keter Aram Tsova] [features={hebrew,kern=no}]
 	%Setup apparatus font:
 	\definefontfamily[apparatus] [rm] [Apparatus SIL] [features=default]
 	
@@ -234,35 +232,52 @@
 		}%
 	}
 	
-	%Define custom book, chapter, and verse markings to be used in the header:
-	\definemarking[Book]
+	%Define custom chapter and verse markings to be used in the header:
 	\definemarking[Chapter]
 	\definemarking[Verse]
 	
-	%Define custom book, chapter, and verse variables to be used in the apparatus:
-	\setxvariables[text][book=,chapter=,verse=]
+	%Define custom chapter and verse variables to be used in the apparatus:
+	\setxvariables[text][chapter=,verse=]
 	
-	%Define macro for starting a new Book:
-	\define[1]\Book{%
-		%Add an entry to the table of contents at the chapter level:
-		%TODO
-		%Update the title of this Book:
-		\setxvariables[text][book=#1,chapter=1,verse=1]%
+	%Define an odd page break between books that omits headers and footers in blank pages
+	\definepagebreak[blankpagebreak][yes,header,footer,odd]
+	
+	%Font command to be used for Book headings
+	\definefontsynonym [hebrewtitle] [name:KeterAramTsova] [features={hebrew, kern=no}]
+	\definefont[BookTitleFont][hebrewtitle at 26pt][36bp]
+	
+	%Macro for adjusting kerning of Book heading texts (can any of this can be handled in the \definefont call?):
+	\define[1]\BookTextCommand{%
+		\kerncharacters[0.75]%increase letterspacing
+		#1%print text
 	}
 	
-	%Define macro for an incipit:
-	\define[1]\Incipit{%
-		{%Temporarily clear all headers and footers and change text formatting:
-		\setupheadertexts[][][][]%
-		\setupfootertexts[][][][]%
-		\setupinterlinespace[36bp]%text line spacing
-		\page[odd]%page break to next odd page
-		\startalignment[flushright]%switch to flush-right alignment
-			{\switchtobodyfont[hebrewtitle]\setcharacterkerning[titlekerning]\textdir TRT\tfd#1}%text
-		\stopalignment%
-		\page[odd]%page break to next odd page
-		}%
+	%Macro for page break after Book headings:
+	\define\BookAfter{%
+		\page[blankpagebreak]%
 	}
+	
+	%Define a Book heading at the level of a part:
+	\definehead[Book][part]
+	\setuphead[Book][
+		placehead=yes,%print the heading (necessary for the part heading, which isn't normally printed)
+		number=no,%do not add a number to this heading
+		page=blankpagebreak,%use an odd page break with no header or footer
+		header=empty,%disable headers for this page
+		footer=empty,%disable footers for this page
+		align={r2l, flushright, nothyphenated},%use Hebrew alignment settings, but make flush right
+		textstyle=\BookTitleFont,%set text style
+		textcommand=\BookTextCommand,%use the command defined above to handle the typesetting
+		after=\BookAfter%add a double page break
+	]
+	
+	%Define a Subbook heading at the level of a chapter:
+	\definehead[Subbook][chapter]
+	\setuphead[Subbook][
+		number=no,%do not add a number to this heading
+		placehead=hidden,%do not typeset anything for this heading
+		page=yes%always start on a new page
+	]
 	
 	%Define macro for starting a new Chapter:
 	\define[1]\Chapter{%
@@ -363,30 +378,10 @@
 	\define[1]\ReplaceHeaderSpaces{\ctxlua{userdata.replaceHeaderSpaces([==[#1]==])}}
 	
 	%Setup header and footer text:
-	\setupheadertexts[\rlap{\switchtobodyfont[english, 11pt]\textdir TLT\RefRange}\hfill {\switchtobodyfont[hebrew, 13pt]\kerncharacters[0.25]\textdir TRT\ReplaceHeaderSpaces{\getvariable{text}{book}}} \hfill][][][\hfill {\switchtobodyfont[hebrew, 13pt]\kerncharacters[0.25]\textdir TRT\ReplaceHeaderSpaces{\getvariable{text}{book}}} \hfill \llap{\switchtobodyfont[english, 11pt]\textdir TLT\RefRange}] %even left, even right, odd left, odd right
+	\setupheadertexts[\rlap{\switchtobodyfont[english, 11pt]\textdir TLT\RefRange}\hfill {\switchtobodyfont[hebrew, 13pt]\kerncharacters[0.25]\textdir TRT\ReplaceHeaderSpaces{\structureuservariable{booktitle}}} \hfill][][][\hfill {\switchtobodyfont[hebrew, 13pt]\kerncharacters[0.25]\textdir TRT\ReplaceHeaderSpaces{\structureuservariable{booktitle}}} \hfill \llap{\switchtobodyfont[english, 11pt]\textdir TLT\RefRange}] %even left, even right, odd left, odd right
 	\setupfootertexts[{\switchtobodyfont[english, 11pt]\textdir TLT\pagenumber}][][][{\switchtobodyfont[english, 11pt]\textdir TLT\pagenumber}] %even left, even right, odd left, odd right
 	
 	%Ensure that whitespace respects the grid layout:
 	\setupblank[line,fixed]
-	
-	%%%%%%%%%%%
-	% Essay Settings
-	%%%%%%%%%%%
-	
-	%Define macro for an essay title:
-	\define[1]\Essay{%
-		{%Temporarily clear all headers and footers and change text formatting:
-		\setupheadertexts[][][][]%
-		\setupfootertexts[][][][]%
-		\setupinterlinespace[36bp]%text line spacing
-		\page[odd]%page break to next odd page
-		\startalignment[flushleft]%switch to flush-left alignment
-			{\switchtobodyfont[englishtitle]\setcharacterkerning[titlekerning]\textdir TLT\tfd#1}%text
-		\stopalignment%
-		\page[odd]%page break to next odd page
-		}%
-	}
-
-	
 	
 \stopenvironment

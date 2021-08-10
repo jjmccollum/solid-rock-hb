@@ -1,0 +1,38 @@
+\startluacode
+     fonts.handlers.otf.addfeature {
+         name    = "normalizehebrew",
+         type    = "chainsubstitution",
+         prepend = 1,
+         lookups = {
+             {
+                 type = "multiple",
+                 data = {
+                     [0x5B6] = { 0x5BC, 0x5B6 },
+                 },
+             },
+         },
+         data = {
+             rules = {
+                 {
+                     current = { { 0x5B6 }, { 0x5BC } },
+                     lookups = { 1, 0 },
+                 },
+             },
+         },
+     }
+\stopluacode
+
+\definefontfeature
+   [f:pointedhebrew]
+   [hebrew]
+   %[normalizehebrew=yes]
+
+\definefontfamily[hebrew] [rm] [Cardo] [features=f:pointedhebrew]
+
+\setupbodyfont[hebrew]
+
+\setupalign[r2l]
+
+\starttext
+בֶּן \quad בֶּן \quad אֲ‍ֽ֭
+\stoptext

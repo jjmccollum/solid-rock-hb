@@ -1,0 +1,53 @@
+\documentclass{article}
+%Set fonts and font features:
+\usepackage{fontspec}
+\setmainfont[Ligatures=TeX, Numbers={OldStyle, Monospaced}]{EB Garamond}
+\newfontfamily\greekfont[Ligatures=TeX,Numbers={OldStyle, Monospaced}]{EB Garamond}
+\newfontfamily\hebrewfont[Script=Hebrew, Ligatures=TeX, Numbers={OldStyle, Monospaced}]{Keter YG}
+\renewcommand{\textsuperscript}[1]{{\setmainfont[VerticalPosition=Superior]{EB Garamond}#1}}
+
+%Define macros for inline Greek and Hebrew:
+\newcommand{\Grk}[1]{\textgreek{#1}}
+\newcommand{\Heb}[1]{\texthebrew{#1}}
+
+%Include support for hyphenation and punctuation:
+\usepackage{polyglossia}
+\setmainlanguage{american}
+\setotherlanguage[variant=ancient]{greek}
+\setotherlanguage{hebrew}
+
+%Include support for smart quoting:
+\usepackage{csquotes}
+
+%Include support for footnote citation and citation format:
+\usepackage[style=sbl, citepages=omit, backend=biber]{biblatex}
+%Modify page range citation style (include full page numbers):
+\setcounter{mincomprange}{100000} 
+
+%Add the bibliography source file:
+\addbibresource{../bib/bibliography.bib}
+
+\begin{document}
+	\cite{Geisler1980}\par
+	\cite{Worthington2012}\par
+	\cite{Saenger1975}\par
+	\cite{Reece2005}\par
+	\cite{Ginsburg1998}\par
+	\cite{BHS5}\par
+	\cite{JC2}\par
+	\cite{JC2Companion}\par
+	\cite{Davidson1855}\par
+	\cite{BT2016}\par
+	\cite{Tov2012}\par
+	\cite{Bolling1925}\par
+	\cite{Bruce1988}\par
+	\cite{THB1A}\par
+	\cite{THB1B}\par
+	\cite{THB1C}\par
+	\cite{THB2B}\par
+	\cite{Longacre2015}\par
+	\cite{Rendsburg2010}\par
+	\cite{CAH3.2}\par
+	\pagebreak
+	\printbibliography
+\end{document}

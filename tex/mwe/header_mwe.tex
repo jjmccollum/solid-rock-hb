@@ -1,0 +1,66 @@
+\setuppagenumbering [alternative=doublesided, location=] %undo default page numbering in middle of header; doublesided option will ensure that the document has an even number of pages
+
+\definefontfamily
+   [garamond]
+   [rm]
+   [EBGaramond]
+
+\setupbodyfont
+   [garamond,12pt]
+
+\definefont
+   [MyPartFont]
+   [Serif at 24pt]
+   [line=36pt]
+
+\setuppagenumbering
+   [alternative=doublesided,
+    location=]
+
+\setupinterlinespace
+   [line=18pt]
+   
+\setupindenting[yes, 1em]
+
+\definepagebreak
+   [blankpagebreak]
+   [yes,header,footer,right]
+
+\definehead
+   [MyPart]
+   [part]
+
+\definecharacterkerning
+   [mypartkerning]
+   [factor=0.6666,
+    features=letterspacing]
+
+\setuphead
+   [MyPart]
+   [placehead=yes,
+    number=no,
+    page=blankpagebreak,
+    header=empty,
+    footer=empty,
+    align={flushleft,nothyphenated},
+    style=MyPartFont,
+    textstyle={\setcharacterkerning[mypartkerning]\setcharactercasing[WORD]},
+    after={\page[blankpagebreak]\noindentation},
+    indentnext=no]
+
+\setupheadertexts
+   [\structureuservariable{booktitle}] []
+   [] [\structureuservariable{booktitle}]
+
+\setupfootertexts
+   [pagenumber] []
+   [] [pagenumber]
+
+\setupblank
+   [line,fixed]
+
+\starttext
+\startMyPart [title={Title for Title Page}] [booktitle={Title for Header}]
+\dorecurse{6}{\input knuth\par}
+\stopMyPart
+\stoptext
