@@ -34,10 +34,10 @@
   [sbl]
   [\c!default=default,
    \c!specification=sbl,
-   \c!otherstext={\btxspace\btxlabeltext{et al.}},
+   \c!otherstext={\btxspace\btxlabeltext{others}},
   %\c!journalconversion=\v!normal,
    \c!monthconversion=\v!month,
-   \c!stopper:initials={. }, % with a (breakable) space
+   \c!stopper:initials={.\thinspace}, % with a thin space
    \c!separator:names:2={\btxcomma}, % between subsequent names except for last 2
    \c!separator:names:3={\btxcomma\btxlabeltext{and}\space}, % between last 2 names if > 2
    \c!separator:names:4={\btxspace\btxlabeltext{and}\space}] % between only 2 names
@@ -62,10 +62,18 @@
   %\c!distance=.5\emwidth,
    \c!margin=3.5\emwidth]
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% List citation field styles
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \definebtx
   [sbl:\s!list]
   [sbl]
-  [\c!authorconversion=inverted] % print all names, putting last name first for each
+  [\c!otherstext={\btxcomma\btxnobreakspace\textellipsis\space},
+  \c!etallimit=,
+  \c!etaldisplay=,
+  \c!etaloption=last,
+  \c!authorconversion=inverted] % TODO: need to print the first name inverted, with all subsequent names in normal order
 
 % First, we define a namespace for a few special fields
 
@@ -76,6 +84,7 @@
 \definebtx
   [sbl:\s!list:withauthor]
   [sbl:\s!list:author]
+  [\c!authorconversion=normal]
 
 \definebtx
   [sbl:\s!list:editor]
@@ -84,26 +93,32 @@
 \definebtx
   [sbl:\s!list:witheditor]
   [sbl:\s!list:editor]
+  [\c!authorconversion=normal]
 
 \definebtx
   [sbl:\s!list:bookeditor]
   [sbl:\s!list:editor]
+  [\c!authorconversion=normal]
 
 \definebtx
   [sbl:\s!list:withbookeditor]
   [sbl:\s!list:editor]
+  [\c!authorconversion=normal]
 
 \definebtx
   [sbl:\s!list:maineditor]
   [sbl:\s!list:editor]
+  [\c!authorconversion=normal]
 
 \definebtx
   [sbl:\s!list:withmaineditor]
   [sbl:\s!list:editor]
+  [\c!authorconversion=normal]
 
 \definebtx
   [sbl:\s!list:translator]
   [sbl:\s!list:author]
+  [\c!authorconversion=normal]
 
 \definebtx
   [sbl:\s!list:suffix]
@@ -120,9 +135,6 @@
 \definebtx
   [sbl:\s!list:\s!page]
   [sbl:\s!list]
-  [\c!left={\btxleftparenthesis},
-   \c!right={\btxrightparenthesis},
-   \c!command={\wordright}]
 
 \definebtx
   [sbl:\s!list:numbering]
@@ -159,15 +171,15 @@
 %D \btxloadjournallist[journals.txt] % the jabref list
 %D \stoptyping
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% List citation field styles
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \definebtx
   [sbl:\s!list:journal]
   [sbl:\s!list]
   [\c!style=\v!italic]
   %command=\btxexpandedjournal] % btxabbreviatedjournal
+
+\definebtx
+  [sbl:\s!list:journaltitle]
+  [sbl:\s!list:journal]
 
 % In general, titles should be italicized and capitalized,
 % and if they have been translated from another language, 
@@ -184,8 +196,7 @@
 \definebtx
   [sbl:\s!list:title:article]
   [sbl:\s!list:title]
-  [\c!style=,
-  \c!command=\quotation] % article title is quoted
+  [\c!style=\v!quote] % article title is quoted
 
 \definebtx
   [sbl:\s!list:title:magazine]
@@ -218,8 +229,7 @@
 \definebtx
   [sbl:\s!list:title:inbook]
   [sbl:\s!list:title]
-  [\c!style=,
-  \c!command=\quotation] % article title is quoted
+  [\c!style=\v!quote] % article title is quoted
 
 \definebtx
   [sbl:\s!list:maintitle:incollection]
@@ -244,8 +254,7 @@
 \definebtx
   [sbl:\s!list:title:inproceedings]
   [sbl:\s!list:title]
-  [\c!style=,
-  \c!command=\quotation] % article title is quoted
+  [\c!style=\v!quote] % article title is quoted
 
 \definebtx
   [sbl:\s!list:booktitle:conference]
@@ -254,32 +263,27 @@
 \definebtx
   [sbl:\s!list:title:conference]
   [sbl:\s!list:title]
-  [\c!style=,
-  \c!command=\quotation] % article title is quoted
+  [\c!style=\v!quote] % article title is quoted
 
 \definebtx
   [sbl:\s!list:title:thesis]
   [sbl:\s!list:title]
-  [\c!style=,
-  \c!command=\quotation] % In SBL style, thesis titles are quoted
+  [\c!style=\v!quote] % In SBL style, thesis titles are quoted
 
 \definebtx
   [sbl:\s!list:title:mastersthesis]
   [sbl:\s!list:title]
-  [\c!style=,
-  \c!command=\quotation] % In SBL style, thesis titles are quoted
+  [\c!style=\v!quote] % In SBL style, thesis titles are quoted
 
 \definebtx
   [sbl:\s!list:title:phdthesis]
   [sbl:\s!list:title]
-  [\c!style=,
-  \c!command=\quotation] % In SBL style, thesis titles are quoted
+  [\c!style=\v!quote] % In SBL style, thesis titles are quoted
 
 \definebtx
   [sbl:\s!list:title:unpublished]
   [sbl:\s!list:title]
-  [\c!style=,
-  \c!command=\quotation] % In SBL style, unpublished titles are quoted
+  [\c!style=\v!quote] % In SBL style, unpublished titles are quoted
 
 \definebtx
   [sbl:\s!list:journaltitle:online]
@@ -288,8 +292,7 @@
 \definebtx
   [sbl:\s!list:title:online]
   [sbl:\s!list:title]
-  [\c!style=,
-  \c!command=\quotation] % In SBL style, online resource titles are quoted
+  [\c!style=\v!quote] % In SBL style, online resource titles are quoted
 
 \definebtx
   [sbl:\s!list:journaltitle:electronic]
@@ -298,27 +301,22 @@
 \definebtx
   [sbl:\s!list:title:electronic]
   [sbl:\s!list:title]
-  [\c!style=,
-  \c!command=\quotation] % In SBL style, online resource titles are quoted
+  [\c!style=\v!quote] % In SBL style, online resource titles are quoted
 
 \definebtx
   [sbl:\s!list:title:other]
   [sbl:\s!list:title]
-  [\c!style=,
-  \c!command=\quotation] % In SBL style, other resource titles are quoted
+  [\c!style=\v!quote] % In SBL style, other resource titles are quoted
 
 \definebtx
   [sbl:\s!list:title:misc]
   [sbl:\s!list:title]
-  [\c!style=,
-  \c!command=\quotation] % In SBL style, miscellaneous titles are quoted
+  [\c!style=\v!quote] % In SBL style, miscellaneous titles are quoted
 
 \definebtx
   [sbl:\s!list:title:literal]
   [sbl:\s!list:title]
-  [\c!style=] % In SBL style, literal titles are not italicized
-
-% Names should be capitalized
+  [\c!style=\v!quote] % article title is quoted % In SBL style, literal titles are quoted
 
 \definebtx
   [sbl:\s!list:type]
@@ -333,24 +331,24 @@
   [sbl:\s!cite]
   [sbl]
   [\c!alternative=entry, % by default, SBL cites the entire entry
-   \c!otherstext={\btxspace\btxlabeltext{et al.}}, % use et al. for truncated author / editor list
+   \c!otherstext={\btxspace\btxlabeltext{others}}, % use et al. for truncated author / editor list
    \c!etallimit=3, % don't use et al. for 3 or fewer authors
    \c!etaldisplay=1, % but if there are more than 3, then print only the first followed by et al.
-   \c!authorconversion=\v!name,
+   \c!authorconversion=\v!normal,
    \c!sorttype=normal, % \v!normal ?
    \c!style=, % do not apply any styles across the whole citation
    \c!compress=\v!yes] % note that cite sorts only work with compress=yes.
-
-% The alternatives that follow are not suggested by SBL,
-% so perhaps they are not necessary?
-% TODO: authortitle (intended to use shorttitle and author's last name for subsequent citations) 
-% would be useful, however.
 
 % Just cite the author's last name
 \definebtx
   [sbl:\s!cite:name]
   [sbl:\s!cite]
   [\c!authorconversion=\v!name]
+
+% The alternatives that follow are not suggested by SBL,
+% so perhaps they are not necessary?
+% TODO: authortitle (intended to use shorttitle and author's last name for subsequent citations) 
+% would be useful, however.
 
 % Just cite the author's last name in full followed by first names(s) in full
 \definebtx
@@ -465,6 +463,14 @@
    \c!style=\v!italic]
 
 \definebtx
+  [sbl:\s!cite:journal]
+  [sbl:\s!cite:title]
+
+\definebtx
+  [sbl:\s!cite:journaltitle]
+  [sbl:\s!cite:journal]
+
+\definebtx
   [sbl:\s!cite:maintitle]
   [sbl:\s!cite:title]
 
@@ -477,8 +483,7 @@
 \definebtx
   [sbl:\s!cite:title:article]
   [sbl:\s!cite:title]
-  [\c!style=, % the journal, not the article, is in italics
-  \c!command=\quotation] % the article is in quotes
+  [\c!style=\v!quote] % article title is quoted
 
 \definebtx
   [sbl:\s!cite:title:magazine]
@@ -646,7 +651,7 @@
 
 % First some helpers:
 
-\starttexdefinition btx:sbl:cite:author
+\starttexdefinition btx:sbl:author
   \btxdoif {author} {
     % Print the author/editor/org name first
     \btxflush{author}
@@ -668,6 +673,7 @@
         } {
           \btxlabeltext{sbl:with}
         }
+        \btxspace
         \btxflush{witheditor}
       }
     } {
@@ -680,6 +686,7 @@
       } {
         \btxlabeltext{sbl:with}
       }
+      \btxspace
       \btxflush{withauthor}
     }
   }
@@ -687,17 +694,17 @@
   }
 \stoptexdefinition
 
-\starttexdefinition btx:sbl:cite:title
+\starttexdefinition btx:sbl:title
   \btxdoif {title} {
-    % Use formatting associated with the current category (e.g., italics for books, quotations for articles)
-    \btxstartstyleandcolor [sbl:list:title:\currentbtxcategory]
-      \btxflush{title}
-    \btxstopstyleandcolor
+    % Use formatting associated with the current category (e.g., italics for books, quotes for articles)
+    %\btxstartstyleandcolor[sbl:\s!list:title:\currentbtxcategory]
+      \btxflush{title} % set the title
+    %\btxstopstyleandcolor
     \btxcomma
   }
 \stoptexdefinition
 
-\starttexdefinition btx:sbl:cite:editor
+\starttexdefinition btx:sbl:editor
   \btxdoif {editor} {
     % If editor(s) not already listed in the author position, then list here
     \doifnot {\btxfoundname{author}} {editor} {
@@ -712,6 +719,7 @@
         } {
           \btxlabeltext{sbl:with}
         }
+        \btxspace
         \btxflush{witheditor}
       }
       \btxcomma
@@ -719,23 +727,25 @@
   }
 \stoptexdefinition
 
-\starttexdefinition btx:sbl:cite:translator
+\starttexdefinition btx:sbl:translator
   \btxdoif {translator} {
     \btxlabeltext{sbl:translator}
+    \btxspace
     \btxflush{translator}
     \btxcomma
   }
 \stoptexdefinition
 
-\starttexdefinition btx:sbl:cite:booktitle
+\starttexdefinition btx:sbl:booktitle
   \btxdoif {booktitle} {
     \btxlabeltext{sbl:in}
+    \btxspace
     \btxflush{booktitle}
     \btxcomma
   }
 \stoptexdefinition
 
-\starttexdefinition btx:sbl:cite:bookeditor
+\starttexdefinition btx:sbl:bookeditor
   \btxdoif {editor} {
     \btxlabeltext{sbl:editor} % singular or plural doesn't matter here, as "ed." comes first
     \btxflush{editor}
@@ -748,13 +758,14 @@
       } {
         \btxlabeltext{sbl:with}
       }
+      \btxspace
       \btxflush{witheditor}
       \btxcomma
     }
   }
 \stoptexdefinition
 
-\starttexdefinition btx:sbl:cite:maintitle
+\starttexdefinition btx:sbl:maintitle
   \btxdoif {maintitle} {
     % Is there a volume number for the book being cited from this collection?
     \btxdoifelse {volume} {
@@ -766,17 +777,16 @@
       \btxspace
       \btxflush{volume}
       \btxlabeltext{sbl:of}
-      \btxspace
     } {
       \btxlabeltext{sbl:in}
-      \btxspace
     }
+    \btxspace
     \btxflush{maintitle}
     \btxcomma
   }
 \stoptexdefinition
 
-\starttexdefinition btx:sbl:cite:maineditor
+\starttexdefinition btx:sbl:maineditor
   \btxdoif {maineditor} {
     \btxlabeltext{sbl:editor} % singular or plural doesn't matter here, as "ed." comes first
     \btxflush{maineditor}
@@ -789,13 +799,14 @@
       } {
         \btxlabeltext{sbl:with}
       }
+      \btxspace
       \btxflush{withmaineditor}
       \btxcomma
     }
   }
 \stoptexdefinition
 
-\starttexdefinition btx:sbl:cite:volumes
+\starttexdefinition btx:sbl:volumes
   \btxdoif {volumes} {
     \btxflush{volumes}
     \btxlabeltext{sbl:volumes}
@@ -803,7 +814,7 @@
   }
 \stoptexdefinition
 
-\starttexdefinition btx:sbl:cite:edition
+\starttexdefinition btx:sbl:edition
   \btxdoif{edition} {
     % Is the edition a name or a number?
     \doifnumberelse {\btxflush{edition}} {
@@ -817,13 +828,14 @@
   }
 \stoptexdefinition
 
-\starttexdefinition btx:sbl:cite:series
+\starttexdefinition btx:sbl:series
   \btxdoif {series} {
     % Print the series abbreviation/name first
     \btxflush{series}
     % If the series itself has a series number (e.g., "WUNT 2", the second series of WUNT),
     % then print that number before the series entry number, with a forward slash in between
     \btxdoifelse {seriesseries} {
+      \btxspace
       \btxflush{seriesseries}
       \btxdoif {number} {
         \removeunwantedspaces
@@ -833,6 +845,7 @@
     } {
       % Otherwise, just print the series entry number, if there is one
       \btxdoif {number} {
+        \btxspace
         \btxflush{number}
       }
     }
@@ -840,23 +853,31 @@
   }
 \stoptexdefinition
 
-\starttexdefinition btx:sbl:cite:journal
+\starttexdefinition btx:sbl:howpublished
+  \btxdoif {howpublished} {
+    % Print the how-published statement
+    \btxflush{howpublished}
+    \btxcomma
+  }
+\stoptexdefinition
+
+\starttexdefinition btx:sbl:journal
   \btxdoif {journal} {
     % Print the journal name (which is required and therefore assumed to be present)
     \btxflush{journal}
     % Print the volume number(s), if any
     \btxdoif {volume} {
+      \btxspace
       \btxflush{volume}
       % If there is an issue number or range, then print it after the volume number, with a period in between
       \btxdoif {number} {
-        \btxperiod
-        \removeunwantedspaces % no space after the period
+        {.} % no space after the period
         \btxflush{number}
       }
     }
     % Print the date
     \btxdoif {date} {
-      btxleftparenthesis
+      \btxleftparenthesis
       \btxflush{date}
       \btxrightparenthesis
     }
@@ -864,8 +885,11 @@
   }
 \stoptexdefinition
 
-\starttexdefinition btx:sbl:cite:publisher
-  \btxif {publisher} {
+\starttexdefinition btx:sbl:publisher
+  \btxdoif {publisher} {
+    % Remove any preceding punctuation and open the publication block
+    \removeunwantedspaces
+    \removepunctuation
     \btxleftparenthesis
     % Is this a reprint?
     \btxdoif {origpublisher} {
@@ -880,11 +904,12 @@
         \btxcomma
       }
       % Is there an original publication date?
-      \btxdoif{origdate} {
+      \btxdoif {origdate} {
         \btxflush{origdate}
         \btxcomma
       }
       % Remove the last puntuation token and replace it with a semicolon, followed by the reprint notation
+      \removeunwantedspaces
       \removepunctuation
       \btxsemicolon
       \btxlabeltext{sbl:reprint}
@@ -907,24 +932,27 @@
       \btxcomma
     }
     % Close the publication block
+    \removeunwantedspaces
     \removepunctuation
     \btxrightparenthesis
     \btxcomma
   }
 \stoptexdefinition
 
-\starttexdefinition btx:sbl:cite:institution
-  \btxif {institution} {
-    % Open the institution block:
+\starttexdefinition btx:sbl:institution
+  \btxdoif {institution} {
+    % Remove any preceding punctuation and open the institution block
+    \removeunwantedspaces
+    \removepunctuation
     \btxleftparenthesis
     % Print which type of thesis is being cited
-    \doifsamestring {\currentbtxcategory} {phdthesis} {
+    \doifelse {\currentbtxcategory} {phdthesis} {
       \btxlabeltext{sbl:phd}
       \btxspace
       \btxlabeltext{sbl:diss}
       \btxcolon
     } {
-      \doifsamestring {\currentbtxcategory} {mastersthesis} {
+      \doifelse {\currentbtxcategory} {mastersthesis} {
         \btxlabeltext{sbl:masters}
         \btxspace
         \btxlabeltext{sbl:diss}
@@ -947,13 +975,14 @@
       \btxcomma
     }
     % Close the institution block
+    \removeunwantedspaces
     \removepunctuation
     \btxrightparenthesis
     \btxcomma
   }
 \stoptexdefinition
 
-\starttexdefinition btx:sbl:cite:pages
+\starttexdefinition btx:sbl:pages
   \btxdoif {pages} {
     % Print the page range
     % TODO: implement the horrendous page range abbreviation rules used by Chicago and SBL, if I have to
@@ -962,7 +991,7 @@
   }
 \stoptexdefinition
 
-\starttexdefinition btx:sbl:cite:eprint
+\starttexdefinition btx:sbl:eprint
   % Is the eprint field present?
   \btxdoifelse {eprint} {
     % If so, then treat this as an e-print
@@ -1035,7 +1064,7 @@
   }
 \stoptexdefinition
 
-\starttexdefinition btx:sbl:cite:doi
+\starttexdefinition btx:sbl:doi
   \btxdoif {doi} {
     % Only print DOIs (as opposed to URLs)
     \doif {\btxfoundname{doi}} {doi} {
@@ -1048,7 +1077,7 @@
 \stoptexdefinition
 
 % doi is the argument to \btxdoif because URLs fall under the "doi" field set in publ-imp-sbl.lua
-\starttexdefinition btx:sbl:cite:url
+\starttexdefinition btx:sbl:url
   \btxdoif {doi} {
     % If the URL is actually a DOI (the preferred case), then indicate this
     \doifelse {\btxfoundname{doi}} {doi} {
@@ -1062,7 +1091,7 @@
   }
 \stoptexdefinition
 
-\starttexdefinition btx:sbl:cite:note
+\starttexdefinition btx:sbl:note
   \btxdoif {note} {
     \btxflush{note}
     \btxcomma
@@ -1070,246 +1099,137 @@
 \stoptexdefinition
 
 % In-text citation setups
-\startsetups btx:sbl:cite:article
-  \texdefinition{btx:sbl:cite:author}
-  \texdefinition{btx:sbl:cite:title}
-  \texdefinition{btx:sbl:cite:journal}
-  \texdefinition{btx:sbl:cite:pages}
-  \texdefinition{btx:sbl:cite:doi}
-  \texdefinition{btx:sbl:cite:note}
-  \removeunwantedspaces
-  \removepunctuation
-\stopsetups
-
-\startsetups btx:sbl:cite:book
-  \texdefinition{btx:sbl:cite:author}
-  \texdefinition{btx:sbl:cite:title}
-  \texdefinition{btx:sbl:cite:editor}
-  \texdefinition{btx:sbl:cite:translator}
-  \texdefinition{btx:sbl:cite:volumes}
-  \texdefinition{btx:sbl:cite:edition}
-  \texdefinition{btx:sbl:cite:series}
-  \texdefinition{btx:sbl:cite:publisher}
-  \texdefinition{btx:sbl:cite:doi}
-  \texdefinition{btx:sbl:cite:note}
-  \removeunwantedspaces
-  \removepunctuation
-\stopsetups
-
-\startsetups btx:sbl:cite:inbook
-  \texdefinition{btx:sbl:cite:author}
-  \texdefinition{btx:sbl:cite:title}
-  \texdefinition{btx:sbl:cite:booktitle}
-  \texdefinition{btx:sbl:cite:bookeditor}
-  \texdefinition{btx:sbl:cite:maintitle}
-  \texdefinition{btx:sbl:cite:maineditor}
-  \texdefinition{btx:sbl:cite:translator}
-  \texdefinition{btx:sbl:cite:edition}
-  \texdefinition{btx:sbl:cite:series}
-  \texdefinition{btx:sbl:cite:publisher}
-  \texdefinition{btx:sbl:cite:pages}
-  \texdefinition{btx:sbl:cite:doi}
-  \texdefinition{btx:sbl:cite:note}
-  \removeunwantedspaces
-  \removepunctuation
-\stopsetups
-
-\startsetups btx:sbl:cite:incollection
-  \texdefinition{btx:sbl:cite:author}
-  \texdefinition{btx:sbl:cite:title}
-  \texdefinition{btx:sbl:cite:maintitle}
-  \texdefinition{btx:sbl:cite:maineditor}
-  \texdefinition{btx:sbl:cite:translator}
-  \texdefinition{btx:sbl:cite:edition}
-  \texdefinition{btx:sbl:cite:series}
-  \texdefinition{btx:sbl:cite:publisher}
-  \texdefinition{btx:sbl:cite:doi}
-  \texdefinition{btx:sbl:cite:note}
-  \removeunwantedspaces
-  \removepunctuation
-\stopsetups
-
-\startsetups btx:sbl:cite:thesis
-  \texdefinition{btx:sbl:cite:author}
-  \texdefinition{btx:sbl:cite:title}
-  \texdefinition{btx:sbl:cite:translator}
-  \texdefinition{btx:sbl:cite:institution}
-  \texdefinition{btx:sbl:cite:doi}
-  \texdefinition{btx:sbl:cite:note}
-  \removeunwantedspaces
-  \removepunctuation
-\stopsetups
-
-\startsetups btx:sbl:cite:mastersthesis
-  \texdefinition{btx:sbl:cite:author}
-  \texdefinition{btx:sbl:cite:title}
-  \texdefinition{btx:sbl:cite:translator}
-  \texdefinition{btx:sbl:cite:institution}
-  \texdefinition{btx:sbl:cite:doi}
-  \texdefinition{btx:sbl:cite:note}
-  \removeunwantedspaces
-  \removepunctuation
-\stopsetups
-
-\startsetups btx:sbl:cite:phdthesis
-  \texdefinition{btx:sbl:cite:author}
-  \texdefinition{btx:sbl:cite:title}
-  \texdefinition{btx:sbl:cite:translator}
-  \texdefinition{btx:sbl:cite:institution}
-  \texdefinition{btx:sbl:cite:doi}
-  \texdefinition{btx:sbl:cite:note}
-  \removeunwantedspaces
-  \removepunctuation
-\stopsetups
-
-\startsetups btx:sbl:cite:online
-  \texdefinition{btx:sbl:cite:author}
-  \texdefinition{btx:sbl:cite:title}
-  \texdefinition{btx:sbl:cite:translator}
-  \texdefinition{btx:sbl:cite:eprint}
-  \texdefinition{btx:sbl:cite:note}
-  \removeunwantedspaces
-  \removepunctuation
-\stopsetups
-
-\startsetups btx:sbl:cite:misc
-  \texdefinition{btx:sbl:cite:author}
-  \texdefinition{btx:sbl:cite:title}
-  \texdefinition{btx:sbl:cite:editor}
-  \texdefinition{btx:sbl:cite:maintitle}
-  \texdefinition{btx:sbl:cite:maineditor}
-  \texdefinition{btx:sbl:cite:translator}
-  \texdefinition{btx:sbl:cite:edition}
-  \texdefinition{btx:sbl:cite:series}
-  \texdefinition{btx:sbl:cite:howpublished}
-  \texdefinition{btx:sbl:cite:publisher}
-  \texdefinition{btx:sbl:cite:doi}
-  \texdefinition{btx:sbl:cite:note}
-  \removeunwantedspaces
-  \removepunctuation
-\stopsetups
 
 % In-text parenthetical citation setups
 
 % List citation setups
 
 \startsetups btx:sbl:list:article
-  \texdefinition{btx:sbl:cite:author}
-  \texdefinition{btx:sbl:cite:title}
-  \texdefinition{btx:sbl:cite:journal}
-  \texdefinition{btx:sbl:cite:pages}
-  \texdefinition{btx:sbl:cite:doi}
-  \texdefinition{btx:sbl:cite:note}
+  \texdefinition{btx:sbl:author}
+  \texdefinition{btx:sbl:title}
+  \texdefinition{btx:sbl:journal}
+  \texdefinition{btx:sbl:pages}
+  \texdefinition{btx:sbl:doi}
+  \texdefinition{btx:sbl:note}
   \removeunwantedspaces
   \removepunctuation
+  \btxperiod
 \stopsetups
 
 \startsetups btx:sbl:list:book
-  \texdefinition{btx:sbl:cite:author}
-  \texdefinition{btx:sbl:cite:title}
-  \texdefinition{btx:sbl:cite:editor}
-  \texdefinition{btx:sbl:cite:translator}
-  \texdefinition{btx:sbl:cite:volumes}
-  \texdefinition{btx:sbl:cite:edition}
-  \texdefinition{btx:sbl:cite:series}
-  \texdefinition{btx:sbl:cite:publisher}
-  \texdefinition{btx:sbl:cite:doi}
-  \texdefinition{btx:sbl:cite:note}
+  \texdefinition{btx:sbl:author}
+  \texdefinition{btx:sbl:title}
+  \texdefinition{btx:sbl:editor}
+  \texdefinition{btx:sbl:translator}
+  \texdefinition{btx:sbl:volumes}
+  \texdefinition{btx:sbl:edition}
+  \texdefinition{btx:sbl:series}
+  \texdefinition{btx:sbl:publisher}
+  \texdefinition{btx:sbl:doi}
+  \texdefinition{btx:sbl:note}
   \removeunwantedspaces
   \removepunctuation
+  \btxperiod
 \stopsetups
 
 \startsetups btx:sbl:list:inbook
-  \texdefinition{btx:sbl:cite:author}
-  \texdefinition{btx:sbl:cite:title}
-  \texdefinition{btx:sbl:cite:booktitle}
-  \texdefinition{btx:sbl:cite:bookeditor}
-  \texdefinition{btx:sbl:cite:maintitle}
-  \texdefinition{btx:sbl:cite:maineditor}
-  \texdefinition{btx:sbl:cite:translator}
-  \texdefinition{btx:sbl:cite:edition}
-  \texdefinition{btx:sbl:cite:series}
-  \texdefinition{btx:sbl:cite:publisher}
-  \texdefinition{btx:sbl:cite:pages}
-  \texdefinition{btx:sbl:cite:doi}
-  \texdefinition{btx:sbl:cite:note}
+  \texdefinition{btx:sbl:author}
+  \texdefinition{btx:sbl:title}
+  \texdefinition{btx:sbl:booktitle}
+  \texdefinition{btx:sbl:bookeditor}
+  \texdefinition{btx:sbl:maintitle}
+  \texdefinition{btx:sbl:maineditor}
+  \texdefinition{btx:sbl:translator}
+  \texdefinition{btx:sbl:edition}
+  \texdefinition{btx:sbl:series}
+  \texdefinition{btx:sbl:publisher}
+  \texdefinition{btx:sbl:pages}
+  \texdefinition{btx:sbl:doi}
+  \texdefinition{btx:sbl:note}
   \removeunwantedspaces
   \removepunctuation
+  \btxperiod
 \stopsetups
 
 \startsetups btx:sbl:list:incollection
-  \texdefinition{btx:sbl:cite:author}
-  \texdefinition{btx:sbl:cite:title}
-  \texdefinition{btx:sbl:cite:maintitle}
-  \texdefinition{btx:sbl:cite:maineditor}
-  \texdefinition{btx:sbl:cite:translator}
-  \texdefinition{btx:sbl:cite:edition}
-  \texdefinition{btx:sbl:cite:series}
-  \texdefinition{btx:sbl:cite:publisher}
-  \texdefinition{btx:sbl:cite:doi}
-  \texdefinition{btx:sbl:cite:note}
+  \texdefinition{btx:sbl:author}
+  \texdefinition{btx:sbl:title}
+  \texdefinition{btx:sbl:maintitle}
+  \texdefinition{btx:sbl:maineditor}
+  \texdefinition{btx:sbl:translator}
+  \texdefinition{btx:sbl:edition}
+  \texdefinition{btx:sbl:series}
+  \texdefinition{btx:sbl:publisher}
+  \texdefinition{btx:sbl:doi}
+  \texdefinition{btx:sbl:note}
   \removeunwantedspaces
   \removepunctuation
+  \btxperiod
 \stopsetups
 
 \startsetups btx:sbl:list:thesis
-  \texdefinition{btx:sbl:cite:author}
-  \texdefinition{btx:sbl:cite:title}
-  \texdefinition{btx:sbl:cite:translator}
-  \texdefinition{btx:sbl:cite:institution}
-  \texdefinition{btx:sbl:cite:doi}
-  \texdefinition{btx:sbl:cite:note}
+  \texdefinition{btx:sbl:author}
+  \texdefinition{btx:sbl:title}
+  \texdefinition{btx:sbl:translator}
+  \texdefinition{btx:sbl:institution}
+  \texdefinition{btx:sbl:doi}
+  \texdefinition{btx:sbl:note}
   \removeunwantedspaces
   \removepunctuation
+  \btxperiod
 \stopsetups
 
 \startsetups btx:sbl:list:mastersthesis
-  \texdefinition{btx:sbl:cite:author}
-  \texdefinition{btx:sbl:cite:title}
-  \texdefinition{btx:sbl:cite:translator}
-  \texdefinition{btx:sbl:cite:institution}
-  \texdefinition{btx:sbl:cite:doi}
-  \texdefinition{btx:sbl:cite:note}
+  \texdefinition{btx:sbl:author}
+  \texdefinition{btx:sbl:title}
+  \texdefinition{btx:sbl:translator}
+  \texdefinition{btx:sbl:institution}
+  \texdefinition{btx:sbl:doi}
+  \texdefinition{btx:sbl:note}
   \removeunwantedspaces
   \removepunctuation
+  \btxperiod
 \stopsetups
 
 \startsetups btx:sbl:list:phdthesis
-  \texdefinition{btx:sbl:cite:author}
-  \texdefinition{btx:sbl:cite:title}
-  \texdefinition{btx:sbl:cite:translator}
-  \texdefinition{btx:sbl:cite:institution}
-  \texdefinition{btx:sbl:cite:doi}
-  \texdefinition{btx:sbl:cite:note}
+  \texdefinition{btx:sbl:author}
+  \texdefinition{btx:sbl:title}
+  \texdefinition{btx:sbl:translator}
+  \texdefinition{btx:sbl:institution}
+  \texdefinition{btx:sbl:doi}
+  \texdefinition{btx:sbl:note}
   \removeunwantedspaces
   \removepunctuation
+  \btxperiod
 \stopsetups
 
 \startsetups btx:sbl:list:online
-  \texdefinition{btx:sbl:cite:author}
-  \texdefinition{btx:sbl:cite:title}
-  \texdefinition{btx:sbl:cite:translator}
-  \texdefinition{btx:sbl:cite:eprint}
-  \texdefinition{btx:sbl:cite:note}
+  \texdefinition{btx:sbl:author}
+  \texdefinition{btx:sbl:title}
+  \texdefinition{btx:sbl:translator}
+  \texdefinition{btx:sbl:eprint}
+  \texdefinition{btx:sbl:note}
   \removeunwantedspaces
   \removepunctuation
+  \btxperiod
 \stopsetups
 
 \startsetups btx:sbl:list:misc
-  \texdefinition{btx:sbl:cite:author}
-  \texdefinition{btx:sbl:cite:title}
-  \texdefinition{btx:sbl:cite:editor}
-  \texdefinition{btx:sbl:cite:maintitle}
-  \texdefinition{btx:sbl:cite:maineditor}
-  \texdefinition{btx:sbl:cite:translator}
-  \texdefinition{btx:sbl:cite:edition}
-  \texdefinition{btx:sbl:cite:series}
-  \texdefinition{btx:sbl:cite:howpublished}
-  \texdefinition{btx:sbl:cite:publisher}
-  \texdefinition{btx:sbl:cite:doi}
-  \texdefinition{btx:sbl:cite:note}
+  \texdefinition{btx:sbl:author}
+  \texdefinition{btx:sbl:title}
+  \texdefinition{btx:sbl:editor}
+  \texdefinition{btx:sbl:maintitle}
+  \texdefinition{btx:sbl:maineditor}
+  \texdefinition{btx:sbl:translator}
+  \texdefinition{btx:sbl:edition}
+  \texdefinition{btx:sbl:series}
+  \texdefinition{btx:sbl:howpublished}
+  \texdefinition{btx:sbl:publisher}
+  \texdefinition{btx:sbl:doi}
+  \texdefinition{btx:sbl:note}
   \removeunwantedspaces
   \removepunctuation
+  \btxperiod
 \stopsetups
 
 \stopbtxrenderingdefinitions

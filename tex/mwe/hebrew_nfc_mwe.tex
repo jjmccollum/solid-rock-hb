@@ -25,9 +25,20 @@
 \definefontfeature
    [f:pointedhebrew]
    [hebrew]
-   %[normalizehebrew=yes]
+   [normalizehebrew=yes]
+   
+\starttypescriptcollection[keteryg]
+	\starttypescript[serif][keteryg]
+		\setups[font:fallback:serif]
+		\definefontsynonym[Serif][file:../fonts/KeterYG/KeterYG-Medium.ttf][features=f:pointedhebrew]
+	\stoptypescript
 
-\definefontfamily[hebrew] [rm] [Cardo] [features=f:pointedhebrew]
+	\starttypescript[keteryg]
+		\definetypeface[keteryg][rm][serif][keteryg][default]
+	\stoptypescript
+\stoptypescriptcollection
+
+\setupbodyfont[keteryg,13pt] %body font
 
 \setupbodyfont[hebrew]
 
