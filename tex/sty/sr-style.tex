@@ -87,7 +87,7 @@
 		
 	\definecharacterkerning
 		[booktitlekerning]
-		[factor=1.0,
+		[factor=0.5,
 		features=letterspacing]
 		
 	\definecharacterkerning
@@ -101,11 +101,12 @@
 	%Use EB Garamond for English and Greek text
 	\starttypescriptcollection[ebgaramond]
 		\starttypescript[serif][ebgaramond]
-			\definefontsynonym[Serif][file:../fonts/EB-Garamond/EBGaramond12-regular.otf][features=ebgaramond-normal]
-			\definefontsynonym[SerifItalic][file:../fonts/EB-Garamond/EBGaramond12-italic.otf][features=ebgaramond-normal]
+			\definefontsynonym[Serif][file:../fonts/EB-Garamond/EBGaramond12-Regular.otf][features=ebgaramond-normal]
+			\definefontsynonym[SerifItalic][file:../fonts/EB-Garamond/EBGaramond12-Italic.otf][features=ebgaramond-normal]
 			\definefontsynonym[SerifBold][file:../fonts/EB-Garamond/EBGaramond-SemiBold.otf][features=ebgaramond-normal]
 			\definefontsynonym[SerifBoldItalic][file:../fonts/EB-Garamond/EBGaramond-SemiBoldItalic.otf][features=ebgaramond-normal]
 			\definefontsynonym[SerifCaps][Serif][features=ebgaramond-smallcaps]
+			\definefontsynonym[Titling][Serif][features=ebgaramond-header]
 		\stoptypescript
 	
 		\starttypescript[ebgaramond]
@@ -134,6 +135,7 @@
 			\definefontsynonym[SerifItalic][Serif] % we don't use this
 			\definefontsynonym[SerifBold][Serif] % we don't use this
 			\definefontsynonym[SerifBoldItalic][Serif] % we don't use this
+			\definefontsynonym[Titling][file:../fonts/KeterAramTsova/KeterAramTsova.ttf][features=keteraramtsova-title]
 		\stoptypescript
 	
 		\starttypescript[keteryg]
@@ -162,8 +164,11 @@
 	\usetypescript[keteraramtsova]
 	
 	% Define custom size scales for different text font sizes:
-	\definebodyfontenvironment [12pt][xx=9pt, x=10pt, d=24pt]
-	\definebodyfontenvironment [13pt][x=11pt, d=30pt]
+	\definebodyfontenvironment[12pt][x=10pt, text=12pt, d=24pt]
+	\definebodyfontenvironment[13pt][x=11pt, text=13pt, d=30pt]
+	
+	%Define a macro that switches to inline Hebrew text:
+	\define[1]\Heb{{\textdir TRT\switchtobodyfont[keteryg]#1}}
 	
 	%%%%%%%
 	% TEXT LAYOUT
@@ -206,11 +211,8 @@
 		spacebefore=line, %add one line of space before
 		spaceafter=line, %add one line of space after
 		indenting=no, %don't indent the first paragraph of the blockquote
-		style=\tfx
+		style=\tfx % use footnote size
 	]
-	
-	%Define a macro that switches to inline Hebrew text:
-	\define[1]\Heb{{\textdir TRT\switchtobodyfont[keteryg]#1}}
 	
 	%%%%%%%%%%%
 	% FOOTNOTE LAYOUT
@@ -219,7 +221,7 @@
 	%Setup font size and leading for footnotes:
 	\startsetups[footnotesetup]
 		\setupinterlinespace[12bp] % footnote line spacing
-		\setupbodyfont[garamond,10pt] % footnote font size
+		\setupbodyfont[garamond, 10pt] % footnote font
 		\setupalign[normal,hanging,hyphenated] % alignment of text (left-to-right, justified, protrusion allowed, hyphenation allowed)
 	\stopsetups
 	
@@ -240,7 +242,7 @@
 	%Setup font size and leading for footnotes:
 	\startsetups[footnotesetup]
 		\setupinterlinespace[12bp] % footnote line spacing
-		\setupbodyfont[ebgaramond,10pt] % default footnote font
+		\setupbodyfont[ebgaramond, 10pt] % default footnote font
 		\setupalign[normal,hanging,hyphenated] % alignment (by default, justified and hyphenated, with protrusion allowed)
 	\stopsetups
 	
@@ -291,12 +293,12 @@
 			}{%
 				%If it does not, then update the latest verse reference and typeset the reference:
 				\setxvariables[app][verse=\getvariable{text}{verse}]%
-				{\switchtobodyfont[ebgaramond, 9pt]\textdir TLT{\bf\getvariable{text}{chapter}\,:\,\getvariable{text}{verse}}}\nobreak\hspace[medium]%
+				{\switchtobodyfont[ebgaramond, 12pt]\tfx\textdir TLT{\bf\getvariable{text}{chapter}\,:\,\getvariable{text}{verse}}}\nobreak\hspace[medium]%
 			}%
 		}{%
 			%If it does not, then update the latest chapter and verse references and typeset the reference:
 			\setxvariables[app][chapter=\getvariable{text}{chapter},verse=\getvariable{text}{verse}]%
-			{\switchtobodyfont[ebgaramond, 9pt]\textdir TLT{\bf\getvariable{text}{chapter}\,:\,\getvariable{text}{verse}}}\nobreak\hspace[medium]%
+			{\switchtobodyfont[ebgaramond, 12pt]\tfx\textdir TLT{\bf\getvariable{text}{chapter}\,:\,\getvariable{text}{verse}}}\nobreak\hspace[medium]%
 		}%
 	}
 	
@@ -311,24 +313,24 @@
 	\setcounter[trans] [0]
 	
 	%Define macros for typesetting apparatus marks:
-	\define[1]\StartSubMark{{\switchtobodyfont[apparatus]⸃}\doifnot{#1}{1}{{\switchtobodyfont[ebgaramond]\textsuperscript{#1}}}} %reverse symbol for RTL
-	\define\StopSubMark{{\switchtobodyfont[apparatus]⸂}} %reverse symbol for RTL
-	\define[1]\AddMark{{\switchtobodyfont[apparatus]⸆}\doifnot{#1}{1}{{\switchtobodyfont[ebgaramond]\textsuperscript{#1}}}}
-	\define[1]\StartOmitMark{{\switchtobodyfont[apparatus]⸋}\doifnot{#1}{1}{{\switchtobodyfont[ebgaramond]\textsuperscript{#1}}}}
-	\define\StopOmitMark{{\switchtobodyfont[apparatus]⸌}} %should reverse symbol for RTL, but Apparatus SIL doesn't include U2E0D
-	\define[1]\StartTransMark{{\switchtobodyfont[apparatus]⸊}\doifnot{#1}{1}{{\switchtobodyfont[ebgaramond]\textsuperscript{#1}}}} %reverse symbol for RTL
-	\define\StopTransMark{{\switchtobodyfont[apparatus]⸉}} %reverse symbol for RTL
+	\define[1]\StartSubMark{{\switchtobodyfont[apparatus, 12pt]⸃}\doifnot{#1}{1}{{\switchtobodyfont[ebgaramond, 12pt]\textsuperscript{#1}}}} %reverse symbol for RTL
+	\define\StopSubMark{{\switchtobodyfont[apparatus, 12pt]⸂}} %reverse symbol for RTL
+	\define[1]\AddMark{{\switchtobodyfont[apparatus, 12pt]⸆}\doifnot{#1}{1}{{\switchtobodyfont[ebgaramond, 12pt]\textsuperscript{#1}}}}
+	\define[1]\StartOmitMark{{\switchtobodyfont[apparatus, 12pt]⸋}\doifnot{#1}{1}{{\switchtobodyfont[ebgaramond, 12pt]\textsuperscript{#1}}}}
+	\define\StopOmitMark{{\switchtobodyfont[apparatus, 12pt]⸌}} %should reverse symbol for RTL, but Apparatus SIL doesn't include U2E0D
+	\define[1]\StartTransMark{{\switchtobodyfont[apparatus, 12pt]⸊}\doifnot{#1}{1}{{\switchtobodyfont[ebgaramond, 12pt]\textsuperscript{#1}}}} %reverse symbol for RTL
+	\define\StopTransMark{{\switchtobodyfont[apparatus, 12pt]⸉}} %reverse symbol for RTL
 	
 	%Define macros for apparatus entries:
 	\define[2]\Reading{ %arg 1 is reading text, arg 2 is witness list
 		\doifemptyelse{#1}{%
-			{\switchtobodyfont[ebgaramond, 9pt]\textdir TLT –}\nospace\nobreak\hspace[medium]{\switchtobodyfont[ebgaramond, 9pt]\textdir TLT#2}\nobreak\hspace[medium]%represent the omission with an en-dash 
+			{\switchtobodyfont[ebgaramond, 10pt]\textdir TLT –}\nospace\nobreak\ {\switchtobodyfont[ebgaramond, 10pt]\textdir TLT#2}\nobreak\ %represent the omission with an en-dash 
 		}{%
-			{\switchtobodyfont[keteryg, 10pt]\textdir TRT#1}\nospace\nobreak\hspace[medium]{\switchtobodyfont[ebgaramond, 9pt]\textdir TLT#2}\nobreak\hspace[medium]%set the reading in Hebrew
+			{\switchtobodyfont[keteryg, 11pt]\textdir TRT #1}\nospace\nobreak\ {\switchtobodyfont[ebgaramond, 10pt]\textdir TLT#2}\nobreak\ %set the reading in Hebrew
 		}%
 	} 
-	\define\PrimaryReadingSep{{\switchtobodyfont[ebgaramond, 9pt][}\nobreak\,} %reverse symbol for RTL
-	\define\SecondaryReadingSep{{\switchtobodyfont[ebgaramond, 9pt]¦}\nobreak\,}
+	\define\PrimaryReadingSep{{\switchtobodyfont[ebgaramond, 10pt][}\nobreak\,} %reverse symbol for RTL
+	\define\SecondaryReadingSep{{\switchtobodyfont[ebgaramond, 10pt]¦}\nobreak\,}
 	
 	%Define a macro for typesetting an apparatus:
 	\define[3]\App{% arg 1 is the type of variation, arg 2 is the lemma text, arg 3 is the variant readings
@@ -405,10 +407,10 @@
 	\definefont[sectionTitleFont][Serif at 12pt]
 	
 	%Font command to be used for Essay headings:
-	\definefont[EssayTitleFont][Serif at 24pt][line=36bp]
+	\definefont[EssayTitleFont][Titling at 24pt][line=36bp]
 	
 	%Font command to be used for Book headings
-	\definefont[BookTitleFont][keteraramtsova at 30pt][line=36bp]
+	\definefont[BookTitleFont][Titling at 30pt][line=36bp]
 	
 	%Redefine the part heading:
 	\setuphead[part][
@@ -504,10 +506,10 @@
 		%Check if the verse variable has been reset:
 		\doifelse{\getvariable{text}{verse}}{0}{%
 			%If it has, then typeset both the chapter and the verse:
-			\marking[Verse]{#1}{\switchtobodyfont[ebgaramond, 11pt]\textdir TLT\bf \getvariable{text}{chapter}\nobreak\,:\nobreak\,#1}\nobreak\enquad%
+			\marking[Verse]{#1}{\switchtobodyfont[ebgaramond, 12pt]\textdir TLT\bf\nobreak\  \getvariable{text}{chapter}\nobreak\,:\nobreak\,#1}\nobreak\ %
 		}{%
 			%Otherwise, just typeset the verse:
-			\marking[Verse]{#1}{\switchtobodyfont[ebgaramond, 11pt]\textdir TLT\bf #1}\nobreak\enquad%
+			\marking[Verse]{#1}{\switchtobodyfont[ebgaramond, 12pt]\textdir TLT\bf\nobreak\ #1}\nobreak\ %
 		}%
 		%Update the verse variable:
 		\setxvariables[text][verse=#1]%
@@ -523,10 +525,10 @@
 		%Check if the verse variable has been reset:
 		\doifelse{\getvariable{rdg}{verse}}{0}{%
 			%If it has, then typeset both the chapter and the verse:
-			{\switchtobodyfont[ebgaramond, 9pt]\textdir TLT\bf \getvariable{rdg}{chapter}\nobreak\,:\nobreak\,#1}\nobreak\enquad%
+			{\switchtobodyfont[ebgaramond, 10pt]\textdir TLT\bf \getvariable{rdg}{chapter}\nobreak\,:\nobreak\,#1}\nobreak\ %
 		}{%
 			%Otherwise, just typeset the verse:
-			\marking[Verse]{#1}{\switchtobodyfont[ebgaramond, 9pt]\textdir TLT\bf #1}\nobreak\enquad%
+			\marking[Verse]{#1}{\switchtobodyfont[ebgaramond, 10pt]\textdir TLT\bf #1}\nobreak\ %
 		}%
 		%Update the verse variable:
 		\setxvariables[rdg][verse=#1]%
@@ -590,13 +592,15 @@
 	\define[1]\ReplaceHeaderSpaces{\ctxlua{userdata.replaceHeaderSpaces([==[#1]==])}}
 	
 	%Setup header and footer text:
-	\setupheadertexts[\hfill{\switchtobodyfont[ebgaramond, 11pt]\feature[+][ebgaramond-header]\setcharacterkerning[headerkerning]\sc\currentstructuretitle}\hfill][][][\hfill{\switchtobodyfont[ebgaramond, 11pt]\feature[+][ebgaramond-header]\setcharacterkerning[headerkerning]\sc\currentstructuretitle}] %even left, even right, odd left, odd right
-	\setupfootertexts[{\switchtobodyfont[ebgaramond, 11pt]\textdir TLT\pagenumber}][][][{\switchtobodyfont[ebgaramond, 11pt]\textdir TLT\pagenumber}] %even left, even right, odd left, odd right
+	\setupheadertexts[\hfill{\switchtobodyfont[ebgaramond, 12pt]\feature[+][ebgaramond-header]\setcharacterkerning[headerkerning]\sc\currentstructuretitle}\hfill][][][\hfill{\switchtobodyfont[ebgaramond, 12pt]\feature[+][ebgaramond-header]\setcharacterkerning[headerkerning]\sc\currentstructuretitle}] %even left, even right, odd left, odd right
+	\setupfootertexts[{\switchtobodyfont[ebgaramond, 12pt]\textdir TLT\pagenumber}][][][{\switchtobodyfont[ebgaramond, 12pt]\textdir TLT\pagenumber}] %even left, even right, odd left, odd right
 	
 	%%%%%%%%
 	% BIBLIOGRAPHY
 	%%%%%%%%
 	
+	%Setup abbreviation settings:
+	\setupsynonyms[abbreviation][textstyle=normal, synonymstyle=normal] % don't force capitalization
 	%Setup bibliography settings:
 	\usebtxdataset[../bib/bibliography]
 	\usebtxdefinitions[chicago]%use SBL style for citation rendering

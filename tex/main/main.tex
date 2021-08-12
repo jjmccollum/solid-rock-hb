@@ -1,9 +1,49 @@
 \environment ../sty/sr-style
 \startproduct main
+	%Initialize abbreviations used in this book:
+	\abbreviation{AIL}{Ancient Israel and Its Literature}
+	\abbreviation{ANEM}{Ancient Near East Monographs}
+	\abbreviation{ABRL}{Anchor Yale Bible Reference Library}
+	\abbreviation[BHS]{\italic{BHS}}{\italic{Biblica Hebraica Stuttgartensia}}
+	\abbreviation[BHQ]{\italic{BHQ}}{\italic{Biblica Hebraica Quinta}}
+	\abbreviation{BRLA}{Brill Reference Library of Judaism}
+	\abbreviation{CBET}{Contributions to Biblical Exegesis and Theology}
+	\abbreviation{FAT}{Forschungen zum Alten Testament}
+	\abbreviation[HALOT]{\italic{HALOT}}{\italic{The Hebrew and Aramaic Lexicon of the Old Testament}}
+	\abbreviation{HB}{Hebrew Bible}
+	\abbreviation{HSM}{Harvard Semitic Monographs}
+	\abbreviation[JAOS]{\italic{JAOS}}{\italic{Journal of the American Oriental Society}}
+	\abbreviation[Leningrad]{L}{Leningrad Codex (National Library of Russia Firkovich B19A)}
+	\abbreviation{LSAWS}{Linguistic Studies in Ancient West Semitic}
+	\abbreviation{MPIL}{Monographs of the Peshitta Institute Leiden}
+	\abbreviation{MRTS}{Medieval and Renaissance Texts and Studies}
+	\abbreviation{MS}{manuscript}
+	\abbreviation{MSS}{manuscripts}
+	\abbreviation{MT}{Masoretic Text}
+	\abbreviation{NAC}{New American Commentary}
+	\abbreviation{NICOT}{New International Commentary on the Old Testament}
+	\abbreviation{OG}{Old Greek}
+	\abbreviation{SANER}{Studies in Ancient Near Eastern Records}
+	\abbreviation{SBLDS}{Society of Biblical Literature Dissertation Series}
+	\abbreviation{SBLSCS}{SBL Septuagint and Cognate Studies}
+	\abbreviation{SR}{Siglum indicating readings adopted in this edition}
+	\abbreviation{STDJ}{Studies on the Texts of the Desert of Judah}
+	\abbreviation[TC]{\italic{TC}}{\italic{TC: A Journal of Biblical Textual Criticism}}
+	\abbreviation{TCST}{Text-Critical Studies}
+	\abbreviation[THB]{\italic{THB}}{\italic{Textual History of the Bible}}
+	\abbreviation{THBSup}{Supplements to \italic{Textual History of the Bible}}
+	\abbreviation{TOTC}{Tyndale Old Testament Commentaries}
+	\abbreviation[VT]{\italic{VT}}{\italic{Vetus Testamentum}}
+	\abbreviation{VTSup}{Supplements to \italic{Vetus Testamentum}}
+	\abbreviation{WLC}{Westminster Leningrad Codex}
 	\startfrontmatter
+		\setupuserpagenumber[state=start, numberconversion=romannumerals]
+		\switchtobodyfont[ebgaramond, 12pt]
+		\textdir TLT
 		\component ../Introduction/Introduction
 	\stopfrontmatter
 	\startbodymatter
+		\setupuserpagenumber[state=start, numberconversion=arabic]
 		\component ../Gen/Gen
 		\component ../Exod/Exod
 		\component ../Lev/Lev
@@ -57,8 +97,14 @@
 	\startbackmatter
 		\switchtobodyfont[ebgaramond, 12pt]
 		\textdir TLT
+		\component ../Appendix/Appendix
 		\startpart[title=References]
-			\placelistofpublications
+			\startsubject[title=Abbreviations]
+				\placelistofabbreviations[criterium=all]
+			\stopsubject
+			\startsubject[title=References]
+				%\placelistofpublications % need to typeset this manually
+			\stopsubject
 		\stoppart
 	\stopbackmatter
 \stopproduct

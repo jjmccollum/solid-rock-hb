@@ -329,6 +329,7 @@ class tei_context_converter:
     def format_tei(self, xml):
         context = ''
         context += '\\environment ../sty/sr-style\n'
+        context += '\\environment ../sty/sr-book-style\n'
         context += '\\startcomponent %s\n' % self.filebase
         context += '\\product ../main/main\n'
         #Process the <text/> element under this element:
