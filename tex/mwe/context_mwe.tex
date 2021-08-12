@@ -1,4 +1,7 @@
-%Draft-only options:
+%%%%%%%%%
+%DRAFT OPTIONS
+%%%%%%%%%
+
 \showframe
 \showgrid
 
@@ -38,19 +41,6 @@
    \endgroup}
 \protect
 
-%Setup the columns layout:
-\definepagecolumns [hebrew] [
-	n=2, %number of columns
-	distance=0.375in, %space between columns
-	direction=reverse, %ordering of columns (change to reverse for RTL languages)
-	setups=hebrew:align
-]
-
-%\definepagecolumns doesn't appear to support an align option, so use this instead:
-\startsetups[hebrew:align]
-	\setupalign[r2l,flushleft,nothyphenated] %alignment of text in columns (leave blank for justified, {r2l,flushleft,nothyphenated} for Hebrew)
-\stopsetups
-
 %%%%%
 % FONTS
 %%%%%
@@ -59,22 +49,23 @@
 	dlig=yes, % ``Th'' ligature
 	kern=yes, % enable kerning
 	onum=yes, % use old-style numbers
+	tnum=yes, % use tabular (uniform-width) numbers
 	cv80=yes, %use alternate circumflex for Greek
-	script=latn % Latin script
+	script=latn, % Latin script
+	protrusion=pure %allow punctuation to extend outside of the text block
 ]
 \definefontfeature[ebgaramond-header][default][
 	liga=no, % disable standard ligatures
 	dlig=no, % disable discretionary ligatures
 	kern=no, % disable kerning (to accommodate increased letterspacing)
 	onum=yes, % use old-style numbers
+	tnum=yes, % use tabular (uniform-width) numbers
 	script=latn % Latin script
 ]
 \definefontfeature[ebgaramond-smallcaps][ebgaramond-normal][
 	smcp=yes
 ]
-\definefontfeature[keteryg-normal][hebrew][
-	dlig=yes % enable discretionary ligatures
-]
+\definefontfeature[keteryg-normal][hebrew]
 \definefontfeature[keteryg-header][hebrew][
 	kern=no % disable kerning (to accommodate increased letterspacing)
 ]
@@ -85,22 +76,23 @@
 
 \definecharacterkerning
 	[bookkerning]
-	[factor=0.6666,
+	[factor=1.0,
 	features=letterspacing]
 	
 \definecharacterkerning
 	[headerkerning]
-	[factor=0.6666,
+	[factor=0.3333,
 	features=letterspacing]
+	
+%Define a macro that uses the actual superscript font feature:
+\define[1]\textsuperscript{{\feature[+][superscript]#1}}
 
 \starttypescriptcollection[ebgaramond]
 	\starttypescript[serif][ebgaramond]
-		\setups[font:fallback:serif]
 		\definefontsynonym[Serif][file:../fonts/EB-Garamond/EBGaramond12-regular.otf][features=ebgaramond-normal]
 		\definefontsynonym[SerifItalic][file:../fonts/EB-Garamond/EBGaramond12-italic.otf][features=ebgaramond-normal]
-		\definefontsynonym[SerifBold][Serif] % we don't use this
-		\definefontsynonym[SerifBoldItalic][SerifItalic] % we don't use this
-		\definefontsynonym[Header][Serif][features=ebgaramond-header]
+		\definefontsynonym[SerifBold][file:../fonts/EB-Garamond/EBGaramond-SemiBold.otf][features=ebgaramond-normal]
+		\definefontsynonym[SerifBoldItalic][file:../fonts/EB-Garamond/EBGaramond-SemiBoldItalic.otf][features=ebgaramond-normal]
 		\definefontsynonym[SerifCaps][Serif][features=ebgaramond-smallcaps]
 	\stoptypescript
 
@@ -111,7 +103,7 @@
 
 \starttypescriptcollection[apparatus]
 	\starttypescript[serif][apparatus]
-		\setups[font:fallback:serif]
+		%\setups[font:fallback:serif]
 		\definefontsynonym[Serif][file:../fonts/Apparatus-SIL/AppSILR.ttf][features=default]
 		\definefontsynonym[SerifItalic][file:../fonts/Apparatus-SIL/AppSILI.ttf][features=default]
 		\definefontsynonym[SerifBold][file:../fonts/Apparatus-SIL/AppSILB.ttf][features=default]
@@ -125,12 +117,11 @@
 
 \starttypescriptcollection[keteryg]
 	\starttypescript[serif][keteryg]
-		\setups[font:fallback:serif]
+		%\setups[font:fallback:serif]
 		\definefontsynonym[Serif][file:../fonts/KeterYG/KeterYG-Medium.ttf][features=keteryg-normal]
 		\definefontsynonym[SerifItalic][Serif] % we don't use this
 		\definefontsynonym[SerifBold][Serif] % we don't use this
 		\definefontsynonym[SerifBoldItalic][Serif] % we don't use this
-		\definefontsynonym[Header][Serif][features=keteryg-header]
 	\stoptypescript
 
 	\starttypescript[keteryg]
@@ -140,7 +131,7 @@
 
 \starttypescriptcollection[keteraramtsova]
 	\starttypescript[serif][keteraramtsova]
-		\setups[font:fallback:serif]
+		%\setups[font:fallback:serif]
 		\definefontsynonym[Serif][file:../fonts/KeterAramTsova/KeterAramTsova.ttf][features=keteraramtsova-title]
 		\definefontsynonym[SerifItalic][Serif] % we don't use this
 		\definefontsynonym[SerifBold][Serif] % we don't use this
@@ -158,15 +149,39 @@
 \usetypescript[keteryg]
 \usetypescript[keteraramtsova]
 
+%%%%%%%
+% TEXT LAYOUT
+%%%%%%%
+
+%Setup the columns layout:
+\definepagecolumns [hebrew] [
+	n=2, %number of columns
+	distance=0.375in, %space between columns
+	direction=reverse, %ordering of columns (change to reverse for RTL languages)
+	setups=hebrew:align
+]
+
+%\definepagecolumns doesn't appear to support an align option, so use this instead:
+\startsetups[hebrew:align]
+	\setupalign[r2l,flushleft,nothyphenated] %alignment of text in columns (leave blank for justified, {r2l,flushleft,nothyphenated} for Hebrew)
+\stopsetups
+
 %Setup font size and leading for text:
 \setupinterlinespace[18bp] %text line spacing
-\setupbodyfont[keteryg,13pt] %body font
+\setupbodyfont[keteryg, 13pt] %body font
+
+%Ensure that whitespace respects the grid layout:
+\setupblank[line,fixed]
+
+%%%%%%%%%%%
+% APPARATUS LAYOUT
+%%%%%%%%%%%
 
 %Setup font size and leading for footnotes:
 \startsetups[footnotesetup]
 	\setupinterlinespace[12bp] %footnote line spacing
-	\setupbodyfont[keteryg,10pt] %footnote font size
-	\setupalign[flushleft,nothyphenated] %alignment of text in columns (use text for justified, {flushright,nothyphenated} for Hebrew)
+	\setupbodyfont[keteryg, 10pt] %footnote font
+	\setupalign[flushleft,nothyphenated] %alignment of text in columns
 \stopsetups
 
 %Setup layout of footnote text blocks:
@@ -182,6 +197,10 @@
 	hang=fit, %multi-line footnotes are not indented
 	numbercommand=\textsuperscript %command for typesetting the footnote number in the footnote block
 ]
+
+%%%%%%%%%%%%
+% APPARATUS NOTATION
+%%%%%%%%%%%%
 
 %Setup a parent class of footnotes for all apparatus entries:
 \definenote[app]
@@ -232,17 +251,21 @@
 \setcounter[trans] [0]
 
 %Define macros for typesetting apparatus marks:
-\define[1]\StartSubMark{{\switchtobodyfont[apparatus]⸃}\doifnot{#1}{1}{{\switchtobodyfont[ebgaramond]\textsuperscript{#1}}}} %reverse symbol for RTL
-\define\StopSubMark{{\switchtobodyfont[apparatus]⸂}} %reverse symbol for RTL
-\define[1]\AddMark{{\switchtobodyfont[apparatus]⸆}\doifnot{#1}{1}{{\switchtobodyfont[ebgaramond]\textsuperscript{#1}}}}
-\define[1]\StartOmitMark{{\switchtobodyfont[apparatus]⸋}\doifnot{#1}{1}{{\switchtobodyfont[ebgaramond]\textsuperscript{#1}}}}
-\define\StopOmitMark{{\switchtobodyfont[apparatus]⸌}} %should reverse symbol for RTL, but Apparatus SIL doesn't include U2E0D
-\define[1]\StartTransMark{\enquad{\switchtobodyfont[apparatus]⸊}\doifnot{#1}{1}{{\switchtobodyfont[ebgaramond]\textsuperscript{#1}}}} %reverse symbol for RTL
-\define\StopTransMark{\nospace\nobreak\,{\switchtobodyfont[apparatus]⸉}} %reverse symbol for RTL
+\define[1]\StartSubMark{{\switchtobodyfont[apparatus, 11pt]⸃}\doifnot{#1}{1}{{\switchtobodyfont[ebgaramond, 11pt]\textsuperscript{#1}}}} %reverse symbol for RTL
+\define\StopSubMark{{\switchtobodyfont[apparatus, 11pt]⸂}} %reverse symbol for RTL
+\define[1]\AddMark{{\switchtobodyfont[apparatus, 11pt]⸆}\doifnot{#1}{1}{{\switchtobodyfont[ebgaramond, 11pt]\textsuperscript{#1}}}}
+\define[1]\StartOmitMark{{\switchtobodyfont[apparatus, 11pt]⸋}\doifnot{#1}{1}{{\switchtobodyfont[ebgaramond, 11pt]\textsuperscript{#1}}}}
+\define\StopOmitMark{{\switchtobodyfont[apparatus, 11pt]⸌}} %should reverse symbol for RTL, but Apparatus SIL doesn't include U2E0D
+\define[1]\StartTransMark{\enquad{\switchtobodyfont[apparatus, 11pt]⸊}\doifnot{#1}{1}{{\switchtobodyfont[ebgaramond, 11pt]\textsuperscript{#1}}}} %reverse symbol for RTL
+\define\StopTransMark{\nospace\nobreak\,{\switchtobodyfont[apparatus, 11pt]⸉}} %reverse symbol for RTL
 
 %Define macros for apparatus entries:
 \define[2]\Reading{ %arg 1 is reading text, arg 2 is witness list
-	{\switchtobodyfont[ebgaramond, 10pt]\textdir TRT#1}\nobreak\enquad{\switchtobodyfont[ebgaramond, 9pt]\textdir TLT#2}\nobreak\enquad%set in the appropriate font and direction for the language of the text 
+	\doifemptyelse{#1}{%
+		{\switchtobodyfont[ebgaramond, 9pt]\textdir TLT –}\nospace\nobreak\hspace[medium]{\switchtobodyfont[ebgaramond, 9pt]\textdir TLT#2}\nobreak\hspace[medium]%represent the omission with an en-dash 
+	}{%
+		{\switchtobodyfont[keteryg, 10pt]\textdir TRT#1}\nospace\nobreak\hspace[medium]{\switchtobodyfont[ebgaramond, 9pt]\textdir TLT#2}\nobreak\hspace[medium]%set the reading in Hebrew
+	}%
 } 
 \define\PrimaryReadingSep{{\switchtobodyfont[ebgaramond, 9pt][}\nobreak\,} %reverse symbol for RTL
 \define\SecondaryReadingSep{{\switchtobodyfont[ebgaramond, 9pt]¦}\nobreak\,}
@@ -301,6 +324,10 @@
 	}%
 }
 
+%%%%%%%%%
+% TEXT DIVISIONS
+%%%%%%%%%
+
 %Define custom chapter and verse markings to be used in the header:
 \definemarking[Chapter]
 \definemarking[Verse]
@@ -324,6 +351,7 @@
 	align={r2l, flushright, nothyphenated},%use Hebrew alignment settings, but make flush right
 	style=BookTitleFont,%set text style
 	textstyle={\setcharacterkerning[bookkerning]},%use the command defined above to handle the typesetting
+	before={\phantom{*}\blank[5*line]},%add five blank lines before
 	after={\page[blankpagebreak]\noindentation}%add a double page break
 ]
 
@@ -381,6 +409,10 @@
 	\par\blank[halfline]\startalignment[middle]׆\stopalignment\par\blank[halfline]%
 }
 
+%%%%%%
+% MARGINS
+%%%%%%
+
 %Define macro for getting a reference range:
 \define\RefRange{%
 	%Check if the first chapter matches the last chapter on the page:
@@ -414,11 +446,12 @@
 \define[1]\ReplaceHeaderSpaces{\ctxlua{userdata.replaceHeaderSpaces([==[#1]==])}}
 
 %Setup header and footer text:
-\setupheadertexts[\rlap{\switchtobodyfont[ebgaramond, 11pt]\textdir TLT\RefRange}\hfill {\switchtobodyfont[keteryg, 13pt]\kerncharacters[0.25]\textdir TRT\ReplaceHeaderSpaces{\structureuservariable{booktitle}}} \hfill][][][\hfill {\switchtobodyfont[keteryg, 13pt]\kerncharacters[0.25]\textdir TRT\ReplaceHeaderSpaces{\structureuservariable{booktitle}}} \hfill \llap{\switchtobodyfont[ebgaramond, 11pt]\textdir TLT\RefRange}] %even left, even right, odd left, odd right
+\setupheadertexts[\rlap{\switchtobodyfont[ebgaramond, 11pt]\textdir TLT\RefRange}\hfill {\switchtobodyfont[keteryg, 13pt]\feature[+][keteryg-header]\setcharacterkerning[headerkerning]\textdir TRT\ReplaceHeaderSpaces{\structureuservariable{booktitle}}} \hfill][][][\hfill {\switchtobodyfont[keteryg, 13pt]\feature[+][keteryg-header]\setcharacterkerning[headerkerning]\textdir TRT\ReplaceHeaderSpaces{\structureuservariable{booktitle}}} \hfill \llap{\switchtobodyfont[ebgaramond, 11pt]\textdir TLT\RefRange}] %even left, even right, odd left, odd right
 \setupfootertexts[{\switchtobodyfont[ebgaramond, 11pt]\textdir TLT\pagenumber}][][][{\switchtobodyfont[ebgaramond, 11pt]\textdir TLT\pagenumber}] %even left, even right, odd left, odd right
 
-%Ensure that whitespace respects the grid layout:
-\setupblank[line,fixed]
+%%%%%%%%%
+% TEST DOCUMENT
+%%%%%%%%%
 
 \starttext
 \startBook[title={תהלים}][booktitle={תהלים}]

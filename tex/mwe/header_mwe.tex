@@ -1,12 +1,39 @@
 \setuppagenumbering [alternative=doublesided, location=] %undo default page numbering in middle of header; doublesided option will ensure that the document has an even number of pages
 
-\definefontfamily
-   [garamond]
-   [rm]
-   [EBGaramond]
+\definefontfeature[ebgaramond-normal][default][
+	liga=yes, % standard ligatures
+	dlig=yes, % ``Th'' ligature
+	kern=yes, % enable kerning
+	onum=yes, % use old-style numbers
+	cv80=yes, %use alternate circumflex for Greek
+	script=latn % Latin script
+]
+\definefontfeature[ebgaramond-smallcaps][ebgaramond-normal][
+	smcp=yes
+]
+
+\starttypescriptcollection[ebgaramond]
+	\starttypescript[serif][ebgaramond]
+		\setups[font:fallback:serif]
+		\definefontsynonym[Serif][file:../fonts/EB-Garamond/EBGaramond12-regular.otf][features=ebgaramond-normal]
+		\definefontsynonym[SerifItalic][file:../fonts/EB-Garamond/EBGaramond12-italic.otf][features=ebgaramond-normal]
+		\definefontsynonym[SerifBold][Serif] % we don't use this
+		\definefontsynonym[SerifBoldItalic][SerifItalic] % we don't use this
+		\definefontsynonym[SerifCaps][Serif][features=ebgaramond-smallcaps]
+	\stoptypescript
+
+	\starttypescript[ebgaramond]
+		\definetypeface[ebgaramond][rm][serif][ebgaramond][default]
+	\stoptypescript
+\stoptypescriptcollection
+
+\usetypescript[ebgaramond]
 
 \setupbodyfont
-   [garamond,12pt]
+   [ebgaramond,12pt]
+
+\setupinterlinespace
+   [line=18pt]
 
 \definefont
    [MyPartFont]
@@ -17,9 +44,6 @@
    [alternative=doublesided,
     location=]
 
-\setupinterlinespace
-   [line=18pt]
-   
 \setupindenting[yes, 1em]
 
 \definepagebreak
@@ -49,8 +73,8 @@
     indentnext=no]
 
 \setupheadertexts
-   [\structureuservariable{booktitle}] []
-   [] [\structureuservariable{booktitle}]
+   [{\sc\word{\structureuservariable{booktitle}}}] []
+   [] [{\sc\word{\structureuservariable{booktitle}}}]
 
 \setupfootertexts
    [pagenumber] []

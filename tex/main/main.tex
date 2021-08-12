@@ -1,53 +1,64 @@
-\environment ../sty/sr-style %TODO: separate general (i.e., not book- or essay-specific) style settings into a product-wide environment
+\environment ../sty/sr-style
 \startproduct main
-
-\component ../Gen/Gen
-\component ../Exod/Exod
-\component ../Lev/Lev
-\component ../Num/Num
-\component ../Deut/Deut
-\component ../Josh/Josh
-\component ../Judg/Judg
-\startBook[title={שמואל}]
-\component ../1Sam/1Sam
-\component ../2Sam/2Sam
-\stopBook
-\startBook[title={מלכים}]
-\component ../1Kgs/1Kgs
-\component ../2Kgs/2Kgs
-\stopBook
-\component ../Isa/Isa
-\component ../Jer/Jer
-\component ../Ezek/Ezek
-\startBook[title={תרי עשר}]
-\component ../Hos/Hos
-\component ../Joel/Joel
-\component ../Amos/Amos
-\component ../Obad/Obad
-\component ../Jonah/Jonah
-\component ../Mic/Mic
-\component ../Nah/Nah
-\component ../Hab/Hab
-\component ../Zeph/Zeph
-\component ../Hag/Hag
-\component ../Zech/Zech
-\component ../Mal/Mal
-\stopBook
-\component ../Pss/Pss
-\component ../Prov/Prov
-\component ../Job/Job
-\component ../Song/Song
-\component ../Ruth/Ruth
-\component ../Lam/Lam
-\component ../Ecc/Ecc
-\component ../Esth/Esth
-\component ../Dan/Dan
-\startBook[title={עזרא ונחמיה}]
-\component ../Ezra/Ezra
-\component ../Neh/Neh
-\stopBook
-\startBook[title={דברי הימים}]
-\component ../1Chr/1Chr
-\component ../2Chr/2Chr
-\stopBook
+	\startfrontmatter
+		\component ../Introduction/Introduction
+	\stopfrontmatter
+	\startbodymatter
+		\component ../Gen/Gen
+		\component ../Exod/Exod
+		\component ../Lev/Lev
+		\component ../Num/Num
+		\component ../Deut/Deut
+		\component ../Josh/Josh
+		\component ../Judg/Judg
+		\startBook[title={שמואל}]
+			\component ../1Sam/1Sam
+			\component ../2Sam/2Sam
+		\stopBook
+		\startBook[title={מלכים}]
+			\component ../1Kgs/1Kgs
+			\component ../2Kgs/2Kgs
+		\stopBook
+		\component ../Isa/Isa
+		\component ../Jer/Jer
+		\component ../Ezek/Ezek
+		\startBook[title={תרי עשר}]
+			\component ../Hos/Hos
+			\component ../Joel/Joel
+			\component ../Amos/Amos
+			\component ../Obad/Obad
+			\component ../Jonah/Jonah
+			\component ../Mic/Mic
+			\component ../Nah/Nah
+			\component ../Hab/Hab
+			\component ../Zeph/Zeph
+			\component ../Hag/Hag
+			\component ../Zech/Zech
+			\component ../Mal/Mal
+		\stopBook
+		\component ../Pss/Pss
+		\component ../Prov/Prov
+		\component ../Job/Job
+		\component ../Song/Song
+		\component ../Ruth/Ruth
+		\component ../Lam/Lam
+		\component ../Ecc/Ecc
+		\component ../Esth/Esth
+		\component ../Dan/Dan
+		\startBook[title={עזרא ונחמיה}]
+			\component ../Ezra/Ezra
+			\component ../Neh/Neh
+		\stopBook
+		\startBook[title={דברי הימים}]
+			\component ../1Chr/1Chr
+			\component ../2Chr/2Chr
+		\stopBook
+	\stopbodymatter
+	\startbackmatter
+		\switchtobodyfont[ebgaramond, 12pt]
+		\textdir TLT
+		\startpart[title=References]
+			\placelistofpublications
+		\stoppart
+	\stopbackmatter
 \stopproduct

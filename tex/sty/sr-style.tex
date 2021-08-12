@@ -1,12 +1,19 @@
-\startenvironment sr-style
-	%Draft-only options:
+\startenvironment sr-style % Solid Rock Hebrew Bible common style environment
+	%%%%%%%%%
+	%DRAFT OPTIONS
+	%%%%%%%%%
+	
 	%\showframe
 	%\showgrid
+	
+	%%%%%%%%%
+	% PAGE LAYOUT
+	%%%%%%%%%
 	
 	%Setup the page trim size and printing options:
 	\definepapersize[10-by-8][width=8in,height=10in]
 	\setuppapersize[10-by-8][10-by-8]
-	\setuparranging [mirrored] %mirrored layout for double-sided printing
+	\setuparranging[mirrored] %mirrored layout for double-sided printing
 	\setuppagenumbering[alternative=doublesided,location=] %undo default page numbering in middle of header; doublesided option will ensure that the document has an even number of pages
 	%Setup the page layout:
 	\setuplayout[
@@ -19,6 +26,9 @@
 		grid=yes %enable baseline grid
 	]
 	
+	%Define an odd page break between books that omits headers and footers in blank pages
+	\definepagebreak[blankpagebreak][yes,header,footer,odd]
+	
 	%Patch pagecolumns so that it does not add a blank page:
 	\unprotect
 	\def\page_col_stop_yes
@@ -28,59 +38,210 @@
 	   \fi
 	   \page
 	   \endgroup
-	   % \setupoutputroutine[\s!singlecolumn]%
+	 % \setupoutputroutine[\s!singlecolumn]%
 	   \page_otr_command_set_vsize
 	   \page_otr_command_set_hsize
 	   \page
 	   \endgroup}
 	\protect
 	
-	%Setup the columns layout:
+	%%%%%
+	% FONTS
+	%%%%%
+	
+	\definefontfeature[default][default][protrusion=pure] %allow punctuation and certain parts of letters to extend outside of the text block
+	
+	\definefontfeature[ebgaramond-normal][default][
+		liga=yes, % standard ligatures
+		dlig=yes, % ``Th'' ligature
+		kern=yes, % enable kerning
+		onum=yes, % use old-style numbers
+		tnum=yes, % use tabular (uniform-width) numbers
+		cv80=yes, %use alternate circumflex for Greek
+		script=latn % Latin script
+	]
+	\definefontfeature[ebgaramond-header][default][
+		liga=no, % disable standard ligatures
+		dlig=no, % disable discretionary ligatures
+		kern=no, % disable kerning (to accommodate increased letterspacing)
+		onum=yes, % use old-style numbers
+		tnum=yes, % use tabular (uniform-width) numbers
+		script=latn % Latin script
+	]
+	\definefontfeature[ebgaramond-smallcaps][ebgaramond-normal][
+		smcp=yes
+	]
+	\definefontfeature[keteryg-normal][hebrew]
+	\definefontfeature[keteryg-header][hebrew][
+		kern=no % disable kerning (to accommodate increased letterspacing)
+	]
+	\definefontfeature[keteraramtsova-title][hebrew][
+		kern=no % disable kerning (to accommodate increased letterspacing)
+	]
+	\definefontfeature[superscript][sups=yes] %superscript
+	
+	\definecharacterkerning
+		[essaytitlekerning]
+		[factor=0.3333,
+		features=letterspacing]
+		
+	\definecharacterkerning
+		[booktitlekerning]
+		[factor=1.0,
+		features=letterspacing]
+		
+	\definecharacterkerning
+		[headerkerning]
+		[factor=0.25,
+		features=letterspacing]
+		
+	%Define a macro that uses the actual superscript font feature:
+	\define[1]\textsuperscript{{\feature[+][superscript]#1}}
+	
+	%Use EB Garamond for English and Greek text
+	\starttypescriptcollection[ebgaramond]
+		\starttypescript[serif][ebgaramond]
+			\definefontsynonym[Serif][file:../fonts/EB-Garamond/EBGaramond12-regular.otf][features=ebgaramond-normal]
+			\definefontsynonym[SerifItalic][file:../fonts/EB-Garamond/EBGaramond12-italic.otf][features=ebgaramond-normal]
+			\definefontsynonym[SerifBold][file:../fonts/EB-Garamond/EBGaramond-SemiBold.otf][features=ebgaramond-normal]
+			\definefontsynonym[SerifBoldItalic][file:../fonts/EB-Garamond/EBGaramond-SemiBoldItalic.otf][features=ebgaramond-normal]
+			\definefontsynonym[SerifCaps][Serif][features=ebgaramond-smallcaps]
+		\stoptypescript
+	
+		\starttypescript[ebgaramond]
+			\definetypeface[ebgaramond][rm][serif][ebgaramond][default]
+		\stoptypescript
+	\stoptypescriptcollection
+	
+	%Use Apparatus SIL for text-critical notation
+	\starttypescriptcollection[apparatus]
+		\starttypescript[serif][apparatus]
+			\definefontsynonym[Serif][file:../fonts/Apparatus-SIL/AppSILR.ttf][features=default]
+			\definefontsynonym[SerifItalic][file:../fonts/Apparatus-SIL/AppSILI.ttf][features=default]
+			\definefontsynonym[SerifBold][file:../fonts/Apparatus-SIL/AppSILB.ttf][features=default]
+			\definefontsynonym[SerifBoldItalic][file:../fonts/Apparatus-SIL/AppSILBI.ttf][features=default]
+		\stoptypescript
+	
+		\starttypescript[apparatus]
+			\definetypeface[apparatus][rm][serif][apparatus][default]
+		\stoptypescript
+	\stoptypescriptcollection
+	
+	%Use Keter YG for Hebrew text
+	\starttypescriptcollection[keteryg]
+		\starttypescript[serif][keteryg]
+			\definefontsynonym[Serif][file:../fonts/KeterYG/KeterYG-Medium.ttf][features=keteryg-normal]
+			\definefontsynonym[SerifItalic][Serif] % we don't use this
+			\definefontsynonym[SerifBold][Serif] % we don't use this
+			\definefontsynonym[SerifBoldItalic][Serif] % we don't use this
+		\stoptypescript
+	
+		\starttypescript[keteryg]
+			\definetypeface[keteryg][rm][serif][keteryg][default]
+		\stoptypescript
+	\stoptypescriptcollection
+	
+	%Use Keter Aram Tsova for Hebrew titles
+	\starttypescriptcollection[keteraramtsova]
+		\starttypescript[serif][keteraramtsova]
+			\definefontsynonym[Serif][file:../fonts/KeterAramTsova/KeterAramTsova.ttf][features=keteraramtsova-title]
+			\definefontsynonym[SerifItalic][Serif] % we don't use this
+			\definefontsynonym[SerifBold][Serif] % we don't use this
+			\definefontsynonym[SerifBoldItalic][Serif] % we don't use this
+		\stoptypescript
+	
+		\starttypescript[keteraramtsova]
+			\definetypeface[keteraramtsova][rm][serif][keteraramtsova][default]
+		\stoptypescript
+	\stoptypescriptcollection
+	
+	%Install these typescripts:
+	\usetypescript[ebgaramond]
+	\usetypescript[apparatus]
+	\usetypescript[keteryg]
+	\usetypescript[keteraramtsova]
+	
+	% Define custom size scales for different text font sizes:
+	\definebodyfontenvironment [12pt][xx=9pt, x=10pt, d=24pt]
+	\definebodyfontenvironment [13pt][x=11pt, d=30pt]
+	
+	%%%%%%%
+	% TEXT LAYOUT
+	%%%%%%%
+	
+	%Setup the two-column layout for Hebrew text:
 	\definepagecolumns [hebrew] [
-		n=2, %number of columns
-		distance=0.375in, %space between columns
-		direction=reverse, %ordering of columns (change to reverse for RTL languages)
-		setups=hebrew:align
+		n=2, % number of columns
+		distance=0.375in, % space between columns
+		direction=reverse, % ordering of columns (RTL for Hebrew text)
+		setups=hebrew:layout % use layout settings defined below
 	]
 	
-	%\definepagecolumns doesn't appear to support an align option, so use this instead:
-	\startsetups[hebrew:align]
-		\setupalign[r2l,flushleft,nothyphenated] %alignment of text in columns (flush-left actually means flush-right, perhaps because of r2l?)
+	%Layout settings for Hebrew text:
+	\startsetups[hebrew:layout]
+		\setupbodyfont[keteryg, 13pt]
+		\setupalign[r2l,flushleft,nothyphenated] % Hebrew should be set right-to-left, flush left, with no hyphenation
 	\stopsetups
 	
-	%Setup English text font:
-	\definefontfeature[f:oldstyle][onum=yes] %old-style numbers
-	\definefontfeature[f:lining][lnum=yes] %lining (uniform-width) numbers
-	\definefontfeature[f:superscript][sups=yes] %superscript
-	\definefontfamily[english] [rm] [EB Garamond] [features={default,f:oldstyle,f:lining},protrusion=quality] %protrusion allows small punctuation characters to be set just past the boundary of justified text
-	%Setup English title font:
-	\definefontfamily[englishtitle] [rm] [EB Garamond] [features={kern=no}]
-	%Setup Hebrew text font:
-	\definefontfamily[hebrew] [rm] [Keter YG] [features=hebrew]
-	%Setup Hebrew header font:
-	\definefontfamily[hebrewheader] [rm] [Keter YG] [features={hebrew,kern=no}]
-	%Setup apparatus font:
-	\definefontfamily[apparatus] [rm] [Apparatus SIL] [features=default]
-	
-	%Define a macro that uses the actual superscript font feature:
-	\define[1]\textsuperscript{{\feature[+][f:superscript]#1}}
-	
-	%Setup font size scaling macros:
-	\definebodyfontenvironment [13pt] [d=26pt] %define rescaling for titles
-	
-	%Setup font kerning macros:
-	\definecharacterkerning [titlekerning] [factor=1.0]
-	\definecharacterkerning [headerkerning] [factor=.3333]
+	%Setup alignment for the text:
+	\setupalign[hanging,hyphenated] % by default, justified and hyphenated, with protrusion allowed
 	
 	%Setup font size and leading for text:
-	\setupinterlinespace[18bp] %text line spacing
-	\setupbodyfont[hebrew,13pt] %text font size
+	\setupinterlinespace[18bp] % text line spacing
+	\setupbodyfont[keteryg, 13pt] % default body font
+	
+	%Setup text paragraph indentation:
+	\setupindenting[yes, 1em]
+	
+	%Ensure that whitespace respects the grid layout:
+	\setupblank[line,fixed]
+	
+	%Modify the layout for the itemize environment:
+	\setupitemize[each][packed][width=1em]
+	
+	%Modify the settings for the blockquote environment:
+	\setupdelimitedtext[blockquote][
+		leftmargin=2em,
+		rightmargin=2em,
+		spacebefore=line, %add one line of space before
+		spaceafter=line, %add one line of space after
+		indenting=no, %don't indent the first paragraph of the blockquote
+		style=\tfx
+	]
+	
+	%Define a macro that switches to inline Hebrew text:
+	\define[1]\Heb{{\textdir TRT\switchtobodyfont[keteryg]#1}}
+	
+	%%%%%%%%%%%
+	% FOOTNOTE LAYOUT
+	%%%%%%%%%%%
 	
 	%Setup font size and leading for footnotes:
 	\startsetups[footnotesetup]
-		\setupinterlinespace[12bp] %footnote line spacing
-		\setupbodyfont[hebrew,10pt] %footnote font size
-		\setupalign[r2l,flushleft,nothyphenated] %alignment of text in columns (flush-left actually means flush-right, perhaps because the column order is reversed?)
+		\setupinterlinespace[12bp] % footnote line spacing
+		\setupbodyfont[garamond,10pt] % footnote font size
+		\setupalign[normal,hanging,hyphenated] % alignment of text (left-to-right, justified, protrusion allowed, hyphenation allowed)
+	\stopsetups
+	
+	%Setup layout of footnote text blocks:
+	\setupnote[footnote][
+		rule=off, %disable line separating footnotes from text
+		before={\blank[18bp]}, %enforce one line of blank space between the text and the footnote block
+		textcommand=\textsuperscript, %command for typesetting the footnote number in the main text
+		setups=footnotesetup %setup for footnote font, leading, and alignment
+	]
+	%Setup formatting of footnote mark at bottom of text:
+	\setupnotation[footnote][
+		alternative=left, % align footnote symbol with edge of text
+		hang=fit, % multi-line footnotes are not indented
+		numbercommand=\textsuperscript % command for typesetting the footnote number in the footnote block
+	]
+	
+	%Setup font size and leading for footnotes:
+	\startsetups[footnotesetup]
+		\setupinterlinespace[12bp] % footnote line spacing
+		\setupbodyfont[ebgaramond,10pt] % default footnote font
+		\setupalign[normal,hanging,hyphenated] % alignment (by default, justified and hyphenated, with protrusion allowed)
 	\stopsetups
 	
 	%Setup layout of footnote text blocks:
@@ -96,6 +257,10 @@
 		hang=fit, %multi-line footnotes are not indented
 		numbercommand=\textsuperscript %command for typesetting the footnote number in the footnote block
 	]
+	
+	%%%%%%%%%%%%
+	% APPARATUS NOTATION
+	%%%%%%%%%%%%
 	
 	%Setup a parent class of footnotes for all apparatus entries:
 	\definenote[app]
@@ -126,12 +291,12 @@
 			}{%
 				%If it does not, then update the latest verse reference and typeset the reference:
 				\setxvariables[app][verse=\getvariable{text}{verse}]%
-				{\switchtobodyfont[english, 9pt]\textdir TLT{\bf\getvariable{text}{chapter}\,:\,\getvariable{text}{verse}}}\nobreak\hspace[medium]%
+				{\switchtobodyfont[ebgaramond, 9pt]\textdir TLT{\bf\getvariable{text}{chapter}\,:\,\getvariable{text}{verse}}}\nobreak\hspace[medium]%
 			}%
 		}{%
 			%If it does not, then update the latest chapter and verse references and typeset the reference:
 			\setxvariables[app][chapter=\getvariable{text}{chapter},verse=\getvariable{text}{verse}]%
-			{\switchtobodyfont[english, 9pt]\textdir TLT{\bf\getvariable{text}{chapter}\,:\,\getvariable{text}{verse}}}\nobreak\hspace[medium]%
+			{\switchtobodyfont[ebgaramond, 9pt]\textdir TLT{\bf\getvariable{text}{chapter}\,:\,\getvariable{text}{verse}}}\nobreak\hspace[medium]%
 		}%
 	}
 	
@@ -140,30 +305,30 @@
 	\definecounter[add]
 	\definecounter[omit]
 	\definecounter[trans]
-	\setcounter[sub] [0] %use \setnumber if this doesn't work
+	\setcounter[sub] [0]
 	\setcounter[add] [0]
 	\setcounter[omit] [0]
 	\setcounter[trans] [0]
 	
 	%Define macros for typesetting apparatus marks:
-	\define[1]\StartSubMark{{\switchtobodyfont[apparatus]⸃}\doifnot{#1}{1}{{\switchtobodyfont[english]\textsuperscript{#1}}}} %reverse symbol for RTL
+	\define[1]\StartSubMark{{\switchtobodyfont[apparatus]⸃}\doifnot{#1}{1}{{\switchtobodyfont[ebgaramond]\textsuperscript{#1}}}} %reverse symbol for RTL
 	\define\StopSubMark{{\switchtobodyfont[apparatus]⸂}} %reverse symbol for RTL
-	\define[1]\AddMark{{\switchtobodyfont[apparatus]⸆}\doifnot{#1}{1}{{\switchtobodyfont[english]\textsuperscript{#1}}}}
-	\define[1]\StartOmitMark{{\switchtobodyfont[apparatus]⸋}\doifnot{#1}{1}{{\switchtobodyfont[english]\textsuperscript{#1}}}}
+	\define[1]\AddMark{{\switchtobodyfont[apparatus]⸆}\doifnot{#1}{1}{{\switchtobodyfont[ebgaramond]\textsuperscript{#1}}}}
+	\define[1]\StartOmitMark{{\switchtobodyfont[apparatus]⸋}\doifnot{#1}{1}{{\switchtobodyfont[ebgaramond]\textsuperscript{#1}}}}
 	\define\StopOmitMark{{\switchtobodyfont[apparatus]⸌}} %should reverse symbol for RTL, but Apparatus SIL doesn't include U2E0D
-	\define[1]\StartTransMark{{\switchtobodyfont[apparatus]⸊}\doifnot{#1}{1}{{\switchtobodyfont[english]\textsuperscript{#1}}}} %reverse symbol for RTL
+	\define[1]\StartTransMark{{\switchtobodyfont[apparatus]⸊}\doifnot{#1}{1}{{\switchtobodyfont[ebgaramond]\textsuperscript{#1}}}} %reverse symbol for RTL
 	\define\StopTransMark{{\switchtobodyfont[apparatus]⸉}} %reverse symbol for RTL
 	
 	%Define macros for apparatus entries:
 	\define[2]\Reading{ %arg 1 is reading text, arg 2 is witness list
 		\doifemptyelse{#1}{%
-			{\switchtobodyfont[english, 9pt]\textdir TLT –}\nospace\nobreak\hspace[medium]{\switchtobodyfont[english, 9pt]\textdir TLT#2}\nobreak\hspace[medium]%represent the omission with an en-dash 
+			{\switchtobodyfont[ebgaramond, 9pt]\textdir TLT –}\nospace\nobreak\hspace[medium]{\switchtobodyfont[ebgaramond, 9pt]\textdir TLT#2}\nobreak\hspace[medium]%represent the omission with an en-dash 
 		}{%
-			{\switchtobodyfont[hebrew, 10pt]\textdir TRT#1}\nospace\nobreak\hspace[medium]{\switchtobodyfont[english, 9pt]\textdir TLT#2}\nobreak\hspace[medium]%set the reading in Hebrew
+			{\switchtobodyfont[keteryg, 10pt]\textdir TRT#1}\nospace\nobreak\hspace[medium]{\switchtobodyfont[ebgaramond, 9pt]\textdir TLT#2}\nobreak\hspace[medium]%set the reading in Hebrew
 		}%
 	} 
-	\define\PrimaryReadingSep{{\switchtobodyfont[english, 9pt][}\nobreak\,} %reverse symbol for RTL
-	\define\SecondaryReadingSep{{\switchtobodyfont[english, 9pt]¦}\nobreak\,}
+	\define\PrimaryReadingSep{{\switchtobodyfont[ebgaramond, 9pt][}\nobreak\,} %reverse symbol for RTL
+	\define\SecondaryReadingSep{{\switchtobodyfont[ebgaramond, 9pt]¦}\nobreak\,}
 	
 	%Define a macro for typesetting an apparatus:
 	\define[3]\App{% arg 1 is the type of variation, arg 2 is the lemma text, arg 3 is the variant readings
@@ -179,7 +344,7 @@
 				\SetAppRef\StartSubMark{\rawcountervalue[sub]}\nobreak\,#3%
 			\stopapp%
 			%Typeset the lemma in the text, followed by the closing substitution mark:
-			#2\nobreak\,\StopSubMark%
+			\nobreak#2\nobreak\,\StopSubMark%
 		}%
 		\doif{#1}{vocalic substantive}{%
 			%Update the counter:
@@ -192,7 +357,7 @@
 				\SetAppRef\StartSubMark{\rawcountervalue[sub]}\nobreak\,#3%
 			\stopapp%
 			%Typeset the lemma in the text, followed by the closing substitution mark:
-			#2\nobreak\,\StopSubMark%
+			\nobreak#2\nobreak\,\StopSubMark%
 		}%
 		\doif{#1}{addition}{%
 			%Update the counter:
@@ -215,7 +380,7 @@
 				\SetAppRef\StartOmitMark{\rawcountervalue[omit]}\nobreak\,#3%
 			\stopapp%
 			%Typeset the lemma in the text, followed by the closing substitution mark:
-			#2\nobreak\,\StopOmitMark%
+			\nobreak#2\nobreak\,\StopOmitMark%
 		}%
 		\doif{#1}{transposition}{%
 			%Update the counter:
@@ -228,47 +393,83 @@
 				\SetAppRef\StartTransMark{\rawcountervalue[trans]}\nobreak\,#3%
 			\stopapp%
 			%Typeset the lemma in the text, followed by the closing substitution mark:
-			#2\nobreak\,\StopTransMark%
+			\nobreak#2\nobreak\,\StopTransMark%
 		}%
 	}
 	
-	%Define custom chapter and verse markings to be used in the header:
-	\definemarking[Chapter]
-	\definemarking[Verse]
+	%%%%%%%%%
+	% TEXT DIVISIONS
+	%%%%%%%%%
 	
-	%Define custom chapter and verse variables to be used in the apparatus:
-	\setxvariables[text][chapter=,verse=]
+	%Font command to be used for section headings:
+	\definefont[sectionTitleFont][Serif at 12pt]
 	
-	%Define an odd page break between books that omits headers and footers in blank pages
-	\definepagebreak[blankpagebreak][yes,header,footer,odd]
+	%Font command to be used for Essay headings:
+	\definefont[EssayTitleFont][Serif at 24pt][line=36bp]
 	
 	%Font command to be used for Book headings
-	\definefontsynonym [hebrewtitle] [name:KeterAramTsova] [features={hebrew, kern=no}]
-	\definefont[BookTitleFont][hebrewtitle at 26pt][36bp]
+	\definefont[BookTitleFont][keteraramtsova at 30pt][line=36bp]
 	
-	%Macro for adjusting kerning of Book heading texts (can any of this can be handled in the \definefont call?):
-	\define[1]\BookTextCommand{%
-		\kerncharacters[0.75]%increase letterspacing
-		#1%print text
-	}
-	
-	%Macro for page break after Book headings:
-	\define\BookAfter{%
-		\page[blankpagebreak]%
-	}
-	
-	%Define a Book heading at the level of a part:
-	\definehead[Book][part]
-	\setuphead[Book][
+	%Redefine the part heading:
+	\setuphead[part][
 		placehead=yes,%print the heading (necessary for the part heading, which isn't normally printed)
 		number=no,%do not add a number to this heading
 		page=blankpagebreak,%use an odd page break with no header or footer
 		header=empty,%disable headers for this page
 		footer=empty,%disable footers for this page
+		align={flushleft, nothyphenated},%use English alignment settings, adjusted for titling
+		style=EssayTitleFont, %use the titling font
+		textstyle={\setcharacterkerning[essaytitlekerning]\setcharactercasing[WORD]}, % use extra letterspacing and set in all caps
+		before={\phantom{*}\blank[5*line]},%add five blank lines before
+		after={\page[blankpagebreak]\noindentation}%add a double page break and disable indentation of the first paragraph
+	]
+	
+	%Redefine the section heading:
+	\setuphead[section][
+		placehead=yes,%print the heading
+		number=yes,% include the number
+		sectionsegments=section:subsection, % section numbers should be printed first, followed by subsection number (no part or chapter numbers)
+		header=nomarking,%allow headers for this page
+		footer=nomarking,%allow footers for this page
+		align={flushleft, nothyphenated},%align flush-left and do not hyphenate
+		style=sectionTitleFont,
+		numberstyle={\rm}, %set number in roman at the size of the main text
+		textstyle={\sc\setcharactercasing[word]}, %set title in small caps at the size of the main text
+		before={\blank[line]},%add a blank line before
+		after={\blank[line]},%add a blank line after
+		indentnext=no%do not indent the paragraph that follows
+	]
+	
+	%Redefine the subsection heading:
+	\setuphead[subsection][
+		placehead=yes,%print the heading
+		number=yes,% include the number
+		header=nomarking,%allow headers for this page
+		footer=nomarking,%allow footers for this page
+		align={flushleft, nothyphenated},%align flush-left and do not hyphenate
+		style=sectionTitleFont,
+		numberstyle={\rm}, %set number in roman at the size of the main text
+		textstyle={\it}, %set title in italics at the size of the main text
+		before={\blank[line]},%add a blank line before
+		after={\blank[line]},%add a blank line after
+		indentnext=no%do not indent the paragraph that follows
+	]
+	
+	%Define a new Essay heading at the level of a part:
+	\definehead[Essay][part]
+	
+	%Define a new Book heading at the level of a part:
+	\definehead[Book][part]
+	\setuphead[Book][
+		placehead=yes,%print the heading (necessary for the part heading, which isn't normally printed)
+		number=no,%do not add a number to this heading
+		header=empty,%disable headers for this page
+		footer=empty,%disable footers for this page
 		align={r2l, flushright, nothyphenated},%use Hebrew alignment settings, but make flush right
-		textstyle=\BookTitleFont,%set text style
-		textcommand=\BookTextCommand,%use the command defined above to handle the typesetting
-		after=\BookAfter%add a double page break
+		style=BookTitleFont, %use the titling font
+		textstyle={\setcharacterkerning[booktitlekerning]}, % use extra letterspacing
+		before={\phantom{*}\blank[5*line]},%add five blank lines before
+		after={\page[blankpagebreak]\noindentation}%add a double page break
 	]
 	
 	%Define a Subbook heading at the level of a chapter:
@@ -278,6 +479,13 @@
 		placehead=hidden,%do not typeset anything for this heading
 		page=yes%always start on a new page
 	]
+	
+	%Define custom chapter and verse markings to be used in the header:
+	\definemarking[Chapter]
+	\definemarking[Verse]
+	
+	%Define custom chapter and verse variables to be used in the apparatus:
+	\setxvariables[text][chapter=,verse=]
 	
 	%Define macro for starting a new Chapter:
 	\define[1]\Chapter{%
@@ -296,10 +504,10 @@
 		%Check if the verse variable has been reset:
 		\doifelse{\getvariable{text}{verse}}{0}{%
 			%If it has, then typeset both the chapter and the verse:
-			\nospace\hspace[medium]\marking[Verse]{#1}{\switchtobodyfont[english, 11pt]\textdir TLT\bf \getvariable{text}{chapter}\nobreak\,:\nobreak\,#1}\nobreak\hspace[medium]%
+			\marking[Verse]{#1}{\switchtobodyfont[ebgaramond, 11pt]\textdir TLT\bf \getvariable{text}{chapter}\nobreak\,:\nobreak\,#1}\nobreak\enquad%
 		}{%
 			%Otherwise, just typeset the verse:
-			\nospace\hspace[medium]\marking[Verse]{#1}{\switchtobodyfont[english, 11pt]\textdir TLT\bf #1}\nobreak\hspace[medium]%
+			\marking[Verse]{#1}{\switchtobodyfont[ebgaramond, 11pt]\textdir TLT\bf #1}\nobreak\enquad%
 		}%
 		%Update the verse variable:
 		\setxvariables[text][verse=#1]%
@@ -309,31 +517,31 @@
 		\setcounter[omit][0]%
 		\setcounter[trans][0]%
 	}
+	
 	%Define macro for marking a new Verse in a variant reading:
 	\define[1]\RdgVerse{%
 		%Check if the verse variable has been reset:
 		\doifelse{\getvariable{rdg}{verse}}{0}{%
 			%If it has, then typeset both the chapter and the verse:
-			\nospace\hspace[medium]{\switchtobodyfont[english, 9pt]\textdir TLT\bf \getvariable{rdg}{chapter}\nobreak\,:\nobreak\,#1}\nobreak\hspace[medium]%
+			{\switchtobodyfont[ebgaramond, 9pt]\textdir TLT\bf \getvariable{rdg}{chapter}\nobreak\,:\nobreak\,#1}\nobreak\enquad%
 		}{%
 			%Otherwise, just typeset the verse:
-			\nospace\hspace[medium]\marking[Verse]{#1}{\switchtobodyfont[english, 9pt]\textdir TLT\bf #1}\nobreak\hspace[medium]%
+			\marking[Verse]{#1}{\switchtobodyfont[ebgaramond, 9pt]\textdir TLT\bf #1}\nobreak\enquad%
 		}%
 		%Update the verse variable:
 		\setxvariables[rdg][verse=#1]%
 	}
+	
 	%Define macro for closed section break:
 	\definehspace[closedsectionspace][3em]
-	\define\ClosedSectionSymbol{ס}
 	\define\ClosedSection{%
 		\nospace\hspace[none]\phantom{\hspace[closedsectionspace]}\nobreak%eat up any preceding space, add a space of zero width (to allow this to break from the preceding word), and then add a long non-breaking space
 	}
+	
 	%Define macro for closed section break in a variant reading:
-	\define\RdgClosedSection{%
-		%{\switchtobodyfont[english, 9pt]\textdir TLT\{{\switchtobodyfont[hebrew, 10pt]\ClosedSectionSymbol}\}}%add a bracketed representation of the break
-	}
+	\define\RdgClosedSection{} % Empty because we've decided this isn't necessary; but define it if you want a printed representation of a closed section in the apparatus
+	
 	%Define macro for open section break:
-	\define\OpenSectionSymbol{פ}
 	\define\OpenSection{%
 		\endgraf%end previous paragraph
 		\blank[halfline,samepage]%non-breaking to ensure that no column begins with the open section symbol followed by a half line
@@ -341,10 +549,14 @@
 		\blank[halfline,preference]%this can (and, if possible, should) be broken across a column
 		\par%begin new paragraph
 	}
+	
 	%Define macro for open section break in a variant reading:
-	\define\RdgOpenSection{%
-		%{\switchtobodyfont[english, 9pt]\textdir TLT\{{\switchtobodyfont[hebrew, 10pt]\OpenSectionSymbol}\}}%add a bracketed representation of the break
-	}
+	\define\RdgOpenSection{} % Empty because we've decided this isn't necessary; but define it if you want a printed representation of an open section in the apparatus
+
+	%%%%%%
+	% MARGINS
+	%%%%%%
+
 	%Define macro for getting a reference range:
 	\define\RefRange{%
 		%Check if the first chapter matches the last chapter on the page:
@@ -378,10 +590,15 @@
 	\define[1]\ReplaceHeaderSpaces{\ctxlua{userdata.replaceHeaderSpaces([==[#1]==])}}
 	
 	%Setup header and footer text:
-	\setupheadertexts[\rlap{\switchtobodyfont[english, 11pt]\textdir TLT\RefRange}\hfill {\switchtobodyfont[hebrew, 13pt]\kerncharacters[0.25]\textdir TRT\ReplaceHeaderSpaces{\structureuservariable{booktitle}}} \hfill][][][\hfill {\switchtobodyfont[hebrew, 13pt]\kerncharacters[0.25]\textdir TRT\ReplaceHeaderSpaces{\structureuservariable{booktitle}}} \hfill \llap{\switchtobodyfont[english, 11pt]\textdir TLT\RefRange}] %even left, even right, odd left, odd right
-	\setupfootertexts[{\switchtobodyfont[english, 11pt]\textdir TLT\pagenumber}][][][{\switchtobodyfont[english, 11pt]\textdir TLT\pagenumber}] %even left, even right, odd left, odd right
+	\setupheadertexts[\hfill{\switchtobodyfont[ebgaramond, 11pt]\feature[+][ebgaramond-header]\setcharacterkerning[headerkerning]\sc\currentstructuretitle}\hfill][][][\hfill{\switchtobodyfont[ebgaramond, 11pt]\feature[+][ebgaramond-header]\setcharacterkerning[headerkerning]\sc\currentstructuretitle}] %even left, even right, odd left, odd right
+	\setupfootertexts[{\switchtobodyfont[ebgaramond, 11pt]\textdir TLT\pagenumber}][][][{\switchtobodyfont[ebgaramond, 11pt]\textdir TLT\pagenumber}] %even left, even right, odd left, odd right
 	
-	%Ensure that whitespace respects the grid layout:
-	\setupblank[line,fixed]
+	%%%%%%%%
+	% BIBLIOGRAPHY
+	%%%%%%%%
+	
+	%Setup bibliography settings:
+	\usebtxdataset[../bib/bibliography]
+	\usebtxdefinitions[chicago]%use SBL style for citation rendering
 	
 \stopenvironment

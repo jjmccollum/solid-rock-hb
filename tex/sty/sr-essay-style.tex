@@ -1,107 +1,17 @@
-\startenvironment sr-essay-style
-	%Draft-only options:
-	\showframe
-	\showgrid
+\startenvironment sr-essay-style % Solid Rock Hebrew Bible essay style environment
 	
-	%Setup the page trim size and printing options:
-	\definepapersize[10-by-8][width=8in,height=10in]
-	\setuppapersize[10-by-8][10-by-8]
-	\setuparranging [mirrored] %mirrored layout for double-sided printing
-	\setuppagenumbering[alternative=doublesided,location=] %undo default page numbering in middle of header; doublesided option will ensure that the document has an even number of pages
-	%Setup the page layout:
-	\setuplayout[
-		width=6in, %textblock width
-		height=8.75in, %texblock height (7.5in) + header height + footer height
-		backspace=1in, %spine margin
-		topspace=0.5in, %head margin - header height
-		header=0.75in, %header height
-		footer=0.5in, %footer height
-		grid=yes %enable baseline grid
-	]
+	%%%%%%%
+	% TEXT LAYOUT
+	%%%%%%%
 	
-	%Setup English text font:
-	\definefontfeature[f:oldstyle][onum=yes] %old-style numbers
-	\definefontfeature[f:lining][lnum=yes] %lining (uniform-width) numbers
-	\definefontfeature[f:superscript][sups=yes] %superscript
-	\definefontfeature[f:altcircumflex][cv80=yes] %use alternate circumflex for Greek
-	\definefontfamily[garamond] [rm] [EBGaramond] [features={default,f:oldstyle,f:lining,f:altcircumflex},protrusion=pure] %protrusion allows small punctuation characters to be set just past the boundary of justified text
-	%Setup Hebrew text font:
-	\definefontfamily[keter] [rm] [Keter YG] [features=hebrew]
-	%Setup apparatus font:
-	\definefontfamily[apparatus] [rm] [Apparatus SIL] [features=default]
+	\switchtobodyfont[ebgaramond,12 pt]
 	
-	%Font command to be used for Essay headings:
-	\definefont[EssayTitleFont][Serif at 24pt][line=36bp]
+	%%%%%%
+	% MARGINS
+	%%%%%%
 	
-	%Define a macro that uses the actual superscript font feature:
-	\define[1]\textsuperscript{{\feature[+][f:superscript]#1}}
-	%Define a macro to set a given block of Hebrew text:
-	\define[1]\Heb{%
-		{\switchtobodyfont[keter]\textdir TRT #1}%
-	}
+	%Override default header and footer text:
+	\setupheadertexts[\hfill{\switchtobodyfont[ebgaramond, 11pt]\feature[+][ebgaramond-header]\setcharacterkerning[headerkerning]\sc\word{\namedstructurevariable{Essay}{title}}\hfill}][][][\hfill{\switchtobodyfont[ebgaramond, 11pt]\feature[+][ebgaramond-header]\setcharacterkerning[headerkerning]\sc\word{\namedstructurevariable{Essay}{title}}}\hfill] %even left, even right, odd left, odd right
+	\setupfootertexts[{\switchtobodyfont[ebgaramond, 11pt]\textdir TLT\pagenumber}][][][{\switchtobodyfont[ebgaramond, 11pt]\textdir TLT\pagenumber}] %even left, even right, odd left, odd right
 	
-	%Setup font kerning macros:
-	\definecharacterkerning[titlekerning][factor=1.0, features=letterspacing]
-	\definecharacterkerning[headerkerning][factor=.3333, features=letterspacing]
-	
-	%Setup font size and leading for text:
-	\setupbodyfont[garamond,12pt] %text font size
-	\setupinterlinespace[18bp] %text line spacing
-	
-	%Setup alignment:
-	\setupalign[l2r,normal,hanging,hyphenated]
-	
-	%Setup text paragraph indentation:
-	\setupindenting[yes, 1em]
-	
-	%Setup font size and leading for footnotes:
-	\startsetups[footnotesetup]
-		\setupinterlinespace[12bp] %footnote line spacing
-		\setupbodyfont[garamond,10pt] %footnote font size
-		\setupalign[l2r,normal,hanging,hyphenated] %alignment of text (left-to-right, justified, protrusion allowed, hyphenation allowed)
-		\setupindenting[yes, 1em]%usual paragraph indentation
-	\stopsetups
-	
-	%Setup layout of footnote text blocks:
-	\setupnote[footnote][
-		rule=off, %disable line separating footnotes from text
-		before={\blank[18bp]}, %enforce one line of blank space between the text and the footnote block
-		textcommand=\textsuperscript, %command for typesetting the footnote number in the main text
-		setups=footnotesetup %setup for footnote font, leading, and alignment
-	]
-	%Setup formatting of footnote mark at bottom of text:
-	\setupnotation[footnote][
-		alternative=left, %align footnote symbol with edge of text (use right for RTL)
-		hang=fit, %multi-line footnotes are not indented
-		numbercommand=\textsuperscript %command for typesetting the footnote number in the footnote block
-	]
-	
-	%Define an odd page break between books that omits headers and footers in blank pages
-	\definepagebreak[blankpagebreak][yes,header,footer,odd]
-	
-	%Define an Essay heading at the level of a part:
-	\definehead[Essay][part]
-	\setuphead[Essay][
-		placehead=yes,%print the heading (necessary for the part heading, which isn't normally printed)
-		number=no,%do not add a number to this heading
-		page=blankpagebreak,%use an odd page break with no header or footer
-		header=empty,%disable headers for this page
-		footer=empty,%disable footers for this page
-		align={flushleft, nothyphenated},%use alignment settings for titling
-		style=EssayTitleFont,%set text style
-		textstyle={\setcharacterkerning[titlekerning]\setcharactercasing[WORD]},
-		after={\page[blankpagebreak]\noindentation}%add a double page break and disable indentation of the first paragraph
-	]
-	
-	%Setup header and footer text:
-	%\setupheadertexts[\hfill\switchtobodyfont[english, 11pt]\kerncharacters[0.25]\textdir TLT\structureuservariable{essaytitle}][][][\switchtobodyfont[english, 11pt]\kerncharacters[0.25]\textdir TLT\structureuservariable{essaytitle}\hfill] %even left, even right, odd left, odd right
-	%\setupfootertexts[\switchtobodyfont[english, 11pt]\textdir TLT\pagenumber][][][\switchtobodyfont[english, 11pt]\textdir TLT\pagenumber] %even left, even right, odd left, odd right
-	
-	%Ensure that whitespace respects the grid layout:
-	\setupblank[line,fixed]
-	
-	%Setup bibliography settings:
-	\usebtxdataset[../bib/bibliography]
-	\usebtxdefinitions[sbl]%use SBL style for citation rendering
-
 \stopenvironment
