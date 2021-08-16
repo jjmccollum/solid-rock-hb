@@ -1,9 +1,9 @@
 \environment ../sty/sr-style
-\environment ../sty/sr-book-style
 \startcomponent 
 \product ../main/main
 \starttext
-\startBook[title={איוב}][booktitle={איוב}]
+%\startbodymatter %uncomment to trigger appropriate conditional formatting for standalone document
+\startBook[title={איוב}]
 \startpagecolumns[hebrew]
 \Chapter{1}
 \Verse{1}אִישׁ הָיָה בְאֶרֶץ עוּץ אִיּוֹב שְׁמוֹ וְהָיָה הָאִישׁ הַהוּא תָּם וְיָשָׁר וִירֵא אֱלֹהִים וְסָר מֵרָע 
@@ -1120,5 +1120,6 @@
 \page[no]
 \stoppagecolumns
 \stopBook
+%\stopbodymatter
 \stoptext
 \stopcomponent

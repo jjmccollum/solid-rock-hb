@@ -1,9 +1,9 @@
 \environment ../sty/sr-style
-\environment ../sty/sr-book-style
-\startcomponent Jonah
+\startcomponent
 \product ../main/main
 \starttext
-\startSubbook[title={יונה}][booktitle={יונה}]
+%\startbodymatter %uncomment to trigger appropriate conditional formatting for standalone document
+\startSubbook[title={יונה}]
 \startpagecolumns[hebrew]
 \Chapter{1}
 \Verse{1}וַיְהִי דְּבַר יַהְוֶה אֶל יוֹנָה בֶן אֲמִתַּי לֵאמֹר 
@@ -60,5 +60,6 @@
 \page[no]
 \stoppagecolumns
 \stopSubbook
+%\stopbodymatter
 \stoptext
 \stopcomponent

@@ -1,0 +1,87 @@
+\definefontfeature[default][default][protrusion=pure] %allow punctuation and certain parts of letters to extend outside of the text block
+	
+\definefontfeature[ebgaramond-normal][default][
+	liga=yes, % standard ligatures
+	dlig=yes, % ``Th'' ligature
+	kern=yes, % enable kerning
+	onum=yes, % use old-style numbers
+	tnum=yes, % use tabular (uniform-width) numbers
+	script=latn % Latin script
+]
+
+%Use EB Garamond for English and Greek text
+\starttypescriptcollection[ebgaramond]
+	\starttypescript[serif][ebgaramond]
+		\definefontsynonym[Serif][file:../fonts/EB-Garamond/EBGaramond12-Regular.otf][features=ebgaramond-normal]
+		\definefontsynonym[SerifItalic][file:../fonts/EB-Garamond/EBGaramond12-Italic.otf][features=ebgaramond-normal]
+		\definefontsynonym[SerifBold][file:../fonts/EB-Garamond/EBGaramond-SemiBold.otf][features=ebgaramond-normal]
+		\definefontsynonym[SerifBoldItalic][file:../fonts/EB-Garamond/EBGaramond-SemiBoldItalic.otf][features=ebgaramond-normal]
+		\definefontsynonym[SerifCaps][Serif][features=ebgaramond-smallcaps]
+		\definefontsynonym[Titling][Serif][features=ebgaramond-header] % same, but with no kerning or ligatures
+	\stoptypescript
+
+	\starttypescript[ebgaramond]
+		\definetypeface[ebgaramond][rm][serif][ebgaramond][default]
+	\stoptypescript
+\stoptypescriptcollection
+
+%Enable section numbering in front and back matter (they are disabled by default):
+\setupsectionblock[frontpart][number=yes]
+\setupsectionblock[backpart][number=yes]
+
+\definestructureconversionset[frontpart:pagenumber][][romannumerals]
+\definestructureconversionset[bodypart:pagenumber] [][numbers]
+\definestructureconversionset[backpart:pagenumber] [][numbers]
+
+\startsectionblockenvironment[frontpart]
+	%Setup page number conversion:
+	\setupbodyfont[ebgaramond, 12pt]
+	\setupuserpagenumber[numberconversion=romannumerals] %Roman numerals
+\stopsectionblockenvironment
+\startsectionblockenvironment[bodypart]
+	%Setup page number conversion:
+	\setupuserpagenumber[numberconversion=numbers] %Arabic numerals
+\stopsectionblockenvironment
+\startsectionblockenvironment[backpart]
+	%Setup page number conversion:
+	\setupuserpagenumber[numberconversion=numbers] %Arabic numerals
+\stopsectionblockenvironment
+
+%Define a custom head:
+\definehead[mysection][section]
+\setuphead[mysection][
+	number=no
+]
+
+\setuphead[subject][
+	number=no,
+	incrementnumber=yes
+]
+
+\starttext
+	\startfrontmatter
+		\placelist[section, mysection, subject][alternative=c]
+		\startsection[title={A section}]
+			\input knuth\par
+		\stopsection
+		\startsubject[title={A subject}]
+			\input knuth\par
+		\stopsubject
+	\stopfrontmatter
+	\startbodymatter
+		\startmysection[title={A mysection}]
+			\input knuth\par
+		\stopmysection
+		\startsubject[title={A subject}]
+			\input knuth\par
+		\stopsubject
+	\stopbodymatter
+	\startbackmatter
+		\startsection[title={A section}]
+			\input knuth\par
+		\stopsection
+		\startsubject[title={A subject}]
+			\input knuth\par
+		\stopsubject
+	\stopbackmatter
+\stoptext

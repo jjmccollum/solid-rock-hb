@@ -1,9 +1,9 @@
 \environment ../sty/sr-style
-\environment ../sty/sr-book-style
 \startcomponent 
 \product ../main/main
 \starttext
-\startSubbook[title={נחום}][booktitle={נחום}]
+%\startbodymatter %uncomment to trigger appropriate conditional formatting for standalone document
+\startSubbook[title={נחום}]
 \startpagecolumns[hebrew]
 \Chapter{1}
 \Verse{1}מַשָּׂא נִינְוֵה סֵפֶר חֲזוֹן נַחוּם הָאֶלְקֹשִׁי 
@@ -58,5 +58,6 @@
 \page[no]
 \stoppagecolumns
 \stopSubbook
+%\stopbodymatter
 \stoptext
 \stopcomponent

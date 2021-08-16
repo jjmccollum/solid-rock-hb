@@ -39,7 +39,7 @@ class tei_context_converter:
         book_title = ''
         if n is not None and n in self.book_titles:
             book_title = self.book_titles[n]
-            context += '\\startBook[title={%s}][booktitle={%s}]\n' % (book_title, book_title)
+            context += '\\startBook[title={%s}]\n' % (book_title)
         #Start the pagecolumns environment:
         context += '\\startpagecolumns[hebrew]\n'
         return context
@@ -311,16 +311,18 @@ class tei_context_converter:
         context = ''
         #Open the text environment:
         context += '\\starttext\n'
+        context += '%%\\startbodymatter %%uncomment to trigger appropriate conditional formatting for standalone document'
         #Process the <front/>, <body/>, and <back/> elements under this element:
         for child in xml:
             raw_tag = child.tag.replace('{%s}' % self.tei_ns, '')
             if raw_tag == 'front':
-                pass #TODO
+                pass #this isn't present for our use case, but leaving it here for future reference
             elif raw_tag == 'body':
                 context += self.format_body(child)
             elif raw_tag == 'back':
-                pass #TODO
+                pass #this isn't present for our use case, but leaving it here for future reference
         #Close the text environment:
+        context += '%%\\stopbodymatter'
         context += '\\stoptext\n'
         return context
     """
@@ -329,8 +331,7 @@ class tei_context_converter:
     def format_tei(self, xml):
         context = ''
         context += '\\environment ../sty/sr-style\n'
-        context += '\\environment ../sty/sr-book-style\n'
-        context += '\\startcomponent %s\n' % self.filebase
+        context += '\\startcomponent\n'
         context += '\\product ../main/main\n'
         #Process the <text/> element under this element:
         for child in xml:

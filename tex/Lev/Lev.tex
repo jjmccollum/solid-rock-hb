@@ -1,9 +1,9 @@
 \environment ../sty/sr-style
-\environment ../sty/sr-book-style
 \startcomponent 
 \product ../main/main
 \starttext
-\startBook[title={ויקרא}][booktitle={ויקרא}]
+%\startbodymatter %uncomment to trigger appropriate conditional formatting for standalone document
+\startBook[title={ויקרא}]
 \startpagecolumns[hebrew]
 \Chapter{1}
 \Verse{1}וַיִּקְרָא אֶל מֹשֶׁה וַיְדַבֵּר יַהְוֶה אֵלָיו מֵאֹהֶל מוֹעֵד לֵאמֹר 
@@ -894,5 +894,6 @@
 \page[no]
 \stoppagecolumns
 \stopBook
+%\stopbodymatter
 \stoptext
 \stopcomponent

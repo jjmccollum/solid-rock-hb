@@ -1,24 +1,26 @@
-\unprotect
-\def\page_col_stop_yes
-  {%Add a column only if this is not the last column on the page:
-   \ifnum\c_page_col_current<\c_page_col_n_of_columns
-      \column
-   \fi
-   \page
-   \endgroup
- % \setupoutputroutine[\s!singlecolumn]%
-   \page_otr_command_set_vsize
-   \page_otr_command_set_hsize
-   \page
-   \endgroup}
-\protect
+\showframe
+\showgrid
 
-\definepagecolumns[minimal][
-	n=2 %number of columns
+\setuplayout[
+	grid=yes %enable baseline grid
 ]
 
+\setupinterlinespace[18bp] % text line spacing
+
+%Define macro for section break:	
+\define\SectionBreak{%
+	\blank[halfline, samepage]%non-breaking to ensure that no column begins with the section break symbol
+	\startalignment[middle]%
+		{X}% section break symbol
+	\stopalignment%
+	\blank[halfline]%
+	\testpage[2]% if there is not room for two more lines, then force a page break
+}
+
+%Set things up for fakewords:
+\usemodule[visual]
+\setupsystem[random=10]
+
 \starttext
-\startpagecolumns[minimal]
-    \dorecurse{3}{\par\input zapf}\par
-\stoppagecolumns
+	\dorecurse{400}{\fakewords{20}{100}\SectionBreak}
 \stoptext

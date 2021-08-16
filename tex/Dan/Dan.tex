@@ -1,9 +1,9 @@
 \environment ../sty/sr-style
-\environment ../sty/sr-book-style
 \startcomponent 
 \product ../main/main
 \starttext
-\startBook[title={דניאל}][booktitle={דניאל}]
+%\startbodymatter %uncomment to trigger appropriate conditional formatting for standalone document
+\startBook[title={דניאל}]
 \startpagecolumns[hebrew]
 \Chapter{1}
 \Verse{1}בִּשְׁנַת שָׁלוֹשׁ לְמַלְכוּת יְהוֹיָקִים מֶלֶךְ יְהוּדָה בָּא נְבוּכַדְנֶאצֹּר מֶלֶךְ בָּבֶל יְרוּשָׁלֵם וַיָּצַר עָלֶיהָ 
@@ -377,5 +377,6 @@
 \page[no]
 \stoppagecolumns
 \stopBook
+%\stopbodymatter
 \stoptext
 \stopcomponent

@@ -1,9 +1,9 @@
 \environment ../sty/sr-style
-\environment ../sty/sr-book-style
 \startcomponent 
 \product ../main/main
 \starttext
-\startBook[title={ירמיה}][booktitle={ירמיה}]
+%\startbodymatter %uncomment to trigger appropriate conditional formatting for standalone document
+\startBook[title={ירמיה}]
 \startpagecolumns[hebrew]
 \Chapter{1}
 \Verse{1}דִּבְרֵי יִרְמְיָהוּ בֶּן חִלְקִיָּהוּ מִן הַכֹּהֲנִים אֲשֶׁר בַּעֲנָתוֹת בְּאֶרֶץ בִּנְיָמִן 
@@ -1424,5 +1424,6 @@
 \page[no]
 \stoppagecolumns
 \stopBook
+%\stopbodymatter
 \stoptext
 \stopcomponent

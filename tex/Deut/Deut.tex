@@ -1,9 +1,9 @@
 \environment ../sty/sr-style
-\environment ../sty/sr-book-style
 \startcomponent 
 \product ../main/main
 \starttext
-\startBook[title={דברים}][booktitle={דברים}]
+%\startbodymatter %uncomment to trigger appropriate conditional formatting for standalone document
+\startBook[title={דברים}]
 \startpagecolumns[hebrew] 
 \Chapter{1}
 \Verse{1}אֵלֶּה הַדְּבָרִים אֲשֶׁר דִּבֶּר מֹשֶׁה אֶל כָּל יִשְׂרָאֵל בְּעֵבֶר הַיַּרְדֵּן בַּמִּדְבָּר בָּעֲרָבָה מוֹל סוּף בֵּין פָּארָן וּבֵין תֹּפֶל וְלָבָן וַחֲצֵרֹת וְדִי זָהָב 
@@ -1001,5 +1001,6 @@
 \page[no]
 \stoppagecolumns
 \stopBook
+%\stopbodymatter
 \stoptext
 \stopcomponent

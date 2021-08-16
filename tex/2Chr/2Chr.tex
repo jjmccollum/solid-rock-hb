@@ -1,9 +1,9 @@
 \environment ../sty/sr-style
-\environment ../sty/sr-book-style
 \startcomponent 
 \product ../main/main
 \starttext
-\startSubbook[title={דברי הימים ב}][booktitle={דברי הימים ב}]
+%\startbodymatter %uncomment to trigger appropriate conditional formatting for standalone document
+\startSubbook[title={דברי הימים ב}]
 \startpagecolumns[hebrew]
 \Chapter{1}
 \Verse{1}וַיִּתְחַזֵּק שְׁלֹמֹה בֶן דָּוִיד עַל מַלְכוּתוֹ וַיהֹוַה אֱלֹהָיו עִמּוֹ וַיְגַדְּלֵהוּ לְמָעְלָה 
@@ -866,5 +866,6 @@
 \page[no]
 \stoppagecolumns
 \stopSubbook
+%\stopbodymatter
 \stoptext
 \stopcomponent

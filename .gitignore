@@ -21,6 +21,7 @@
 *.ps
 *.eps
 *.pdf
+!tex/img/features.pdf
 
 ## Generated if empty string is given at "Please type another file name for output:"
 .pdf

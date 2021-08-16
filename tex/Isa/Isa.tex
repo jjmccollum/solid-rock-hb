@@ -1,9 +1,9 @@
 \environment ../sty/sr-style
-\environment ../sty/sr-book-style
 \startcomponent 
 \product ../main/main
 \starttext
-\startBook[title={ישעיה}][booktitle={ישעיה}]
+%\startbodymatter %uncomment to trigger appropriate conditional formatting for standalone document
+\startBook[title={ישעיה}]
 \startpagecolumns[hebrew]
 \Chapter{1}
 \Verse{1}חֲזוֹן יְשַׁעְיָהוּ בֶן אָמוֹץ אֲשֶׁר חָזָה עַל יְהוּדָה וִירוּשָׁלֵם בִּימֵי עֻזִּיָּהוּ יוֹתָם אָחָז יְחִזְקִיָּהוּ מַלְכֵי יְהוּדָה 
@@ -1365,5 +1365,6 @@
 \page[no]
 \stoppagecolumns
 \stopBook
+%\stopbodymatter
 \stoptext
 \stopcomponent

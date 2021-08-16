@@ -1,10 +1,10 @@
-\startenvironment sr-style % Solid Rock Hebrew Bible common style environment
+\startenvironment sr-style % Solid Rock Hebrew Bible style environment
 	%%%%%%%%%
 	%DRAFT OPTIONS
 	%%%%%%%%%
 	
-	%\showframe
-	%\showgrid
+%	\showframe
+%	\showgrid
 	
 	%%%%%%%%%
 	% PAGE LAYOUT
@@ -14,7 +14,14 @@
 	\definepapersize[10-by-8][width=8in,height=10in]
 	\setuppapersize[10-by-8][10-by-8]
 	\setuparranging[mirrored] %mirrored layout for double-sided printing
-	\setuppagenumbering[alternative=doublesided,location=] %undo default page numbering in middle of header; doublesided option will ensure that the document has an even number of pages
+	
+	%Setup orphan and widow penalties for the gird (to discourage isolated paragraph lines at the top and bottom of pages):
+%	\startsetups[grid][mypenalties]
+%		\setdefaultpenalties
+%		\setpenalties\widowpenalties{2}{10000}
+%		\setpenalties\clubpenalties {2}{10000}
+%	\stopsetups
+	
 	%Setup the page layout:
 	\setuplayout[
 		width=6in, %textblock width
@@ -23,8 +30,20 @@
 		topspace=0.5in, %head margin - header height
 		header=0.75in, %header height
 		footer=0.5in, %footer height
-		grid=yes %enable baseline grid
+		grid=yes, %enable baseline grid
+%		setups=mypenalties %discourage orphans and widows
 	]
+	
+	%Setup page numbering:
+	\setuppagenumbering[
+		alternative=doublesided, %ensure that the document has an even number of pages
+		location={footer, atmargin}, %place page number in footer along edge margin
+	]
+	
+	%Define page number conversions for different divisions of the book
+	\definestructureconversionset[frontpart:pagenumber][][romannumerals]
+	\definestructureconversionset[bodypart:pagenumber][][numbers]
+	\definestructureconversionset[backpart:pagenumber][][numbers]
 	
 	%Define an odd page break between books that omits headers and footers in blank pages
 	\definepagebreak[blankpagebreak][yes,header,footer,odd]
@@ -44,6 +63,18 @@
 	   \page
 	   \endgroup}
 	\protect
+	
+	%%%%%%%
+	% LANGUAGES
+	%%%%%%%
+	
+	%Setup English language settings:
+	\setuplanguage[en][
+		spacing=packed % use French spacing
+	]
+	
+	%Setup Hebrew language settings:
+	\setuplanguage[he][]
 	
 	%%%%%
 	% FONTS
@@ -65,6 +96,13 @@
 		dlig=no, % disable discretionary ligatures
 		kern=no, % disable kerning (to accommodate increased letterspacing)
 		onum=yes, % use old-style numbers
+		tnum=yes, % use tabular (uniform-width) numbers
+		script=latn % Latin script
+	]
+	\definefontfeature[ebgaramond-title][default][
+		liga=no, % no ligatures
+		kern=no, % disable kerning
+		lnum=yes, % use lining numbers
 		tnum=yes, % use tabular (uniform-width) numbers
 		script=latn % Latin script
 	]
@@ -106,7 +144,7 @@
 			\definefontsynonym[SerifBold][file:../fonts/EB-Garamond/EBGaramond-SemiBold.otf][features=ebgaramond-normal]
 			\definefontsynonym[SerifBoldItalic][file:../fonts/EB-Garamond/EBGaramond-SemiBoldItalic.otf][features=ebgaramond-normal]
 			\definefontsynonym[SerifCaps][Serif][features=ebgaramond-smallcaps]
-			\definefontsynonym[Titling][Serif][features=ebgaramond-header]
+			\definefontsynonym[Titling][Serif][features=ebgaramond-title] % same, but with no kerning or ligatures
 		\stoptypescript
 	
 		\starttypescript[ebgaramond]
@@ -135,7 +173,7 @@
 			\definefontsynonym[SerifItalic][Serif] % we don't use this
 			\definefontsynonym[SerifBold][Serif] % we don't use this
 			\definefontsynonym[SerifBoldItalic][Serif] % we don't use this
-			\definefontsynonym[Titling][file:../fonts/KeterAramTsova/KeterAramTsova.ttf][features=keteraramtsova-title]
+			\definefontsynonym[Titling][file:../fonts/KeterAramTsova/KeterAramTsova.ttf][features=keteraramtsova-title] % different titling font, with no kerning
 		\stoptypescript
 	
 		\starttypescript[keteryg]
@@ -143,29 +181,17 @@
 		\stoptypescript
 	\stoptypescriptcollection
 	
-	%Use Keter Aram Tsova for Hebrew titles
-	\starttypescriptcollection[keteraramtsova]
-		\starttypescript[serif][keteraramtsova]
-			\definefontsynonym[Serif][file:../fonts/KeterAramTsova/KeterAramTsova.ttf][features=keteraramtsova-title]
-			\definefontsynonym[SerifItalic][Serif] % we don't use this
-			\definefontsynonym[SerifBold][Serif] % we don't use this
-			\definefontsynonym[SerifBoldItalic][Serif] % we don't use this
-		\stoptypescript
-	
-		\starttypescript[keteraramtsova]
-			\definetypeface[keteraramtsova][rm][serif][keteraramtsova][default]
-		\stoptypescript
-	\stoptypescriptcollection
-	
 	%Install these typescripts:
 	\usetypescript[ebgaramond]
 	\usetypescript[apparatus]
 	\usetypescript[keteryg]
-	\usetypescript[keteraramtsova]
 	
 	% Define custom size scales for different text font sizes:
 	\definebodyfontenvironment[12pt][x=10pt, text=12pt, d=24pt]
 	\definebodyfontenvironment[13pt][x=11pt, text=13pt, d=30pt]
+	
+	%Set the main body text for the whole document (including headers and footers):
+	\setupbodyfont[ebgaramond, 12pt]
 	
 	%Define a macro that switches to inline Hebrew text:
 	\define[1]\Heb{{\textdir TRT\switchtobodyfont[keteryg]#1}}
@@ -184,19 +210,12 @@
 	
 	%Layout settings for Hebrew text:
 	\startsetups[hebrew:layout]
-		\setupbodyfont[keteryg, 13pt]
+		\switchtobodyfont[keteryg, 13pt]
 		\setupalign[r2l,flushleft,nothyphenated] % Hebrew should be set right-to-left, flush left, with no hyphenation
 	\stopsetups
 	
-	%Setup alignment for the text:
-	\setupalign[hanging,hyphenated] % by default, justified and hyphenated, with protrusion allowed
-	
 	%Setup font size and leading for text:
 	\setupinterlinespace[18bp] % text line spacing
-	\setupbodyfont[keteryg, 13pt] % default body font
-	
-	%Setup text paragraph indentation:
-	\setupindenting[yes, 1em]
 	
 	%Ensure that whitespace respects the grid layout:
 	\setupblank[line,fixed]
@@ -214,15 +233,25 @@
 		style=\tfx % use footnote size
 	]
 	
+	%Modify the settings for figure captions:
+	\setupcaption[figure][
+		way=bypart, %reset figure numbering at each part
+		minwidth={\dimexpr\textwidth - 4em\relax},
+		leftmargin=2em,
+		rightmargin=2em,
+		align={hanging, hyphenated},
+		headstyle={\sc\setcharactercasing[word]}, %set heading in small caps
+	]
+	
 	%%%%%%%%%%%
 	% FOOTNOTE LAYOUT
 	%%%%%%%%%%%
 	
-	%Setup font size and leading for footnotes:
+	%Setup layout for footnotes:
 	\startsetups[footnotesetup]
 		\setupinterlinespace[12bp] % footnote line spacing
-		\setupbodyfont[garamond, 10pt] % footnote font
-		\setupalign[normal,hanging,hyphenated] % alignment of text (left-to-right, justified, protrusion allowed, hyphenation allowed)
+		\switchtobodyfont[ebgaramond, 10pt] % footnote font
+		\setupalign[hanging,hyphenated] % alignment of text (justified, protrusion allowed, hyphenation allowed)
 	\stopsetups
 	
 	%Setup layout of footnote text blocks:
@@ -234,30 +263,11 @@
 	]
 	%Setup formatting of footnote mark at bottom of text:
 	\setupnotation[footnote][
+		way=bypart, %reset footnote numbers for each part (i.e., Essay)
 		alternative=left, % align footnote symbol with edge of text
-		hang=fit, % multi-line footnotes are not indented
+		hang=fit, % subsequent lines in the same footnote paragraph are not indented
+		indenting={yes, 1em}, % but subsequent paragraphs in the same footnote are
 		numbercommand=\textsuperscript % command for typesetting the footnote number in the footnote block
-	]
-	
-	%Setup font size and leading for footnotes:
-	\startsetups[footnotesetup]
-		\setupinterlinespace[12bp] % footnote line spacing
-		\setupbodyfont[ebgaramond, 10pt] % default footnote font
-		\setupalign[normal,hanging,hyphenated] % alignment (by default, justified and hyphenated, with protrusion allowed)
-	\stopsetups
-	
-	%Setup layout of footnote text blocks:
-	\setupnote[footnote][
-		rule=off, %disable line separating footnotes from text
-		before={\blank[18bp]}, %enforce one line of blank space between the text and the footnote block
-		textcommand=\textsuperscript, %command for typesetting the footnote number in the main text
-		setups=footnotesetup %setup for footnote font, leading, and alignment
-	]
-	%Setup formatting of footnote mark at bottom of text:
-	\setupnotation[footnote][
-		alternative=left, %align footnote symbol with edge of text (use right for RTL)
-		hang=fit, %multi-line footnotes are not indented
-		numbercommand=\textsuperscript %command for typesetting the footnote number in the footnote block
 	]
 	
 	%%%%%%%%%%%%
@@ -412,18 +422,24 @@
 	%Font command to be used for Book headings
 	\definefont[BookTitleFont][Titling at 30pt][line=36bp]
 	
+	%Enable section numbering in front and back matter (they are disabled by default):
+	\setupsectionblock[frontpart][number=yes]
+	\setupsectionblock[backpart][number=yes]
+	
 	%Redefine the part heading:
 	\setuphead[part][
 		placehead=yes,%print the heading (necessary for the part heading, which isn't normally printed)
 		number=no,%do not add a number to this heading
+		incrementnumber=yes, %but do keep track of it for the ToC
 		page=blankpagebreak,%use an odd page break with no header or footer
 		header=empty,%disable headers for this page
 		footer=empty,%disable footers for this page
 		align={flushleft, nothyphenated},%use English alignment settings, adjusted for titling
 		style=EssayTitleFont, %use the titling font
 		textstyle={\setcharacterkerning[essaytitlekerning]\setcharactercasing[WORD]}, % use extra letterspacing and set in all caps
-		before={\phantom{*}\blank[5*line]},%add five blank lines before
-		after={\page[blankpagebreak]\noindentation}%add a double page break and disable indentation of the first paragraph
+		before=, %add nothing before
+		after={\blank[line]},%add a blank line after
+		indentnext=no%do not indent the paragraph that follows
 	]
 	
 	%Redefine the section heading:
@@ -437,7 +453,7 @@
 		style=sectionTitleFont,
 		numberstyle={\rm}, %set number in roman at the size of the main text
 		textstyle={\sc\setcharactercasing[word]}, %set title in small caps at the size of the main text
-		before={\blank[line]},%add a blank line before
+		before={\blank[line]\testpage[3]}, %add a blank line before, and if there is not room for three lines after the title, then force a page break
 		after={\blank[line]},%add a blank line after
 		indentnext=no%do not indent the paragraph that follows
 	]
@@ -452,35 +468,56 @@
 		style=sectionTitleFont,
 		numberstyle={\rm}, %set number in roman at the size of the main text
 		textstyle={\it}, %set title in italics at the size of the main text
-		before={\blank[line]},%add a blank line before
+		before={\blank[line]\testpage[3]}, %add a blank line before, and if there is not room for three lines after the title, then force a page break
 		after={\blank[line]},%add a blank line after
 		indentnext=no%do not indent the paragraph that follows
 	]
 	
 	%Define a new Essay heading at the level of a part:
 	\definehead[Essay][part]
+	\setuphead[Essay][
+		placehead=yes,%print the heading (necessary for the part heading, which isn't normally printed)
+		number=no,%do not add a number to this heading
+		incrementnumber=yes, %but do keep track of it for the ToC
+		page=blankpagebreak,%use an odd page break with no header or footer
+		header=empty,%disable headers for this page
+		footer=empty,%disable footers for this page
+		align={flushleft, nothyphenated},%use English alignment settings, adjusted for titling
+		style=EssayTitleFont, %use the titling font
+		textstyle={\setcharacterkerning[essaytitlekerning]\setcharactercasing[WORD]}, % use extra letterspacing and set in all caps
+		before={\phantom{*}\blank[5*line]},%add five blank lines before
+		after={\page[blankpagebreak]\noindentation}%add a double page break
+	]
 	
 	%Define a new Book heading at the level of a part:
 	\definehead[Book][part]
 	\setuphead[Book][
 		placehead=yes,%print the heading (necessary for the part heading, which isn't normally printed)
 		number=no,%do not add a number to this heading
+		incrementnumber=yes, %but do keep track of it for the ToC
 		header=empty,%disable headers for this page
 		footer=empty,%disable footers for this page
 		align={r2l, flushright, nothyphenated},%use Hebrew alignment settings, but make flush right
 		style=BookTitleFont, %use the titling font
 		textstyle={\setcharacterkerning[booktitlekerning]}, % use extra letterspacing
+		deeptextcommand=\ReplaceHeaderSpaces,
 		before={\phantom{*}\blank[5*line]},%add five blank lines before
 		after={\page[blankpagebreak]\noindentation}%add a double page break
 	]
 	
-	%Define a Subbook heading at the level of a chapter:
-	\definehead[Subbook][chapter]
+	%Define a Subbook heading at the level of a part:
+	\definehead[Subbook][part]
 	\setuphead[Subbook][
+		placehead=hidden,%do not typeset this heading
 		number=no,%do not add a number to this heading
-		placehead=hidden,%do not typeset anything for this heading
-		page=yes%always start on a new page
+		incrementnumber=yes, %but do keep track of it for the ToC
+		page=yes%force a page break
 	]
+	
+	%The use of placehead=hidden above is necessary to facilitate uninterrupted transitions between subbooks,
+	%but it makes the Subbooks ``invisible'' to tabulations made for the Tabel of Contents.
+	%The ConTeXt wiki (https://wiki.contextgarden.net/Titles) recommends the following command to resolve this:
+	\setuptexttexts[{\placerawheaddata[Subbook]}]
 	
 	%Define custom chapter and verse markings to be used in the header:
 	\definemarking[Chapter]
@@ -543,13 +580,12 @@
 	%Define macro for closed section break in a variant reading:
 	\define\RdgClosedSection{} % Empty because we've decided this isn't necessary; but define it if you want a printed representation of a closed section in the apparatus
 	
-	%Define macro for open section break:
+	%Define macro for open section break:	
 	\define\OpenSection{%
-		\endgraf%end previous paragraph
-		\blank[halfline,samepage]%non-breaking to ensure that no column begins with the open section symbol followed by a half line
-		\startalignment[middle]׆\stopalignment%
-		\blank[halfline,preference]%this can (and, if possible, should) be broken across a column
-		\par%begin new paragraph
+		\blank[halfline, samepage]%non-breaking to ensure that no column begins with the open section symbol
+		\startalignment[middle]׆\stopalignment %open section symbol, centered
+		\blank[halfline]%
+		\testcolumn[1]% if there is not room for the current line of text and one more line, then force a column break
 	}
 	
 	%Define macro for open section break in a variant reading:
@@ -577,32 +613,188 @@
 		}%
 	}
 	
-	%Define lua function to replace single spaces with en spaces:
+	%Define lua functions to replace single spaces with longer spaces:
 	\startluacode
 		userdata = userdata or {}
 	
-		function userdata.replaceHeaderSpaces(str)
+		function userdata.replaceSpaceWithEnSpace(str)
 			local rep = {
-				[1] = { " ", " "   },
+				[1] = { " ", " " },
 			}
 			context(lpeg.replacer(rep):match(str))
 		end
 	\stopluacode
-	%Define a macro that uses this function:
-	\define[1]\ReplaceHeaderSpaces{\ctxlua{userdata.replaceHeaderSpaces([==[#1]==])}}
+	%Define macros that uses these functions:
+	\define[1]\ReplaceHeaderSpaces{\ctxlua{userdata.replaceSpaceWithEnSpace([==[#1]==])}}
 	
-	%Setup header and footer text:
-	\setupheadertexts[\hfill{\switchtobodyfont[ebgaramond, 12pt]\feature[+][ebgaramond-header]\setcharacterkerning[headerkerning]\sc\currentstructuretitle}\hfill][][][\hfill{\switchtobodyfont[ebgaramond, 12pt]\feature[+][ebgaramond-header]\setcharacterkerning[headerkerning]\sc\currentstructuretitle}] %even left, even right, odd left, odd right
-	\setupfootertexts[{\switchtobodyfont[ebgaramond, 12pt]\textdir TLT\pagenumber}][][][{\switchtobodyfont[ebgaramond, 12pt]\textdir TLT\pagenumber}] %even left, even right, odd left, odd right
+	%%%%%%%%%%%
+	% TABLE OF CONTENTS
+	%%%%%%%%%%%
+	
+	%Setup the table of contents:
+	\setupcombinedlist[content][
+		list={part,Essay,Book,Subbook}, %only list titles under these headings
+		alternative=c, %put dots between titles and page numbers
+	]
+	\setuplist[part][margin=0em]
+	\setuplist[Essay][margin=0em]
+	\setuplist[Book][margin=0em, textcommand=\Heb, before={\testpage[5]\blank}] %set Hebrew book names in Hebrew
+	\setuplist[Subbook][margin=1em, textcommand=\Heb,] %set Hebrew subbook names in Hebrew, indented one level
+	
+	%Define an extra feature that will add a page break before a given ToC entry:
+	\definelistextra[page][before=\page]
+	
+	%%%%%%%%%
+	% ABBREVIATIONS
+	%%%%%%%%%
+	
+	%Setup abbreviation settings:
+	\setupsynonyms[abbreviation][textstyle=normal, synonymstyle=normal] % don't force capitalization
+	
+	%Initialize abbreviations used in this book:
+	\abbreviation{AIL}{Ancient Israel and Its Literature}
+	\abbreviation{ANEM}{Ancient Near East Monographs}
+	\abbreviation{ABRL}{Anchor Yale Bible Reference Library}
+	\abbreviation[BHS]{\italic{BHS}}{\italic{Biblica Hebraica Stuttgartensia}. 5\textsuperscript{th} ed. Stuttgart: Deutsche Bibelgesellschaft, 1997}
+	\abbreviation[BHQ]{\italic{BHQ}}{\italic{Biblica Hebraica Quinta}. Stuttgart: Deutsche Bibelgesellschaft, in preparation}
+	\abbreviation{BRLA}{Brill Reference Library of Judaism}
+	\abbreviation{CBET}{Contributions to Biblical Exegesis and Theology}
+	\abbreviation{FAT}{Forschungen zum Alten Testament}
+	\abbreviation[HALOT]{\italic{HALOT}}{\italic{The Hebrew and Aramaic Lexicon of the Old Testament}. Ludwig Koehler and Walter Baumgartner. Translated and edited under the supervision of Mervyn E. J. Richardson. 2 vols. Leiden: Brill, 2001}
+	\abbreviation{HB}{Hebrew Bible}
+	\abbreviation{HSM}{Harvard Semitic Monographs}
+	\abbreviation[JAOS]{\italic{JAOS}}{\italic{Journal of the American Oriental Society}}
+	\abbreviation[Leningrad]{L}{Leningrad Codex (National Library of Russia Firkovich B19A)\\(in the apparatus, refers to the reading in the WLC transcription)}
+	\abbreviation{LSAWS}{Linguistic Studies in Ancient West Semitic}
+	\abbreviation{MS}{manuscript}
+	\abbreviation{MPIL}{Monographs of the Peshitta Institute Leiden}
+	\abbreviation{MRTS}{Medieval and Renaissance Texts and Studies}
+	\abbreviation{MS}{manuscript}
+	\abbreviation{MSS}{manuscripts}
+	\abbreviation{MT}{Masoretic Text}
+	\abbreviation{NAC}{New American Commentary}
+	\abbreviation{NICOT}{New International Commentary on the Old Testament}
+	\abbreviation{OG}{Old Greek}
+	\abbreviation{SANER}{Studies in Ancient Near Eastern Records}
+	\abbreviation{SBLDS}{Society of Biblical Literature Dissertation Series}
+	\abbreviation{SBLSCS}{SBL Septuagint and Cognate Studies}
+	\abbreviation{SR}{Siglum indicating readings adopted in this edition}
+	\abbreviation{STDJ}{Studies on the Texts of the Desert of Judah}
+	\abbreviation[TC]{\italic{TC}}{\italic{TC: A Journal of Biblical Textual Criticism}}
+	\abbreviation{TCST}{Text-Critical Studies}
+	\abbreviation[THB]{\italic{THB}}{\italic{Textual History of the Bible}. Edited by Armin Lange. 3 vols. Leiden: Brill, in preparation}
+	\abbreviation{THBSup}{Supplements to \italic{Textual History of the Bible}}
+	\abbreviation{TOTC}{Tyndale Old Testament Commentaries}
+	\abbreviation[VT]{\italic{VT}}{\italic{Vetus Testamentum}}
+	\abbreviation{VTSup}{Supplements to \italic{Vetus Testamentum}}
+	\abbreviation{WLC}{Westminster Leningrad Codex}
 	
 	%%%%%%%%
 	% BIBLIOGRAPHY
 	%%%%%%%%
 	
-	%Setup abbreviation settings:
-	\setupsynonyms[abbreviation][textstyle=normal, synonymstyle=normal] % don't force capitalization
-	%Setup bibliography settings:
-	\usebtxdataset[../bib/bibliography]
-	\usebtxdefinitions[chicago]%use SBL style for citation rendering
+	%ConTeXt does not support SBL style (yet), so setup manual bibliography settings:
+	\def\dostartbibitem[#1][#2]{%
+		\doifsomethingelse{#2}{%
+			\startBibItem[reference={#1},title={#2}]%
+		}%
+	    	{%
+	    		\startBibItem[reference={#1},title={#1}]%
+		}%
+	}%
+	\def\startbibitem{\dodoubleempty\dostartbibitem}
+	\def\stopbibitem{\stopBibItem}
+
+	\definedescription[BibItem][
+		width=broad,
+		margin=1em,
+		indenting={no},
+		indentnext=no,
+		alternative=hanging,
+		hang=1,
+		headcommand=\gobbleoneargument,
+		align=flushleft,
+		before={\testpage[4]\blank}
+	]
+
+	%Steup the line for repeated authors:
+	\def\bibitemrule{\noindentation\vrule height3pt width6em depth-2.5pt\thinspace}
+	
+	%%%%%%%%%%%%%%
+	% CONDITIONAL FORMATTING
+	%%%%%%%%%%%%%%
+	
+	%Front matter:
+	\startsectionblockenvironment[frontpart]
+		%Switch to English language:
+		\language[en]
+		%Setup page number conversion:
+		\setupuserpagenumber[numberconversion=romannumerals] %Roman numerals
+		\setuplist[chapter][pageconversionset=pagenumber]
+		\setuppagenumber[number=1] %restart page numbering
+		%Change the font of the text (but not the headers and footers):
+		\switchtobodyfont[ebgaramond, 12pt]
+		%Setup text direction:
+		\textdir TLT %left-to-right
+		%Setup alignment for the text:
+		\setupalign[hanging,hyphenated] %justified and hyphenated, with protrusion allowed
+		%Setup text paragraph indentation:
+		\setupindenting[yes, 1em] %enable indentation with a 1-em indent
+		%Setup layout for footnotes:
+		\startsetups[footnotesetup]
+			\setupinterlinespace[12bp] % footnote line spacing
+			\switchtobodyfont[ebgaramond, 10pt] % footnote font
+			\setupalign[hanging,hyphenated] % alignment of text (justified, protrusion allowed, hyphenation allowed)
+		\stopsetups
+		%Setup header (need to use \setupheadertexts because of font switches)
+		\setupheadertexts[\hfill{\switchtobodyfont[ebgaramond, 12pt]\feature[+][ebgaramond-header]\setcharacterkerning[headerkerning]\textdir TLT\sc\word{\namedstructurevariable{Essay}{title}}\hfill}][][][\hfill{\switchtobodyfont[ebgaramond, 12pt]\feature[+][ebgaramond-header]\setcharacterkerning[headerkerning]\textdir TLT\sc\word{\namedstructurevariable{Essay}{title}}}\hfill] %even left, even right, odd left, odd right
+	\stopsectionblockenvironment
+	%Body matter:
+	\startsectionblockenvironment[bodypart]
+		%Switch to Hebrew language:
+		\language[he]
+		%Setup page number conversion:
+		\setuppagenumber[number=1] %restart page numbering
+		\setupuserpagenumber[numberconversion=numbers] %Arabic numerals
+		%Change the font of the text (but not the headers and footers):
+		\switchtobodyfont[keteryg, 13pt]
+		%Setup text direction:
+		\textdir TRT %right-to-left
+		%Setup alignment for the text:
+		\setupalign[r2l,flushleft,nothyphenated] %right-to-left, flush left, with no hyphenation
+		%Setup text paragraph indentation:
+		\setupindenting[no] %disable indentation
+		%Setup layout for footnotes:
+		\startsetups[footnotesetup]
+			\setupinterlinespace[12bp] % footnote line spacing
+			\switchtobodyfont[keteryg, 11pt] % footnote font
+			\setupalign[r2l, flushleft,nothyphenated] % alignment of text (right-to-left, flush left, with no hyphenation)
+		\stopsetups
+		%Setup header (need to use \setupheadertexts because of font switches)
+		\setupheadertexts[\rlap{\switchtobodyfont[ebgaramond, 12pt]\textdir TLT\RefRange}\hfill {\switchtobodyfont[keteryg, 13pt]\feature[+][keteryg-header]\setcharacterkerning[headerkerning]\textdir TRT\ReplaceHeaderSpaces{\namedstructurevariable{part}{title}}} \hfill][][][\hfill {\switchtobodyfont[keteryg, 13pt]\feature[+][keteryg-header]\setcharacterkerning[headerkerning]\textdir TRT\ReplaceHeaderSpaces{\namedstructurevariable{part}{title}}} \hfill \llap{\switchtobodyfont[ebgaramond, 12pt]\textdir TLT\RefRange}] %even left, even right, odd left, odd right
+	\stopsectionblockenvironment
+	%Back matter:
+	\startsectionblockenvironment[backpart]
+		%Switch to English language:
+		\language[en]
+		%Setup page number conversion:
+		\setupuserpagenumber[numberconversion=numbers] %Arabic numerals
+		%Change the font of the text (but not the headers and footers):
+		\switchtobodyfont[ebgaramond, 12pt]
+		%Setup text direction:
+		\textdir TLT %left-to-right
+		%Setup alignment for the text:
+		\setupalign[hanging,hyphenated] %justified and hyphenated, with protrusion allowed
+		%Setup text paragraph indentation:
+		\setupindenting[yes, 1em] %enable indentation with a 1-em indent
+		%Setup layout for footnotes:
+		\startsetups[footnotesetup]
+			\setupinterlinespace[12bp] % footnote line spacing
+			\switchtobodyfont[ebgaramond, 10pt] % footnote font
+			\setupalign[hanging,hyphenated] % alignment of text (justified, protrusion allowed, hyphenation allowed)
+		\stopsetups
+		%Setup header (need to use \setupheadertexts because of font switches)
+		\setupheadertexts[\hfill{\switchtobodyfont[ebgaramond, 12pt]\feature[+][ebgaramond-header]\setcharacterkerning[headerkerning]\textdir TLT\sc\word{\namedstructurevariable{part}{title}}\hfill}][][][\hfill{\switchtobodyfont[ebgaramond, 12pt]\feature[+][ebgaramond-header]\setcharacterkerning[headerkerning]\textdir TLT\sc\word{\namedstructurevariable{part}{title}}}\hfill] %even left, even right, odd left, odd right
+	\stopsectionblockenvironment
 	
 \stopenvironment

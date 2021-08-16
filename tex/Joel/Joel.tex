@@ -1,9 +1,9 @@
 \environment ../sty/sr-style
-\environment ../sty/sr-book-style
-\startcomponent Joel
+\startcomponent
 \product ../main/main
 \starttext
-\startSubbook[title={יואל}][booktitle={יואל}]
+%\startbodymatter %uncomment to trigger appropriate conditional formatting for standalone document
+\startSubbook[title={יואל}]
 \startpagecolumns[hebrew]
 \Chapter{1}
 \Verse{1}דְּבַר יַהְוֶה אֲשֶׁר הָיָה אֶל יוֹאֵל בֶּן פְּתוּאֵל 
@@ -85,5 +85,6 @@
 \page[no]
 \stoppagecolumns
 \stopSubbook
+%\stopbodymatter
 \stoptext
 \stopcomponent

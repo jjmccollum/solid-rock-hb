@@ -1,9 +1,9 @@
 \environment ../sty/sr-style
-\environment ../sty/sr-book-style
 \startcomponent 
 \product ../main/main
 \starttext
-\startSubbook[title={הושע}][booktitle={הושע}]
+%\startbodymatter %uncomment to trigger appropriate conditional formatting for standalone document
+\startSubbook[title={הושע}]
 \startpagecolumns[hebrew] 
 \Chapter{1}
 \Verse{1}דְּבַר יַהְוֶה אֲשֶׁר הָיָה אֶל הוֹשֵׁעַ בֶּן בְּאֵרִי בִּימֵי עֻזִּיָּה יוֹתָם אָחָז יְחִזְקִיָּה מַלְכֵי יְהוּדָה וּבִימֵי יָרָבְעָם בֶּן יוֹאָשׁ מֶלֶךְ יִשְׂרָאֵל 
@@ -219,5 +219,6 @@
 \page[no]
 \stoppagecolumns
 \stopSubbook
+%\stopbodymatter
 \stoptext
 \stopcomponent

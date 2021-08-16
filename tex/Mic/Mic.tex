@@ -1,9 +1,9 @@
 \environment ../sty/sr-style
-\environment ../sty/sr-book-style
-\startcomponent Mic
+\startcomponent
 \product ../main/main
 \starttext
-\startSubbook[title={מיכה}][booktitle={מיכה}]
+%\startbodymatter %uncomment to trigger appropriate conditional formatting for standalone document
+\startSubbook[title={מיכה}]
 \startpagecolumns[hebrew]
 \Chapter{1}
 \Verse{1}דְּבַר יַהְוֶה אֲשֶׁר הָיָה אֶל מִיכָה הַמֹּרַשְׁתִּי בִּימֵי יוֹתָם אָחָז יְחִזְקִיָּה מַלְכֵי יְהוּדָה אֲשֶׁר חָזָה עַל שֹׁמְרוֹן וִירוּשָׁלֵם 
@@ -120,5 +120,6 @@
 \page[no]
 \stoppagecolumns
 \stopSubbook
+%\stopbodymatter
 \stoptext
 \stopcomponent

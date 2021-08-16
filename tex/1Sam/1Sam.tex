@@ -1,9 +1,9 @@
 \environment ../sty/sr-style
-\environment ../sty/sr-book-style
 \startcomponent 
 \product ../main/main
 \starttext
-\startSubbook[title={שמואל א}][booktitle={שמואל א}]
+%\startbodymatter %uncomment to trigger appropriate conditional formatting for standalone document
+\startSubbook[title={שמואל א}]
 \startpagecolumns[hebrew]
 \Chapter{1}
 \Verse{1}וַיְהִי אִישׁ אֶחָד מִן הָרָמָתַיִם \App{substitution}{צוּפִי}{\Reading{צוּפִי}{SR}\PrimaryReadingSep\Reading{צוֹפִים}{L}} מֵהַר אֶפְרָיִם וּשְׁמוֹ אֶלְקָנָה בֶּן יְרֹחָם בֶּן אֱלִיהוּא בֶּן תֹּחוּ בֶן צוּף אֶפְרָתִי 
@@ -850,5 +850,6 @@
 \page[no]
 \stoppagecolumns
 \stopSubbook
+%\stopbodymatter
 \stoptext
 \stopcomponent

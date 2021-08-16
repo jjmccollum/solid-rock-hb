@@ -1,9 +1,9 @@
 \environment ../sty/sr-style
-\environment ../sty/sr-book-style
 \startcomponent 
 \product ../main/main
 \starttext
-\startSubbook[title={עזרא}][booktitle={עזרא}]
+%\startbodymatter %uncomment to trigger appropriate conditional formatting for standalone document
+\startSubbook[title={עזרא}]
 \startpagecolumns[hebrew]
 \Chapter{1}
 \Verse{1}וּבִשְׁנַת אַחַת לְכוֹרֶשׁ מֶלֶךְ פָּרַס לִכְלוֹת דְּבַר יַהְוֶה מִפִּי יִרְמְיָה הֵעִיר יַהְוֶה אֶת רוּחַ כֹּרֶשׁ מֶלֶךְ פָּרַס וַיַּעֲבֶר קוֹל בְּכָל מַלְכוּתוֹ וְגַם בְּמִכְתָּב לֵאמֹר 
@@ -298,5 +298,6 @@
 \page[no]
 \stoppagecolumns
 \stopSubbook
+%\stopbodymatter
 \stoptext
 \stopcomponent

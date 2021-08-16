@@ -1,9 +1,9 @@
 \environment ../sty/sr-style
-\environment ../sty/sr-book-style
 \startcomponent 
 \product ../main/main
 \starttext
-\startBook[title={קהלת}][booktitle={קהלת}]
+%\startbodymatter %uncomment to trigger appropriate conditional formatting for standalone document
+\startBook[title={קהלת}]
 \startpagecolumns[hebrew]
 \Chapter{1}
 \Verse{1}דִּבְרֵי קֹהֶלֶת בֶּן דָּוִד מֶלֶךְ בִּירוּשָׁלֵם 
@@ -242,5 +242,6 @@
 \page[no]
 \stoppagecolumns
 \stopBook
+%\stopbodymatter
 \stoptext
 \stopcomponent

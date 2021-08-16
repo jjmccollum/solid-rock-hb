@@ -1,9 +1,9 @@
 \environment ../sty/sr-style
-\environment ../sty/sr-book-style
 \startcomponent 
 \product ../main/main
 \starttext
-\startBook[title={שיר השירים}][booktitle={שיר השירים}]
+%\startbodymatter %uncomment to trigger appropriate conditional formatting for standalone document
+\startBook[title={שיר השירים}]
 \startpagecolumns[hebrew]
 \Chapter{1}
 \Verse{1}שִׁיר הַשִּׁירִים אֲשֶׁר \App{vocalic substantive}{לְשַׁלְמָה}{\Reading{לְשַׁלְמָה}{SR}\PrimaryReadingSep\Reading{לִשְׁלֹמֹה}{L}} 
@@ -133,5 +133,6 @@
 \page[no]
 \stoppagecolumns
 \stopBook
+%\stopbodymatter
 \stoptext
 \stopcomponent

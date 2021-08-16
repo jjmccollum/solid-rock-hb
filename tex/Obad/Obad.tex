@@ -1,9 +1,9 @@
 \environment ../sty/sr-style
-\environment ../sty/sr-book-style
 \startcomponent 
 \product ../main/main
 \starttext
-\startSubbook[title={עבדיה}][booktitle={עבדיה}]
+%\startbodymatter %uncomment to trigger appropriate conditional formatting for standalone document
+\startSubbook[title={עבדיה}]
 \startpagecolumns[hebrew]
 \Chapter{1}
 \Verse{1}חֲזוֹן עֹבַדְיָה כֹּה אָמַר אֲדֹנַי יַהְוֶה לֶאֱדוֹם שְׁמוּעָה שָׁמַעְנוּ מֵאֵת יַהְוֶה וְצִיר בַּגּוֹיִם שֻׁלָּח קוּמוּ וְנָקוּמָה עָלֶיהָ לַמִּלְחָמָה 
@@ -30,5 +30,6 @@
 \page[no]
 \stoppagecolumns
 \stopSubbook
+%\stopbodymatter
 \stoptext
 \stopcomponent

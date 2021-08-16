@@ -1,9 +1,9 @@
 \environment ../sty/sr-style
-\environment ../sty/sr-book-style
-\startcomponent Zeph
+\startcomponent
 \product ../main/main
 \starttext
-\startSubbook[title={צפניה}][booktitle={צפניה}]
+%\startbodymatter %uncomment to trigger appropriate conditional formatting for standalone document
+\startSubbook[title={צפניה}]
 \startpagecolumns[hebrew]
 \Chapter{1}
 \Verse{1}דְּבַר יַהְוֶה אֲשֶׁר הָיָה אֶל צְפַנְיָה בֶּן כּוּשִׁי בֶן גְּדַלְיָה בֶּן אֲמַרְיָה בֶּן חִזְקִיָּה בִּימֵי יֹאשִׁיָּהוּ בֶן אָמוֹן מֶלֶךְ יְהוּדָה 
@@ -64,5 +64,6 @@
 \page[no]
 \stoppagecolumns
 \stopSubbook
+%\stopbodymatter
 \stoptext
 \stopcomponent

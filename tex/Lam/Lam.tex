@@ -1,9 +1,9 @@
 \environment ../sty/sr-style
-\environment ../sty/sr-book-style
 \startcomponent 
 \product ../main/main
 \starttext
-\startBook[title={איכה}][booktitle={איכה}]
+%\startbodymatter %uncomment to trigger appropriate conditional formatting for standalone document
+\startBook[title={איכה}]
 \startpagecolumns[hebrew]
 \Chapter{1}
 \Verse{1}אֵיכָה יָשְׁבָה בָדָד הָעִיר רַּבָתִי עָם הָיְתָה כְּאַלְמָנָה רַּבָתִי בַגּוֹיִם שָׂרָתִי בַּמְּדִינוֹת הָיְתָה לָמַס \ClosedSection 
@@ -167,5 +167,6 @@
 \page[no]
 \stoppagecolumns
 \stopBook
+%\stopbodymatter
 \stoptext
 \stopcomponent
