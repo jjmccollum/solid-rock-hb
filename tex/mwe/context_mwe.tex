@@ -2,8 +2,8 @@
 %DRAFT OPTIONS
 %%%%%%%%%
 
-\showframe
-\showgrid
+%\showframe
+%\showgrid
 
 %%%%%%%%%
 % PAGE LAYOUT
@@ -65,7 +65,9 @@
 \definefontfeature[ebgaramond-smallcaps][ebgaramond-normal][
 	smcp=yes
 ]
-\definefontfeature[keteryg-normal][hebrew]
+\definefontfeature[keteryg-normal][hebrew][
+	ss01=yes
+]
 \definefontfeature[keteryg-header][hebrew][
 	kern=no % disable kerning (to accommodate increased letterspacing)
 ]
@@ -167,7 +169,7 @@
 \stopsetups
 
 %Setup font size and leading for text:
-\setupinterlinespace[18bp] %text line spacing
+\setupinterlinespace[60bp] %text line spacing
 \setupbodyfont[keteryg, 13pt] %body font
 
 %Ensure that whitespace respects the grid layout:
@@ -456,17 +458,23 @@
 \starttext
 \startBook[title={תהלים}][booktitle={תהלים}]
 \startpagecolumns[hebrew]
-	\Chapter{16}
-	\Verse{11}תּוֹדִיעֵנִי אֹרַח חַיִּים שֹׂבַע שְׂמָחוֹת אֶת פָּנֶיךָ נְעִמוֹת בִּימִינְךָ נֶצַח \OpenSection 
-	\Chapter{33}
-	\Verse{2}הוֹדוּ לְיַהְוֶה בְּכִנּוֹר בְּנֵבֶל עָשׂוֹר זַמְּרוּ לוֹ 
-	\Chapter{60}
-	\Verse{6}נָתַתָּה לִּירֵאֶיךָ נֵּס לְהִתְנוֹסֵס מִפְּנֵי קֹשֶׁט סֶלָה 
-	\Chapter{80}
-	\Verse{1}לַמְנַצֵּחַ אֶל שֹׁשַׁנִּים עֵדוּת לְאָסָף מִזְמוֹר 
-	\Chapter{92}
-	\Verse{4}עֲלֵי עָשׂוֹר וַעֲלֵי נָבֶל עֲלֵי הִגָּיוֹן בְּכִנּוֹר \par
+	\switchtobodyfont[keteryg, 48pt]
+	שֹׂבַע
+	
+	עָשׂוֹר
+	
+	קֹשֶׁט 
+	
+	שֹׁשַׁנִּים 
+	
+	עָשׂוֹר
+	
 	מֹשֶׁה
+	
+	שַׁלֹשׁ
+	
+	נֹחַ
+	
 \stoppagecolumns
 \stopBook
 \stoptext

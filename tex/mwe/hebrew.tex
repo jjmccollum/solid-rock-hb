@@ -1,14 +1,31 @@
-%Setup minimal font features:
-\definefontfeature[minimal][default][
-    ccmp=yes,
-    script=hebr
-]
+\starttypescriptcollection[keteryg]
+	\starttypescript[serif][keteryg]
+		\definefontsynonym[Serif][file:../fonts/KeterYG/KeterYG-Medium.ttf][features=hebrew] % all the necessary Hebrew features, including dlig
+	\stoptypescript
+
+	\starttypescript[keteryg]
+		\definetypeface[keteryg][rm][serif][keteryg][default]
+	\stoptypescript
+\stoptypescriptcollection
+
 %Set up the main font:
-\definefontfamily[hebrew] [rm] [SBL Hebrew] [features=hebrew]
-\setupbodyfont[hebrew]
+\setupbodyfont[keteryg]
 %Set up right-to-left alignment:
 \setupalign[r2l]
 \starttext
-%Normalized Unicode mark order:
-בְּרֵאשִׁ֖ית בָּרָ֣א אֱלֹהִ֑ים אֵ֥ת הַשָּׁמַ֖יִם וְאֵ֥ת הָאָֽרֶץ׃
+	נֹחַ
+	
+	שֹׂבַע
+	
+	עָשׂוֹר
+	
+	קֹשֶׁט 
+	
+	שֹׁשַׁנִּים 
+	
+	עָשׂוֹר
+	
+	מֹשֶׁה
+	
+	שַׁלֹשׁ
 \stoptext
