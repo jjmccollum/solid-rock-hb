@@ -311,7 +311,7 @@ class tei_context_converter:
         context = ''
         #Open the text environment:
         context += '\\starttext\n'
-        context += '%%\\startbodymatter %%uncomment to trigger appropriate conditional formatting for standalone document'
+        context += '%\\startbodymatter %uncomment to trigger appropriate conditional formatting for standalone document\n'
         #Process the <front/>, <body/>, and <back/> elements under this element:
         for child in xml:
             raw_tag = child.tag.replace('{%s}' % self.tei_ns, '')
@@ -322,7 +322,7 @@ class tei_context_converter:
             elif raw_tag == 'back':
                 pass #this isn't present for our use case, but leaving it here for future reference
         #Close the text environment:
-        context += '%%\\stopbodymatter'
+        context += '%\\stopbodymatter\n'
         context += '\\stoptext\n'
         return context
     """
