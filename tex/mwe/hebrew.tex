@@ -1,42 +1,42 @@
-\starttypescriptcollection[keteryg]
-	\starttypescript[serif][keteryg]
-		\definefontsynonym[Serif][file:../fonts/KeterYG/KeterYG-Medium.ttf][features=hebrew] % all the necessary Hebrew features, including dlig
-	\stoptypescript
-
-	\starttypescript[keteryg]
-		\definetypeface[keteryg][rm][serif][keteryg][default]
-	\stoptypescript
-\stoptypescriptcollection
-
-%Set up the main font:
-\setupbodyfont[keteryg]
-%Set up right-to-left alignment:
-\setupalign[r2l]
-\starttext
-	נֹחַ
-	
-	שֹׂבַע
-	
-	עָשׂוֹר
-	
-	קֹשֶׁט 
-	
-	שֹׁשַׁנִּים 
-	
-	עָשׂוֹר
-	
-	מֹשֶׁה
-	
-	שַׁלֹשׁ
-\stoptext
-
-%\usemodule[fonts-show]
+%\starttypescriptcollection[keteryg]
+%	\starttypescript[serif][keteryg]
+%		\definefontsynonym[Serif][file:../fonts/KeterYG/KeterYG-Medium.ttf][features=hebrew] % all the necessary Hebrew features, including dlig
+%	\stoptypescript
 %
+%	\starttypescript[keteryg]
+%		\definetypeface[keteryg][rm][serif][keteryg][default]
+%	\stoptypescript
+%\stoptypescriptcollection
+%
+%%Set up the main font:
+%\setupbodyfont[keteryg]
+%%Set up right-to-left alignment:
+%\setupalign[r2l]
 %\starttext
-%
-%\showotfcomposition
-%   {file:../fonts/KeterYG/KeterYG-Medium.ttf*hebrew}
-%   {-1}
-%   {לֹשׁ}
-%
+%	נֹחַ
+%	
+%	שֹׂבַע
+%	
+%	עָשׂוֹר
+%	
+%	קֹשֶׁט 
+%	
+%	שֹׁשַׁנִּים 
+%	
+%	עָשׂוֹר
+%	
+%	מֹשֶׁה
+%	
+%	שַׁלֹשׁ
 %\stoptext
+
+\usemodule[fonts-show]
+
+\starttext
+
+\showotfcomposition
+   {file:../fonts/KeterYG/KeterYG-Medium.ttf*hebrew}
+   {-1}
+   {לִָם}
+
+\stoptext
