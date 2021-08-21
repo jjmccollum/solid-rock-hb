@@ -27,7 +27,7 @@ class tei_context_converter:
     Converts a <pb/> element in the body to ConTeXt format.
     """
     def format_pb(self, xml):
-        context = '\\page\n'
+        context = '\n\\page\n'
         return context
     """
     Converts a <milestone unit="book"/> element in the body to ConTeXt format.
