@@ -422,9 +422,9 @@
 	%Font command to be used for Book headings
 	\definefont[BookTitleFont][Titling at 30pt][line=36bp]
 	
-	%Enable section numbering in front and back matter (they are disabled by default):
-	\setupsectionblock[frontpart][number=yes]
-	\setupsectionblock[backpart][number=yes]
+	%Enable section numbering and blank odd page break in front and back matter (they are disabled by default):
+	\setupsectionblock[frontpart][number=yes,page=blankpagebreak]
+	\setupsectionblock[backpart][number=yes,page=blankpagebreak]
 	
 	%Redefine the part heading:
 	\setuphead[part][
@@ -471,6 +471,32 @@
 		before={\blank[line]\testpage[3]}, %add a blank line before, and if there is not room for three lines after the title, then force a page break
 		after={\blank[line]},%add a blank line after
 		indentnext=no%do not indent the paragraph that follows
+	]
+	
+	%Define a new Info heading at the level of a part:
+	\definehead[Info][part]
+	\setuphead[Info][
+		placehead=no,%print the heading (necessary for the part heading, which isn't normally printed)
+		number=no,%do not add a number to this heading
+		incrementnumber=no, %do not keep track of it for the ToC
+		page=blankpagebreak,%use an odd page break with no header or footer
+		header=empty,%disable headers for this page
+		footer=empty,%disable footers for this page
+		before={},%no space before
+		after={}%no space after
+	]
+	
+	%Define a new Contents heading at the level of a part:
+	\definehead[Contents][part]
+	\setuphead[Contents][
+		placehead=yes,%print the heading (necessary for the part heading, which isn't normally printed)
+		number=no,%do not add a number to this heading
+		incrementnumber=no, %do not keep track of it for the ToC
+		page=blankpagebreak,%use an odd page break with no header or footer
+		header=empty,%disable headers for this page
+		footer=empty,%disable footers for this page
+		before={},%no space before
+		after={}%no space after
 	]
 	
 	%Define a new Essay heading at the level of a part:
