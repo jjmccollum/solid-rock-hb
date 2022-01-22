@@ -473,10 +473,25 @@
 		indentnext=no%do not indent the paragraph that follows
 	]
 	
+	%Define a new Title heading at the level of a part:
+	\definehead[Title][part]
+	\setuphead[Title][
+		placehead=yes,%print the heading (necessary for the part heading, which isn't normally printed)
+		number=no,%do not add a number to this heading
+		incrementnumber=no, %do not keep track of it for the ToC
+		page=blankpagebreak,%use an odd page break with no header or footer
+		header=empty,%disable headers for this page
+		footer=empty,%disable footers for this page
+		align={middle},%align in the center
+		textstyle={\setcharacterkerning[essaytitlekerning]\setcharactercasing[WORD]}, % use extra letterspacing and set in all caps
+		before={\phantom{*}\blank[5*line]},%add five blank lines before
+		after={}%no extra space after
+	]
+	
 	%Define a new Info heading at the level of a part:
 	\definehead[Info][part]
 	\setuphead[Info][
-		placehead=no,%print the heading (necessary for the part heading, which isn't normally printed)
+		placehead=no,%don't print the heading (there shouldn't be one anyway)
 		number=no,%do not add a number to this heading
 		incrementnumber=no, %do not keep track of it for the ToC
 		page=blankpagebreak,%use an odd page break with no header or footer
