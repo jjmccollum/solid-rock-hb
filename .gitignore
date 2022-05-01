@@ -20,6 +20,7 @@
 # these rules might exclude image files for figures etc.
 *.ps
 *.eps
+!tex/img/cc-by-logo.eps
 *.pdf
 !tex/img/features.pdf
 !tex/img/solid-rock-publications-logo.pdf
