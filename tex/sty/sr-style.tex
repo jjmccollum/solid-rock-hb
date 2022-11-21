@@ -424,6 +424,7 @@
 	
 	%Enable section numbering and blank odd page break in front and back matter (they are disabled by default):
 	\setupsectionblock[frontpart][number=yes,page=blankpagebreak]
+	\setupsectionblock[bodypart][number=yes,page=blankpagebreak]
 	\setupsectionblock[backpart][number=yes,page=blankpagebreak]
 	
 	%Redefine the part heading:
@@ -453,7 +454,7 @@
 		style=sectionTitleFont,
 		numberstyle={\rm}, %set number in roman at the size of the main text
 		textstyle={\sc\setcharactercasing[word]}, %set title in small caps at the size of the main text
-		before={\blank[2*line]\testpage[3]}, %add two blank lines before, and if there is not room for three lines after the title, then force a page break
+		before={\blank[line]\testpage[3]}, %add two blank lines before, and if there is not room for three lines after the title, then force a page break
 		after={\blank[line]},%add a blank line after
 		indentnext=no%do not indent the paragraph that follows
 	]
@@ -545,6 +546,22 @@
 		before={\phantom{*}\blank[5*line]},%add five blank lines before
 		after={\page[blankpagebreak]\noindentation}%add a double page break
 	]
+
+	%Define a new BookCollection heading at the level of a part:
+	\definehead[BookCollection][part]
+	\setuphead[BookCollection][
+		placehead=yes,%print the heading (necessary for the part heading, which isn't normally printed)
+		number=no,%do not add a number to this heading
+		incrementnumber=yes, %but do keep track of it for the ToC
+		header=empty,%disable headers for this page
+		footer=empty,%disable footers for this page
+		align={r2l, flushright, nothyphenated},%use Hebrew alignment settings, but make flush right
+		style=BookTitleFont, %use the titling font
+		textstyle={\setcharacterkerning[booktitlekerning]}, % use extra letterspacing
+		deeptextcommand=\ReplaceHeaderSpaces,
+		before=, %add nothing before
+		after={\page[blankpagebreak]\noindentation}%add a double page break
+	]
 	
 	%Define a Subbook heading at the level of a part:
 	\definehead[Subbook][part]
@@ -552,7 +569,7 @@
 		placehead=hidden,%do not typeset this heading
 		number=no,%do not add a number to this heading
 		incrementnumber=yes, %but do keep track of it for the ToC
-		page=yes%force a page break
+		after=,%add nothing after
 	]
 	
 	%The use of placehead=hidden above is necessary to facilitate uninterrupted transitions between subbooks,
@@ -674,12 +691,13 @@
 	
 	%Setup the table of contents:
 	\setupcombinedlist[content][
-		list={part,Essay,Book,Subbook}, %only list titles under these headings
+		list={part,Essay,Book,BookCollection,Subbook}, %only list titles under these headings
 		alternative=c, %put dots between titles and page numbers
 	]
 	\setuplist[part][margin=0em]
 	\setuplist[Essay][margin=0em]
-	\setuplist[Book][margin=0em, textcommand=\Heb, before={\testpage[5]\blank}] %set Hebrew book names in Hebrew
+	\setuplist[Book][margin=0em, textcommand=\Heb,] %set Hebrew book names in Hebrew
+	\setuplist[BookCollection][margin=0em, textcommand=\Heb, before={\testpage[5]\blank}] %set Hebrew book colelction names in Hebrew, ensuring that there is sufficient space below them in the ToC
 	\setuplist[Subbook][margin=1em, textcommand=\Heb,] %set Hebrew subbook names in Hebrew, indented one level
 	
 	%Define an extra feature that will add a page break before a given ToC entry:
@@ -723,6 +741,7 @@
 	\abbreviation{SBLDS}{Society of Biblical Literature Dissertation Series}
 	\abbreviation{SBLSCS}{SBL Septuagint and Cognate Studies}
 	\abbreviation{SR}{Siglum indicating readings adopted in this edition}
+	\abbreviation{SStLL}{Studies in Semitic Languages and Linguistics}
 	\abbreviation{STDJ}{Studies on the Texts of the Desert of Judah}
 	\abbreviation[TC]{\italic{TC}}{\italic{TC: A Journal of Biblical Textual Criticism}}
 	\abbreviation{TCST}{Text-Critical Studies}
