@@ -22,10 +22,12 @@
 *.eps
 !tex/img/cc-by-logo.eps
 *.pdf
-!tex/img/features.pdf
-!tex/img/solid-rock-publications-logo.pdf
 !tex/Cover_1/volume_1_cover.pdf
 !tex/Cover_2/volume_2_cover.pdf
+!tex/img/features.pdf
+!tex/img/solid-rock-publications-logo.pdf
+!tex/vol_1/vol_1.pdf
+!tex/vol_2/vol_2.pdf
 
 ## Generated if empty string is given at "Please type another file name for output:"
 .pdf
