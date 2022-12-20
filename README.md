@@ -1,5 +1,7 @@
 # solid-rock-hb
 
+![Solid Rock Hebrew Bible, edited by Stephen L. Brown](https://github.com/jjmccollum/solid-rock-hb/blob/master/tex/img/srhb-social-preview.png)
+
 [![CC BY 4.0][cc-by-shield]][cc-by]
 
 ## About the Book
