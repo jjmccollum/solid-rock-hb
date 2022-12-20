@@ -1,5 +1,4 @@
 # solid-rock-hb
-Official repository for the _Solid Rock Hebrew Bible_.
 
 [![CC BY 4.0][cc-by-shield]][cc-by]
 
