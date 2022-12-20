@@ -41,7 +41,7 @@ The TEI XML transcription and collation files, the Python scripts, and the TeX f
 
 Under this license, you are free to use and modify the material in this repository, as long as you cite the original work:
 
-> Stephen L. Brown, ed. _Solid Rock Hebrew Bible_. North Conway, NH: Solid Rock Publications, 2022.
+> Stephen L. Brown, ed. _Solid Rock Hebrew Bible_. 2 vols. North Conway, NH: Solid Rock Publications, 2022.
 
 ## Contact
 
