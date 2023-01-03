@@ -12,7 +12,19 @@ From the back cover:
 
 > The _Solid Rock Hebrew Bible_ aims to remedy this situation. Based on investigation of various masoretic manuscripts, ancient manuscripts from the Judean wilderness, the ancient versions, and other sources, this edition prints the entire Hebrew text (in a traditional two-column layout and an easy-to-read 13-point font, with vowel points included for readers' convenience) and includes adjustments made to the base text (the Leningrad Codex) in over 2,500 places. Additionally, over 2,000 other adjustments have been made to the diacritics. Pastors, scholars, translators, and others readers of the Hebrew Bible will stand to benefit from this work.
 
-The _Solid Rock Hebrew Bible_ is available in two printed volumes at Amazon (https://www.amazon.com/dp/0999532227 and https://www.amazon.com/dp/0999532235) and other booksellers.
+The _Solid Rock Hebrew Bible_ is available in two printed volumes at Barnes & Noble ([Volume 1](https://www.barnesandnoble.com/w/solid-rock-hebrew-bible-volume-1-stephen-l-brown/1142861227), [Volume 2](https://www.barnesandnoble.com/w/solid-rock-hebrew-bible-volume-2-stephen-l-brown/1142861235)), Amazon ([Volume 1](https://www.amazon.com/dp/0999532227), [Volume 2](https://www.amazon.com/dp/0999532235)) and other booksellers.
+
+## Features
+
+The text of the _Solid Rock Hebrew Bible_ has been collated against version 1.6 of the [Unicode/XML Leningrad
+Codex (UXLC)](http://www.tanach.us/).
+Variants are noted with standard text-critical sigla for additions, omissions, substitutions, and transpositions familiar to readers of the Nestle-Aland critical text of the New Testament, the _SBL Greek New Testament_, and the _Solid Rock Greek New Testament_.
+If multiple differences of the same type occur in the same verse, then their sigla in both the text and the bottom margin are differentiated by superscript numbers.
+Where a variant concerns the placement of a verse break, the verse break will be printed in one or both readings in the bottom margin.
+
+These features are illustrated in the sample of Ezekiel below:
+
+![Features in the text and apparatus demonstrated in a sample page of Ezek 41–42](https://github.com/jjmccollum/solid-rock-hb/blob/master/tex/img/features.png)
 
 ## About the Editor
 
