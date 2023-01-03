@@ -26,6 +26,8 @@ These features are illustrated in the sample of Ezekiel below:
 
 ![Features in the text and apparatus demonstrated in a sample page of Ezek 41–42](https://github.com/jjmccollum/solid-rock-hb/blob/master/tex/img/features.png)
 
+Note the distinct sigla used for addition (42:1), omission (41:22), and substitution (everywhere else); the labels used to distinguish between different changes of the same type in the same verse (substitution in 41:22, addition in 42:12); and the inclusion of verse numbers in one or more readings where a textual difference affects their placement (in 41:21).
+
 ## About the Editor
 
 **Stephen L. Brown** began studying biblical Hebrew in his early teen years, and later set about studying other languages (particularly biblical Aramaic and Greek) as well as textual criticism of a variety of works, particularly the Old and New Testaments. He served for five years as a pastor at First Baptist Church in North Conway, NH, and currently lives in Philadelphia, PA.
