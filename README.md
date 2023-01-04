@@ -12,7 +12,7 @@ From the back cover:
 
 > The _Solid Rock Hebrew Bible_ aims to remedy this situation. Based on investigation of various masoretic manuscripts, ancient manuscripts from the Judean wilderness, the ancient versions, and other sources, this edition prints the entire Hebrew text (in a traditional two-column layout and an easy-to-read 13-point font, with vowel points included for readers' convenience) and includes adjustments made to the base text (the Leningrad Codex) in over 2,500 places. Additionally, over 2,000 other adjustments have been made to the diacritics. Pastors, scholars, translators, and others readers of the Hebrew Bible will stand to benefit from this work.
 
-The _Solid Rock Hebrew Bible_ is available in two printed volumes at Barnes & Noble ([Volume 1](https://www.barnesandnoble.com/w/solid-rock-hebrew-bible-volume-1-stephen-l-brown/1142861227), [Volume 2](https://www.barnesandnoble.com/w/solid-rock-hebrew-bible-volume-2-stephen-l-brown/1142861235)), Amazon ([Volume 1](https://www.amazon.com/dp/0999532227), [Volume 2](https://www.amazon.com/dp/0999532235)) and other booksellers.
+The _Solid Rock Hebrew Bible_ is available in two printed volumes at Barnes & Noble ([Volume 1](https://www.barnesandnoble.com/w/solid-rock-hebrew-bible-volume-1-stephen-l-brown/1142861227), [Volume 2](https://www.barnesandnoble.com/w/solid-rock-hebrew-bible-volume-2-stephen-l-brown/1142861235)), Amazon ([Volume 1](https://www.amazon.com/dp/0999532227), [Volume 2](https://www.amazon.com/dp/0999532235)), and other booksellers.
 
 ## Features
 
