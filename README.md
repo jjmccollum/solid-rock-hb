@@ -46,7 +46,9 @@ This typeface is maintained in a separate repo at https://github.com/jjmccollum/
 This repository contains the digital infrastructure behind the _Solid Rock Hebrew Bible_.
 For those interested in analyzing and augmenting the underlying collation between this edition and the Unicode/XML Leningrad
 Codex, v1.6, the files of primary interest are the TEI XML transcription and collation files in the `xml` directory.
-For those interested in some ancillary tools developed for converting, normalizing, and collating transcriptions and transforming TEI XML collations into ConTeXt files, these tools can be found in the `py` directory.
+For applications that use files in [http://markups.paratext.org/usfm/](Unified Standard Format Markers (USFM)) encoding, files in this format converted from the TEI XML files are available in the `usfm` directory for convenience.
+Please note that these files do not include apparatus entries for purely vocalic and orthographic variants like the TEI XML files do; instead, their apparatus reflects the level of detail shown in the typeset PDF files.
+For those interested in some ancillary tools developed for converting, normalizing, and collating transcriptions and transforming TEI XML collations into ConTeXt or USFM files, these tools can be found in the `py` directory.
 (Be warned that these scripts may seem unpolished, as they were designed for private use.)
 Finally, for those interested in the typeset work, the ConTeXt files used to generate this can be found in the `tex` directory.
 If you are looking for PDFs of both volumes of this work, you can find them at the top level of the repository in the `vol_1.pdf` and `vol_2.pdf` files.
