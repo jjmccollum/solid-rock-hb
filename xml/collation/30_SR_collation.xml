@@ -8,10 +8,10 @@
       </titleStmt>
       <publicationStmt>
         <publisher>Solid Rock Publications</publisher>
-        <date>2022</date>
+        <date>2026</date>
         <availability>
           <licence target="https://creativecommons.org/licenses/by/4.0/">
-            <p>Copyright © 2022 by Solid Rock Publications under the Creative Commons Attribution 4.0 International License (CC BY 4.0)</p>
+            <p>Copyright © 2026 by Solid Rock Publications under the Creative Commons Attribution 4.0 International License (CC BY 4.0)</p>
           </licence>
         </availability>
       </publicationStmt>
@@ -31,7 +31,7 @@
         <milestone unit="verse" n="B30K1V1"/>
           <w>שִׁיר</w><w>הַשִּׁירִים</w><w>אֲשֶׁר</w><app type="vocalic-substantive" n="B30K1V1U8"><lem><w>לְשַׁלְמָה</w></lem><rdg wit="#SR"><w>לְשַׁלְמָה</w></rdg><rdg wit="#WLC"><w>לִשְׁלֹמֹה</w></rdg></app><milestone unit="verse" n="B30K1V2"/>
           <w>יִשָּׁקֵנִי</w><w>מִנְּשִׁיקוֹת</w><w>פִּיהוּ</w><w>כִּי</w><w>טוֹבִים</w><w>דֹּדֶיךָ</w><w>מִיָּיִן</w><milestone unit="verse" n="B30K1V3"/>
-          <w>לְרֵיחַ</w><w>שְׁמָנֶיךָ</w><w>טוֹבִים</w><w>שֶׁמֶן</w><w>תּוּרַק</w><w>שְׁמֶךָ</w><w>עַל</w><w>כֵּן</w><w>עֲלָמוֹת</w><w>אֲהֵבוּךָ</w><milestone unit="verse" n="B30K1V4"/>
+          <app type="vocalic-substantive" n="B30K1V3U2"><lem><w>לָרֵיחַ</w></lem><rdg wit="#SR"><w>לָרֵיחַ</w></rdg><rdg wit="#WLC"><w>לְרֵיחַ</w></rdg></app><w>שְׁמָנֶיךָ</w><w>טוֹבִים</w><w>שֶׁמֶן</w><w>תּוּרַק</w><w>שְׁמֶךָ</w><w>עַל</w><w>כֵּן</w><w>עֲלָמוֹת</w><w>אֲהֵבוּךָ</w><milestone unit="verse" n="B30K1V4"/>
           <w>מָשְׁכֵנִי</w><w>אַחֲרֶיךָ</w><w>נָּרוּצָה</w><w>הֱבִיאַנִי</w><w>הַמֶּלֶךְ</w><w>חֲדָרָיו</w><w>נָגִילָה</w><w>וְנִשְׂמְחָה</w><w>בָּךְ</w><w>נַזְכִּירָה</w><app type="vocalic-substantive" n="B30K1V4U22"><lem><w>דֹדַיִךְ</w></lem><rdg wit="#SR"><w>דֹדַיִךְ</w></rdg><rdg wit="#WLC"><w>דֹדֶיךָ</w></rdg></app><w>מִיַּיִן</w><w>מֵישָׁרִים</w><app type="substitution" n="B30K1V4U28"><lem><w>אֲהֵבָךְ</w></lem><rdg wit="#SR"><w>אֲהֵבָךְ</w></rdg><rdg wit="#WLC"><w>אֲהֵבוּךָ</w></rdg></app><lb type="open"/><milestone unit="verse" n="B30K1V5"/>
           <w>שְׁחוֹרָה</w><w>אֲנִי</w><w>וְנָאוָה</w><w>בְּנוֹת</w><app type="vocalic" n="B30K1V5U10"><lem><w>יְרוּשָׁלֵם</w></lem><rdg wit="#SR"><w>יְרוּשָׁלֵם</w></rdg><rdg wit="#WLC"><w>יְרוּשָׁלִָם</w></rdg></app><w>כְּאָהֳלֵי</w><w>קֵדָר</w><w>כִּירִיעוֹת</w><app type="vocalic-substantive" n="B30K1V5U18"><lem><w>שַׁלְמָה</w></lem><rdg wit="#SR"><w>שַׁלְמָה</w></rdg><rdg wit="#WLC"><w>שְׁלֹמֹה</w></rdg></app><milestone unit="verse" n="B30K1V6"/>
           <w>אַל</w><w>תִּרְאוּנִי</w><w>שֶׁאֲנִי</w><w>שְׁחַרְחֹרֶת</w><w>שֶׁשֱּׁזָפַתְנִי</w><w>הַשָּׁמֶשׁ</w><w>בְּנֵי</w><w>אִמִּי</w><w>נִחֲרוּ</w><w>בִי</w><w>שָׂמֻנִי</w><w>נֹטֵרָה</w><w>אֶת</w><w>הַכְּרָמִים</w><w>כַּרְמִי</w><w>שֶׁלִּי</w><w>לֹא</w><w>נָטָרְתִּי</w><milestone unit="verse" n="B30K1V7"/>
@@ -133,7 +133,7 @@
           <w>מַה</w><w>יָּפִית</w><w>וּמַה</w><w>נָּעַמְתְּ</w><app type="vocalic-substantive" n="B30K7V7U10"><lem><w>אֲהֻבָה</w></lem><rdg wit="#SR"><w>אֲהֻבָה</w></rdg><rdg wit="#WLC"><w>אַהֲבָה</w></rdg></app><app type="substitution" n="B30K7V7U12-U14"><lem><w>בַּת</w><w>תַּעֲנוּגִים</w></lem><rdg wit="#SR"><w>בַּת</w><w>תַּעֲנוּגִים</w></rdg><rdg wit="#WLC"><w>בַּתַּעֲנוּגִים</w></rdg></app><milestone unit="verse" n="B30K7V8"/>
           <w>זֹאת</w><w>קוֹמָתֵךְ</w><w>דָּמְתָה</w><w>לְתָמָר</w><w>וְשָׁדַיִךְ</w><w>לְאַשְׁכֹּלוֹת</w><milestone unit="verse" n="B30K7V9"/>
           <w>אָמַרְתִּי</w><w>אֶעֱלֶה</w><w>בְתָמָר</w><w>אֹחֲזָה</w><w>בְּסַנְסִנָּיו</w><w>וְיִהְיוּ</w><w>נָא</w><w>שָׁדַיִךְ</w><w>כְּאֶשְׁכְּלוֹת</w><w>הַגֶּפֶן</w><w>וְרֵיחַ</w><w>אַפֵּךְ</w><w>כַּתַּפּוּחִים</w><milestone unit="verse" n="B30K7V10"/>
-          <w>וְחִכֵּךְ</w><w>כְּיֵין</w><w>הַטּוֹב</w><w>הוֹלֵךְ</w><w>לְדוֹדִי</w><w>לְמֵישָׁרִים</w><w>דּוֹבֵב</w><app type="substitution" n="B30K7V10U16-U18"><lem><w>שְׂפָתַי</w><w>וְשִׁנָּי</w></lem><rdg wit="#SR"><w>שְׂפָתַי</w><w>וְשִׁנָּי</w></rdg><rdg wit="#WLC"><w>שִׂפְתֵי</w><w>יְשֵׁנִים</w></rdg></app><milestone unit="verse" n="B30K7V11"/>
+          <w>וְחִכֵּךְ</w><w>כְּיֵין</w><w>הַטּוֹב</w><w>הוֹלֵךְ</w><w>לְדוֹדִי</w><w>לְמֵישָׁרִים</w><w>דּוֹבֵב</w><w>שִׂפְתֵי</w><w>יְשֵׁנִים</w><milestone unit="verse" n="B30K7V11"/>
           <w>אֲנִי</w><w>לְדוֹדִי</w><w>וְעָלַי</w><w>תְּשׁוּקָתוֹ</w><space type="closed"/><milestone unit="verse" n="B30K7V12"/>
           <w>לְכָה</w><w>דוֹדִי</w><w>נֵצֵא</w><w>הַשָּׂדֶה</w><w>נָלִינָה</w><w>בַּכְּפָרִים</w><milestone unit="verse" n="B30K7V13"/>
           <w>נַשְׁכִּימָה</w><w>לַכְּרָמִים</w><w>נִרְאֶה</w><w>אִם</w><w>פָּרְחָה</w><w>הַגֶּפֶן</w><w>פִּתַּח</w><w>הַסְּמָדַר</w><w>הֵנֵצוּ</w><w>הָרִמּוֹנִים</w><w>שָׁם</w><w>אֶתֵּן</w><w>אֶת</w><w>דֹּדַי</w><w>לָךְ</w><milestone unit="verse" n="B30K7V14"/>
