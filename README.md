@@ -2,6 +2,7 @@
 
 ![Solid Rock Hebrew Bible, edited by Stephen L. Brown](https://github.com/jjmccollum/solid-rock-hb/blob/master/tex/img/srhb-social-preview.png)
 
+[![Version 2.0.0](https://img.shields.io/badge/version-2.0.0-blue)](https://github.com/jjmccollum/solid-rock-hb)
 [![CC BY 4.0][cc-by-shield]][cc-by]
 
 ## About the Book
@@ -12,7 +13,7 @@ From the back cover:
 
 > The _Solid Rock Hebrew Bible_ aims to remedy this situation. Based on investigation of various masoretic manuscripts, ancient manuscripts from the Judean wilderness, the ancient versions, and other sources, this edition prints the entire Hebrew text (in a traditional two-column layout and an easy-to-read 13-point font, with vowel points included for readers' convenience) and includes adjustments made to the base text (the Leningrad Codex) in over 2,500 places. Additionally, over 2,000 other adjustments have been made to the diacritics. Pastors, scholars, translators, and others readers of the Hebrew Bible will stand to benefit from this work.
 
-The _Solid Rock Hebrew Bible_ is available in two printed volumes at Barnes & Noble ([Volume 1](https://www.barnesandnoble.com/w/solid-rock-hebrew-bible-volume-1-stephen-l-brown/1142861227), [Volume 2](https://www.barnesandnoble.com/w/solid-rock-hebrew-bible-volume-2-stephen-l-brown/1142861235)), Amazon ([Volume 1](https://www.amazon.com/dp/0999532227), [Volume 2](https://www.amazon.com/dp/0999532235)), and other booksellers.
+The _Solid Rock Hebrew Bible_ is available in two printed volumes through Amazon ([Volume 1](https://www.amazon.com/dp/0999532243/), [Volume 2](https://www.amazon.com/dp/0999532251)) and other booksellers.
 If you wish to support this work financially, please consider purchasing a print copy!
 
 ## Features
@@ -39,7 +40,7 @@ This typeface is maintained in a separate repo at https://github.com/jjmccollum/
 
 ## About the Editor
 
-**Stephen L. Brown** began studying biblical Hebrew in his early teen years, and later set about studying other languages (particularly biblical Aramaic and Greek) as well as textual criticism of a variety of works, particularly the Old and New Testaments. He served for five years as a pastor at First Baptist Church in North Conway, NH, and currently lives in Philadelphia, PA.
+**Stephen L. Brown** began studying biblical Hebrew in his early teen years, and later set about studying other languages (particularly biblical Aramaic and Greek) as well as textual criticism of a variety of works, particularly the Old and New Testaments. He served for five years as a pastor at First Baptist Church in North Conway, NH, and currently lives in Morgantown, WV.
 
 ## About This Repository
 
@@ -66,7 +67,7 @@ The TEI XML transcription and collation files, the Python scripts, and the TeX f
 
 Under this license, you are free to use and modify the material in this repository, as long as you cite the original work:
 
-> Stephen L. Brown, ed. _Solid Rock Hebrew Bible_. 2 vols. North Conway, NH: Solid Rock Publications, 2022.
+> Stephen L. Brown, ed. _Solid Rock Hebrew Bible_. 2 vols. 2nd ed. North Conway, NH: Solid Rock Publications, 2026.
 
 ## Contact
 
